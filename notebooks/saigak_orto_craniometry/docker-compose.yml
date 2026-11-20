@@ -1,0 +1,13 @@
+services:
+  saigak-orto-craniometry:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: saigak_orto_cockpit
+    ports:
+      - "127.0.0.1:8765:8765"
+    environment:
+      - PORT=8765
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped

@@ -1,0 +1,202 @@
+{
+  "audit_title": "Saigak-Orto 3D Craniometry — Full QA, Security, DevOps & MedTech Compliance Report",
+  "total_checks": 24,
+  "passed_checks": 24,
+  "failed_checks": 0,
+  "pass_rate_pct": 100.0,
+  "overall_status": "ALL_PASSED",
+  "checks": [
+    {
+      "test_id": "QA-01",
+      "category": "Точность и воспроизводимость (40 б.)",
+      "title": "MAE для CI <= 1.0 п.п. на закрытой тестовой выборке (25 STL)",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "Факт MAE(CI) = 0.436 п.п. (P95 = 1.263 п.п.) при пороге <= 1.0 п.п."
+    },
+    {
+      "test_id": "QA-02",
+      "category": "Точность и воспроизводимость (40 б.)",
+      "title": "MAE для CVAI <= 1.0 п.п. на закрытой тестовой выборке (25 STL)",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "Факт MAE(CVAI) = 0.557 п.п. (P95 = 1.574 п.п.) при пороге <= 1.0 п.п."
+    },
+    {
+      "test_id": "QA-03",
+      "category": "Точность и воспроизводимость (40 б.)",
+      "title": "MAE для CVA <= 1.0 мм на закрытой тестовой выборке (25 STL)",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "Факт MAE(CVA) = 0.697 мм (P95 = 1.974 мм) при пороге <= 1.0 мм"
+    },
+    {
+      "test_id": "QA-04",
+      "category": "Точность и воспроизводимость (40 б.)",
+      "title": "Превосходство обученной ML-модели над базовой моделью (Baseline)",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "ML vs Baseline: CI (0.44 vs 0.82), CVAI (0.56 vs 1.21), 3D ориентиры (4.85 vs 12.39 мм)"
+    },
+    {
+      "test_id": "QA-05",
+      "category": "Точность и воспроизводимость (40 б.)",
+      "title": "Детерминированность повторного запуска (расхождение <= 0.01 мм и <= 0.01 п.п.)",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "Макс. расхождение между повторными прогонами = 0.000000 (порог <= 0.01)"
+    },
+    {
+      "test_id": "QA-06",
+      "category": "Точность и воспроизводимость (40 б.)",
+      "title": "Отработка всех граничных значений шкалы CVAI (3.5; 6.25; 8.75; 11.0 по неокруглённому значению)",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "Все 8 пограничных точек (3.4999..11.0000) классифицированы строго по разделу 6.2 ТЗ"
+    },
+    {
+      "test_id": "QA-07",
+      "category": "Точность и воспроизводимость (40 б.)",
+      "title": "Математическая проверка формул CI, CVA, CVAI и CVAI_min (STARband [2])",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "CI=80.61%, CVA=9.28 мм, CVAI=8.40%, CVAI_min=9.17%"
+    },
+    {
+      "test_id": "QA-08",
+      "category": "Обработка и визуализация 3D (25 б.)",
+      "title": "Поддержка парсинга Binary STL и ASCII STL форматов",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "Binary STL (8582 тр.) и ASCII STL успешно распознаются"
+    },
+    {
+      "test_id": "QA-09",
+      "category": "Обработка и визуализация 3D (25 б.)",
+      "title": "Автоматическая отбраковка неполного/дефектного 3D-скана (п. 5.1 и 8.1 ТЗ)",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "Статус=REJECTED, замкнутость=75.0%, дефектов=2"
+    },
+    {
+      "test_id": "QA-10",
+      "category": "Обработка и визуализация 3D (25 б.)",
+      "title": "Обнаружение ошибки масштаба и калибровка линейных размеров (×1.0 -> ×1000.0)",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "При ×1.0: REJECTED (рекомендован ×1000.0); при ×1000.0: VALID (CI=76.79%)"
+    },
+    {
+      "test_id": "QA-11",
+      "category": "Обработка и визуализация 3D (25 б.)",
+      "title": "Ручная коррекция ориентиров специалистом с реактивным перерасчётом",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "Авто CVAI=8.396% -> После ручной коррекции RightTragion CVAI=8.106%"
+    },
+    {
+      "test_id": "QA-12",
+      "category": "Обработка и визуализация 3D (25 б.)",
+      "title": "Генерация 3D-буфера и 3D-карты асимметрии поверхности (Should п. 5.2)",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "Передано 8582 3D-полигонов с по-вершинной картой асимметрии (мм)"
+    },
+    {
+      "test_id": "QA-13",
+      "category": "Обработка и визуализация 3D (25 б.)",
+      "title": "Устойчивость к 3D-повороту модели (+15°) и гауссовскому шуму вершин (σ=0.25 мм) (Should п. 5.2)",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "ΔCVAI при 3D-повороте 15° = 0.00000 п.п.; ΔCVAI при шуме 0.25 мм = 0.192 п.п."
+    },
+    {
+      "test_id": "QA-14",
+      "category": "Обработка и визуализация 3D (25 б.)",
+      "title": "Раздельная оценка фронтальной и затылочной асимметрии (Should п. 5.2)",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "Фронтальная=3.87 мм (7.28%), Затылочная=5.4 мм (9.43%)"
+    },
+    {
+      "test_id": "QA-15",
+      "category": "Отчёт, удобство врача и скорость (15 б.)",
+      "title": "Полное время анализа скана и генерации PDF-отчёта <= 120 секунд (п. 4 ТЗ)",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "Фактическое время полного цикла (3D + ML + Сечение + PDF) = 0.480 сек (лимит <= 120.0 сек)"
+    },
+    {
+      "test_id": "QA-16",
+      "category": "Отчёт, удобство врача и скорость (15 б.)",
+      "title": "Наличие всех эталонных PDF-отчётов (качественный скан, выраженная деформация, отказ)",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "Все 4 эталонных PDF-отчёта сформированы в reports/ (report_case1_good_scan.pdf, report_case2_severe_deformity.pdf, report_case2b_very_severe.pdf, report_case3_rejected_defect.pdf)"
+    },
+    {
+      "test_id": "QA-17",
+      "category": "Отчёт, удобство врача и скорость (15 б.)",
+      "title": "Выгрузка численных результатов в форматах CSV и JSON (п. 5.1 ТЗ)",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "CSV (587 байт) и JSON успешно сериализованы со всеми полями методики и верификации врача"
+    },
+    {
+      "test_id": "QA-18",
+      "category": "Дополнительные функции Could (5 б.)",
+      "title": "Экспертная очередь сложных случаев и разметки для переобучения (/api/queue) + Пакетная обработка (/api/batch)",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "Очередь дообучения активна (записей: 1), пакетная обработка и OpenAPI 3.0 (/api/openapi.json) подключены"
+    },
+    {
+      "test_id": "SEC-01",
+      "category": "Безопасность и приватность (DevSecOps)",
+      "title": "Защита от Path Traversal атак в именах файлов",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "Вход '../../Windows/System32/cmd.exe' -> санитизирован до 'cmd.exe.stl'"
+    },
+    {
+      "test_id": "SEC-02",
+      "category": "Безопасность и приватность (DevSecOps)",
+      "title": "Защита от CSV Formula Injection и управляющих символов в полях отчёта",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "Формула '=CMD...' экранирована в ''=CMD|' /C calc'!A0'"
+    },
+    {
+      "test_id": "SEC-03",
+      "category": "Безопасность и приватность (DevSecOps)",
+      "title": "Анонимизация STL-сканов и отсутствие прямых идентификаторов пациентов (п. 7.1 ТЗ)",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "Проверено 44 STL-файлов: прямые идентификаторы и ФИО пациентов отсутствуют"
+    },
+    {
+      "test_id": "SEC-04",
+      "category": "Безопасность и приватность (DevSecOps)",
+      "title": "100% локальная обработка без вызовов внешних облачных ИИ-сервисов и без секретов в коде (п. 7.2 ТЗ)",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "Во всех модулях ядра, сервера и фронтенда внешние сетевые вызовы и API-ключи отсутствуют"
+    },
+    {
+      "test_id": "DEV-01",
+      "category": "DevOps и воспроизводимость запуска (15 б.)",
+      "title": "Hardened Dockerfile (непривилегированный USER appuser, HEALTHCHECK, docker-compose.yml)",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "Dockerfile настроен с непривилегированным пользователем appuser (UID 10001) и проверкой /api/health"
+    },
+    {
+      "test_id": "DEV-02",
+      "category": "DevOps и воспроизводимость запуска (15 б.)",
+      "title": "Верификация контрольных сумм SHA-256 обученных весов ML-моделей",
+      "passed": true,
+      "status": "PASSED",
+      "detail": "landmark_model SHA-256: e3a50a6179843100 | deformity_classifier SHA-256: 0a87bea054405824"
+    }
+  ]
+}
