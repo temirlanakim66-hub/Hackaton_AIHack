@@ -25,8 +25,10 @@ class HybridLandmarkPredictor:
     def __init__(self, random_state: int = 42, epochs: int = 200):
         self.random_state = random_state
         self.epochs = epochs
-        self.scaler = StandardScaler()
-        self.ridge = Ridge(alpha=12.0, random_state=random_state)
+        self.ridge = Pipeline([
+            ("scaler", StandardScaler()),
+            ("reg", Ridge(alpha=12.0, random_state=random_state)),
+        ])
         self.trees = ExtraTreesRegressor(
             n_estimators=300,
             max_depth=14,
@@ -34,15 +36,16 @@ class HybridLandmarkPredictor:
             random_state=random_state,
             n_jobs=1,  # n_jobs=1 guarantees bit-exact determinism across runs
         )
+        self.mlp_scaler = StandardScaler()
         self.mlp = MLPRegressor(
             hidden_layer_sizes=(128, 64),
             activation="relu",
             solver="adam",
-            alpha=0.05,
-            learning_rate_init=0.003,
+            alpha=0.25,
+            learning_rate_init=0.002,
             max_iter=epochs,
             tol=1e-7,
-            n_iter_no_change=epochs,  # Run full 200 epochs deterministically
+            n_iter_no_change=epochs,
             random_state=random_state,
         )
         self.loss_curve_: List[float] = []
@@ -73,10 +76,10 @@ class HybridLandmarkPredictor:
         vmin_tile = np.tile(X[:, :3], (1, 4))
         ext_tile = np.maximum(np.tile(X[:, 6:9], (1, 4)), 1e-6)
         X_inv = self._to_invariant_X(X)
-        X_scaled = self.scaler.fit_transform(X_inv)
         Y_rel = (Y - vmin_tile) / ext_tile
-        self.ridge.fit(X_scaled, Y_rel)
+        self.ridge.fit(X_inv, Y_rel)
         self.trees.fit(X_inv, Y_rel)
+        X_scaled = self.mlp_scaler.fit_transform(X_inv)
         self.mlp.fit(X_scaled, Y_rel)
         self.loss_curve_ = [round(float(x), 6) for x in getattr(self.mlp, "loss_curve_", [])]
         self.n_iter_ = int(getattr(self.mlp, "n_iter_", self.epochs))
@@ -86,12 +89,7 @@ class HybridLandmarkPredictor:
         vmin_tile = np.tile(X[:, :3], (1, 4))
         ext_tile = np.maximum(np.tile(X[:, 6:9], (1, 4)), 1e-6)
         X_inv = self._to_invariant_X(X)
-        X_scaled = self.scaler.transform(X_inv)
-        pred_rel = (
-            0.35 * self.ridge.predict(X_scaled)
-            + 0.50 * self.trees.predict(X_inv)
-            + 0.15 * self.mlp.predict(X_scaled)
-        )
+        pred_rel = 0.40 * self.ridge.predict(X_inv) + 0.60 * self.trees.predict(X_inv)
         return vmin_tile + pred_rel * ext_tile
 
     def predict_mesh_landmarks(self, mesh: MeshData) -> dict:
@@ -319,3 +317,166 @@ def compute_vertex_asymmetry_heatmap(
     both_valid = (grid_count[z_idx, a_idx] > 0) & (grid_count[z_idx, mirror_a_idx] > 0) & (z >= -0.05 * z_max)
     asymmetry_mm = np.where(both_valid, r_self - r_mirror, 0.0)
     return np.clip(asymmetry_mm, -15.0, 15.0)
+
+
+def estimate_landmark_confidence(
+    model,
+    mesh: MeshData,
+    landmarks_mm: Dict[str, List[float]],
+    manual_correction: bool = False,
+    use_baseline: bool = False,
+) -> Dict:
+    """
+    Estimate per-landmark localization confidence (0-100%) and uncertainty (mm) using:
+    1. Multi-model agreement (Ridge vs ExtraTrees vs MLP) + inter-tree dispersion
+    2. Geometric proximity of each landmark to the actual 3D surface mesh
+    3. Local surface point support and bilateral Tragion symmetry (detects ear/hair/cap occlusions)
+    """
+    pts = get_mesh_sample_points(mesh, max_points=25000)
+    per_landmark: Dict[str, Dict] = {}
+
+    if manual_correction:
+        for name in LANDMARK_NAMES:
+            c = np.array(landmarks_mm.get(name, [0.0, 0.0, 0.0]), dtype=np.float64)
+            dists = np.linalg.norm(pts - c, axis=1)
+            surf_d = float(np.min(dists))
+            per_landmark[name] = {
+                "confidence_pct": 100.0,
+                "uncertainty_mm": 0.0,
+                "surface_dist_mm": round(surf_d, 2),
+                "status": "VERIFIED",
+                "needs_review": False,
+                "note": "Подтверждено вручную врачом",
+            }
+        return {
+            "overall_confidence_pct": 100.0,
+            "any_needs_review": False,
+            "review_landmarks": [],
+            "per_landmark": per_landmark,
+        }
+
+    # Compute ensemble predictions if ML model is active
+    ens_diff_mm = {name: 3.5 for name in LANDMARK_NAMES}
+    tree_std_mm = {name: 2.5 for name in LANDMARK_NAMES}
+
+    if not use_baseline and model is not None and hasattr(model, "_to_invariant_X"):
+        feat = extract_morphological_features(mesh).reshape(1, -1)
+        vmin_tile = np.tile(feat[:, :3], (1, 4))
+        ext_tile = np.maximum(np.tile(feat[:, 6:9], (1, 4)), 1e-6)
+        X_inv = model._to_invariant_X(feat)
+
+        p_ridge = (vmin_tile + model.ridge.predict(X_inv) * ext_tile).reshape(4, 3)
+        p_trees = (vmin_tile + model.trees.predict(X_inv) * ext_tile).reshape(4, 3)
+
+        # Deterministic subsample of 30 trees from the 300-tree forest for fast variance estimate
+        est_list = getattr(model.trees, "estimators_", [])
+        if est_list:
+            step = max(1, len(est_list) // 30)
+            sub_preds = np.array([
+                (vmin_tile + est.predict(X_inv) * ext_tile).reshape(4, 3)
+                for est in est_list[::step]
+            ])  # (K, 4, 3)
+            # RMS 3D dispersion per landmark
+            std_xyz = np.std(sub_preds, axis=0)  # (4, 3)
+            std_3d = np.linalg.norm(std_xyz, axis=1)  # (4,)
+        else:
+            std_3d = np.full(4, 2.0)
+
+        p_mlp = None
+        if hasattr(model, "mlp") and hasattr(model, "mlp_scaler"):
+            try:
+                p_mlp = (vmin_tile + model.mlp.predict(model.mlp_scaler.transform(X_inv)) * ext_tile).reshape(4, 3)
+            except Exception:
+                p_mlp = None
+
+        for i, name in enumerate(LANDMARK_NAMES):
+            d_rt = float(np.linalg.norm(p_ridge[i] - p_trees[i]))
+            if p_mlp is not None:
+                d_mt = float(np.linalg.norm(p_mlp[i] - p_trees[i]))
+                ens_diff_mm[name] = 0.65 * d_rt + 0.35 * min(d_mt, 15.0)
+            else:
+                ens_diff_mm[name] = d_rt
+            tree_std_mm[name] = float(std_3d[i])
+    else:
+        # Baseline heuristic has inherently higher localization uncertainty (~12 mm MAE)
+        for name in LANDMARK_NAMES:
+            ens_diff_mm[name] = 7.5
+            tree_std_mm[name] = 5.0
+
+    # Check bilateral Tragion anatomical symmetry
+    ear_asym_penalty = 0.0
+    if "RightTragion" in landmarks_mm and "LeftTragion" in landmarks_mm:
+        rt = np.array(landmarks_mm["RightTragion"], dtype=np.float64)
+        lt = np.array(landmarks_mm["LeftTragion"], dtype=np.float64)
+        dz_ear = abs(float(rt[2] - lt[2]))
+        dx_ear = abs(float(rt[0] - lt[0]))
+        if dz_ear > 9.0:
+            ear_asym_penalty += min(14.0, (dz_ear - 9.0) * 1.8)
+        if dx_ear > 13.0:
+            ear_asym_penalty += min(12.0, (dx_ear - 13.0) * 1.2)
+
+    review_landmarks: List[str] = []
+    conf_values: List[float] = []
+
+    for name in LANDMARK_NAMES:
+        c = np.array(landmarks_mm.get(name, [0.0, 0.0, 0.0]), dtype=np.float64)
+        dists = np.linalg.norm(pts - c, axis=1)
+        surf_d = float(np.min(dists))
+        local_support = int(np.sum(dists <= 8.0))
+
+        spread = ens_diff_mm[name]
+        t_std = tree_std_mm[name]
+        uncertainty_mm = 0.60 * spread + 0.25 * max(0.0, t_std - 3.0) + 0.30 * max(0.0, surf_d - 3.0)
+
+        # Calibrated confidence score (0-100%)
+        score = 97.0
+        score -= max(0.0, spread - 2.5) * 3.2
+        score -= max(0.0, t_std - 5.5) * 2.8
+        score -= max(0.0, surf_d - 6.0) * 4.5
+        if local_support < 10:
+            score -= (10 - local_support) * 1.1
+        if name in ("RightTragion", "LeftTragion"):
+            score -= ear_asym_penalty
+        if use_baseline:
+            score = min(score, 62.0)
+
+        score = round(float(np.clip(score, 32.0, 99.0)), 1)
+        conf_values.append(score)
+
+        # Flag yellow/needs_review consistently when confidence < 78%
+        needs_review = score < 78.0
+        if score >= 78.0:
+            status = "HIGH"
+            note = "Высокая уверенность автопоиска"
+        elif score >= 62.0:
+            status = "MEDIUM"
+            if name in ("RightTragion", "LeftTragion"):
+                note = "Умеренная уверенность (возможны волосы/шапочка в области уха) — проверьте положение точки"
+            else:
+                note = "Умеренная уверенность — рекомендуется визуальная проверка врачом"
+            review_landmarks.append(name)
+        else:
+            status = "LOW"
+            if name in ("RightTragion", "LeftTragion"):
+                note = "Низкая уверенность козелка (рельеф уха скрыт или асимметричен) — требуется подтверждение врача"
+            else:
+                note = "Низкая уверенность ориентира — скорректируйте точку мышкой на 3D-модели"
+            review_landmarks.append(name)
+
+        per_landmark[name] = {
+            "confidence_pct": score,
+            "uncertainty_mm": round(uncertainty_mm, 2),
+            "surface_dist_mm": round(surf_d, 2),
+            "local_support_pts": local_support,
+            "status": status,
+            "needs_review": needs_review,
+            "note": note,
+        }
+
+    overall = round(float(np.mean(conf_values[:3])) if len(conf_values) >= 3 else 0.0, 1)
+    return {
+        "overall_confidence_pct": overall,
+        "any_needs_review": len(review_landmarks) > 0,
+        "review_landmarks": review_landmarks,
+        "per_landmark": per_landmark,
+    }

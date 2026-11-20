@@ -1,427 +1,514 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>САЙГАК-ОРТО | COCKPIT — 3D-краниометрия и оценка деформаций головы</title>
-  <link rel="stylesheet" href="/static/styles.css" />
-</head>
-<body>
-  <!-- TOP TELEMETRY BAR -->
-  <header class="cockpit-topbar">
-    <div class="topbar-left">
-      <div class="cockpit-brand">
-        <span class="gold">САЙГАК</span><span class="teal">ОРТО</span>
-        <span style="color:#475569; letter-spacing:0;">|</span>
-        <span style="font-weight:500; font-size:11px; letter-spacing:0.18em; color:#CBD5E1;">COCKPIT</span>
-      </div>
-      <div class="top-divider"></div>
-      <span class="cockpit-sub" id="liveClockLabel">STARBAND-GRAHAM-2020-V1.2 • 0–18 МЕС.</span>
-    </div>
-
-    <div class="topbar-right">
-      <span class="telemetry-stat" id="meshStatsBadge"><strong>82,742</strong> faces • <strong>41,373</strong> verts</span>
-      <div class="top-divider"></div>
-      <span class="telemetry-stat" id="scaleBadge">Масштаб: <strong>×1.0</strong> (мм)</span>
-      <div class="top-divider"></div>
-      <span class="telemetry-stat" id="runtimeBadge"><strong>0.05s</strong> • Δ≤0.01</span>
-      <span class="status-chip chip-VALID" id="headerStatusBadge">VALID • 100%</span>
-      <button type="button" id="themeToggleBtn" class="hud-btn hud-btn-sm" title="Переключить тему Cockpit Dark / Clinical Light">
-        ТЕМА: DARK
-      </button>
-    </div>
-  </header>
-
-  <!-- MAIN SPATIAL COCKPIT GRID -->
-  <main class="cockpit-layout">
-    <!-- LEFT COLUMN: BIG MONOSPACE TELEMETRY STACK & CONTROLS -->
-    <aside class="hud-col-left">
-      <!-- Big Telemetry KPI Grid -->
-      <div class="hud-panel">
-        <div class="sec-hdr">
-          <span class="sec-title"><span class="sec-dot" style="background:#10B981;"></span>КРАНИАЛЬНЫЕ ИНДЕКСЫ</span>
-          <span class="sec-meta" id="scanIdTag">scan_081</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Сайгак-Орто — 3D-краниометрия и оценка деформаций головы</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <!-- Quiet Top Navigation Bar (56px, matching welcome.html) -->
+    <header class="cockpit-topbar">
+      <div class="topbar-left">
+        <a href="/" class="hud-btn hud-btn-sm" title="Вернуться на приветственную страницу продукта">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m12 19-7-7 7-7" />
+            <path d="M19 12H5" />
+          </svg>
+          <span>Главная</span>
+        </a>
+        <div class="top-divider"></div>
+        <div class="cockpit-brand">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="1.6" />
+            <line x1="4.5" y1="13.5" x2="13.5" y2="4.5" stroke="#e5a93c" stroke-width="1.6" />
+            <rect x="7.5" y="7.5" width="3" height="3" fill="#4cc38a" />
+          </svg>
+          <span>Сайгак-Орто</span>
         </div>
-        <div class="telemetry-hero-grid">
-          <div class="telemetry-kpi">
-            <div class="tk-label"><span class="sec-dot" style="background:#F59E0B;"></span>CVAI (%)</div>
-            <div class="tk-val" id="kpiCVAI" style="color:#F59E0B;">--%</div>
-            <div class="tk-sub">100×|D1-D2|/max</div>
-          </div>
-          <div class="telemetry-kpi">
-            <div class="tk-label"><span class="sec-dot" style="background:#38BDF8;"></span>CVA (ММ)</div>
-            <div class="tk-val" id="kpiCVA" style="color:#38BDF8;">--</div>
-            <div class="tk-sub">|D1 − D2| (±30°)</div>
-          </div>
-          <div class="telemetry-kpi">
-            <div class="tk-label"><span class="sec-dot" style="background:#10B981;"></span>CI (W/L)</div>
-            <div class="tk-val" id="kpiCI" style="color:#10B981;">--%</div>
-            <div class="tk-sub">100 × W / L</div>
-          </div>
-          <div class="telemetry-kpi">
-            <div class="tk-label"><span class="sec-dot" style="background:#A855F7;"></span>ПЕРИМЕТР</div>
-            <div class="tk-val" id="kpiPerim" style="color:#E2E8F0; font-size:21px;">--</div>
-            <div class="tk-sub" id="sliceHeightTag">Level 3 (30%)</div>
-          </div>
-        </div>
+        <div class="top-divider"></div>
+        <span class="cockpit-sub" id="liveClockLabel">
+          <span class="signature-dot"></span>
+          <span>■ Протокол STARband (Graham et al., 2020) · 0–18 мес. · Локальный режим</span>
+        </span>
       </div>
 
-      <!-- 1. STL Scan Selection & Upload -->
-      <div class="hud-panel">
-        <div class="sec-hdr">
-          <span class="sec-title"><span class="sec-dot" style="background:#38BDF8;"></span>1. ИСТОЧНИК 3D-СКАНА (STL)</span>
-          <span class="sec-meta" id="scanCountLabel">44 STL</span>
-        </div>
-        <div class="hud-field">
-          <select id="scanSelect" class="hud-select"></select>
-        </div>
-        <div style="display:flex; gap:6px;">
-          <label class="hud-btn" for="stlFileInput" style="flex:1;">
-            + Загрузить STL с диска
-          </label>
-          <input type="file" id="stlFileInput" accept=".stl" style="display:none;" />
-          <button type="button" id="batchModalBtn" class="hud-btn hud-btn-amber" title="Пакетная обработка выборки сканов (Could п. 5.3)">
-            Пакетно
-          </button>
-        </div>
+      <div class="topbar-right">
+        <button type="button" id="compareModalBtn" class="hud-btn hud-btn-sm" title="Сравнение двух сканов пациента в динамике (До / После)">
+          Динамика До/После
+        </button>
+        <div class="top-divider"></div>
+        <span class="telemetry-stat" id="meshStatsBadge"><strong>82,742</strong> тр. · <strong>41,373</strong> верш.</span>
+        <div class="top-divider"></div>
+        <span class="telemetry-stat" id="scaleBadge">Масштаб <strong>×1.0</strong> (мм)</span>
+        <div class="top-divider"></div>
+        <span class="telemetry-stat" id="runtimeBadge"><strong>0.05 с</strong> · Δ ≤ 0.01</span>
+        <span class="status-chip chip-VALID" id="headerStatusBadge">Норма · 100%</span>
+        <button type="button" id="themeToggleBtn" class="hud-btn hud-btn-sm" title="Переключить тёмную и светлую тему">
+          Тема: тёмная
+        </button>
       </div>
+    </header>
 
-      <!-- 2. Scale Calibration & Slicing Level -->
-      <div class="hud-panel">
-        <div class="sec-hdr">
-          <span class="sec-title"><span class="sec-dot" style="background:#F59E0B;"></span>2. МАСШТАБ И УРОВЕНЬ СЕЧЕНИЯ</span>
-          <span class="sec-meta" id="scaleActiveLabel">×1.0 (мм)</span>
-        </div>
-        <div class="hud-field">
-          <div style="display:flex; gap:5px;">
-            <select id="scaleSelect" class="hud-select" style="flex:1;">
-              <option value="1.0">×1.0 — миллиметры (мм)</option>
-              <option value="10.0">×10.0 — сантиметры → мм</option>
-              <option value="1000.0">×1000.0 — метры → мм</option>
-              <option value="25.4">×25.4 — дюймы → мм</option>
-              <option value="custom">Произвольный...</option>
-            </select>
-            <input type="number" id="customScaleInput" class="hud-input mono" value="1.0" step="0.1" min="0.001" style="width:68px; display:none;" />
-          </div>
-          <div id="scaleSuggestionBox" style="display:none; margin-top:5px;">
-            <button type="button" id="applySuggestedScaleBtn" class="hud-btn hud-btn-amber" style="width:100%;"></button>
-          </div>
-        </div>
-
-        <div class="hud-field">
-          <div class="hud-label">
-            <span>Уровень сечения Z (Level 3 = 30%)</span>
-            <span id="levelRatioVal" class="mono">30% свода</span>
-          </div>
-          <input type="range" id="levelRatioSlider" min="0.18" max="0.60" step="0.01" value="0.30" style="width:100%; accent-color:#14B8A6;" />
-        </div>
-
-        <div style="display:flex; align-items:center; justify-content:space-between; padding-top:2px;">
-          <label style="font-size:11px; color:var(--text-sec); display:flex; align-items:center; gap:5px; cursor:pointer;">
-            <input type="checkbox" id="useBaselineToggle" />
-            <span>Базовая модель (Baseline)</span>
-          </label>
-          <button type="button" id="robustnessBtn" class="hud-btn hud-btn-sm" title="Проверить устойчивость к 3D-повороту и шуму (Should п. 5.2)">
-            Тест шума/3D
-          </button>
-        </div>
-      </div>
-
-      <!-- 3. Anatomical Landmarks & Interactive Correction -->
-      <div class="hud-panel" style="flex:1;">
-        <div class="sec-hdr">
-          <span class="sec-title"><span class="sec-dot" style="background:#EF4444;"></span>3. ОРИЕНТИРЫ (РУЧНАЯ ПРАВКА)</span>
-          <span class="sec-meta" id="landmarkModeTag">ML Авто</span>
-        </div>
-        <div style="font-size:10px; color:var(--text-dim); margin-bottom:6px;">
-          Перетащите точку мышью на 3D-сцене или введите X/Y/Z (мм):
-        </div>
-        <div class="lm-grid-row" style="font-size:9px; color:var(--text-dim); font-family:var(--font-mono);">
-          <span>ТОЧКА</span>
-          <span style="text-align:right;">X</span>
-          <span style="text-align:right;">Y</span>
-          <span style="text-align:right;">Z</span>
-        </div>
-        <div class="lm-grid-row">
-          <span class="lm-tag"><span class="sec-dot" style="background:#EF4444;"></span>Sellion</span>
-          <input type="number" step="0.5" class="lm-num" id="lm_Sellion_0" />
-          <input type="number" step="0.5" class="lm-num" id="lm_Sellion_1" />
-          <input type="number" step="0.5" class="lm-num" id="lm_Sellion_2" />
-        </div>
-        <div class="lm-grid-row">
-          <span class="lm-tag"><span class="sec-dot" style="background:#3B82F6;"></span>Tragion R</span>
-          <input type="number" step="0.5" class="lm-num" id="lm_RightTragion_0" />
-          <input type="number" step="0.5" class="lm-num" id="lm_RightTragion_1" />
-          <input type="number" step="0.5" class="lm-num" id="lm_RightTragion_2" />
-        </div>
-        <div class="lm-grid-row">
-          <span class="lm-tag"><span class="sec-dot" style="background:#A855F7;"></span>Tragion L</span>
-          <input type="number" step="0.5" class="lm-num" id="lm_LeftTragion_0" />
-          <input type="number" step="0.5" class="lm-num" id="lm_LeftTragion_1" />
-          <input type="number" step="0.5" class="lm-num" id="lm_LeftTragion_2" />
-        </div>
-        <div class="lm-grid-row">
-          <span class="lm-tag"><span class="sec-dot" style="background:#10B981;"></span>Subnasal</span>
-          <input type="number" step="0.5" class="lm-num" id="lm_Subnasal_0" />
-          <input type="number" step="0.5" class="lm-num" id="lm_Subnasal_1" />
-          <input type="number" step="0.5" class="lm-num" id="lm_Subnasal_2" />
-        </div>
-        <div style="display:flex; gap:5px; margin-top:8px;">
-          <button type="button" id="applyLandmarksBtn" class="hud-btn hud-btn-primary" style="flex:1;">
-            Пересчитать
-          </button>
-          <button type="button" id="resetLandmarksBtn" class="hud-btn">
-            Сброс ML
-          </button>
-          <button type="button" id="addToQueueBtn" class="hud-btn hud-btn-amber" title="Сохранить разметку в очередь переобучения (Could п. 5.3)">
-            В дообучение
-          </button>
-        </div>
-      </div>
-    </aside>
-
-    <!-- CENTER STAGE: 3D CRANIAL COCKPIT VIEWPORT -->
-    <section class="hud-center-stage">
-      <div class="stage-overlay-top">
-        <div class="stage-btn-group">
-          <button type="button" class="stage-btn active" id="modeShadedBtn">3D РЕЛЬЕФ</button>
-          <button type="button" class="stage-btn" id="modeHeatmapBtn">КАРТА АСИММЕТРИИ (ММ)</button>
-          <button type="button" class="stage-btn" id="modeWireBtn">КАРКАС</button>
-        </div>
-        <div class="stage-btn-group">
-          <button type="button" class="stage-btn active" id="togglePlanesBtn">СЕЧЕНИЕ & ОСИ</button>
-          <button type="button" class="stage-btn active" id="toggleLandmarksBtn">ОРИЕНТИРЫ</button>
-          <button type="button" class="stage-btn active" id="toggleRaysBtn">ЛУЧИ 30°</button>
-        </div>
-        <div class="stage-btn-group">
-          <button type="button" class="stage-btn" data-cam="iso">3D</button>
-          <button type="button" class="stage-btn" data-cam="top">СВОД</button>
-          <button type="button" class="stage-btn" data-cam="front">ЛИЦО</button>
-          <button type="button" class="stage-btn" data-cam="side">ПРОФИЛЬ</button>
-        </div>
-      </div>
-
-      <canvas id="canvas3d"></canvas>
-
-      <div class="stage-overlay-bottom">
-        <div class="stage-hint-pill">
-          <span style="color:#EF4444;">●</span> Se &nbsp;
-          <span style="color:#3B82F6;">●</span> TrR &nbsp;
-          <span style="color:#A855F7;">●</span> TrL &nbsp;
-          <span style="color:#14B8A6;">━</span> Сечение Level 3 &nbsp;
-          <span style="color:#F59E0B;">━</span> D1 (+30°) &nbsp;
-          <span style="color:#EF4444;">━</span> D2 (-30°)
-        </div>
-        <div class="stage-hint-pill">
-          ЛКМ: ВРАЩЕНИЕ • ПКМ: СДВИГ • КЛИК И ПЕРЕТАСКИВАНИЕ ОРИЕНТИРА: РЕАКТИВНЫЙ ПЕРЕСЧЁТ
-        </div>
-      </div>
-    </section>
-
-    <!-- BOTTOM DOCK: 3 TELEMETRY PANELS (CLINICAL VERIFICATION, RADIAL SPARKLINE, 2D BLUEPRINT) -->
-    <section class="hud-bottom-dock">
-      <!-- Panel 1: Clinical Verification & Report Export -->
-      <div class="hud-panel" style="display:flex; flex-direction:column; justify-content:space-between;">
-        <div class="sec-hdr">
-          <span class="sec-title"><span class="sec-dot" style="background:#10B981;"></span>ВЕРИФИКАЦИЯ ВРАЧА & ЭКСПОРТ ОТЧЁТА</span>
-          <span class="sec-meta">PDF / CSV / JSON</span>
-        </div>
-        <div style="display:grid; grid-template-columns: 92px 1fr; gap:6px; margin-bottom:6px;">
-          <div>
-            <div class="hud-label"><span>Возраст (мес.)</span></div>
-            <input type="number" id="patientAgeInput" class="hud-input mono" placeholder="Ввод врача" min="0" max="18" step="0.5" />
-          </div>
-          <div>
-            <div class="hud-label"><span>Врач / Специалист-ортезист</span></div>
-            <input type="text" id="doctorNameInput" class="hud-input" value="Золотухин А.П. / Бойко А." />
-          </div>
-        </div>
-        <div class="hud-field">
-          <input type="text" id="clinicalNotesInput" class="hud-input" placeholder="Клиническое заключение / динамика формы черепа..." />
-        </div>
-        <div style="display:flex; align-items:center; justify-content:space-between; margin: 4px 0 6px;">
-          <label style="font-size:11px; color:var(--text-sec); display:flex; align-items:center; gap:5px; cursor:pointer;">
-            <input type="checkbox" id="doctorVerifiedCheck" checked />
-            <span>Отметка о проверке врачом</span>
-          </label>
-          <button type="button" id="viewQueueBtn" class="hud-btn hud-btn-sm">
-            Очередь (<span id="queueCountSpan">1</span>)
-          </button>
-        </div>
-        <div style="display:grid; grid-template-columns: 1fr 56px 56px; gap:6px;">
-          <button type="button" id="downloadPdfBtn" class="hud-btn hud-btn-primary">
-            СФОРМИРОВАТЬ PDF-ОТЧЁТ
-          </button>
-          <button type="button" id="exportCsvBtn" class="hud-btn">CSV</button>
-          <button type="button" id="exportJsonBtn" class="hud-btn">JSON</button>
-        </div>
-      </div>
-
-      <!-- Panel 2: Radial Asymmetry Profile Area Chart (OMEGA VÉLOCITÉ style) -->
-      <div class="hud-panel" style="display:flex; flex-direction:column;">
-        <div class="sec-hdr">
-          <span class="sec-title"><span class="sec-dot" style="background:#F59E0B;"></span>ПРОФИЛЬ АСИММЕТРИИ КОНТУРА Δr(θ), ММ</span>
-          <span class="sec-meta" id="dominantZoneTag" style="color:#34D399;">ЗАТЫЛОЧНАЯ / ЛОБНАЯ</span>
-        </div>
-        <canvas id="canvasAsym" width="380" height="170" style="width:100%; flex:1; border-radius:3px;"></canvas>
-      </div>
-
-      <!-- Panel 3: 2D Engineering Cross-Section Blueprint -->
-      <div class="hud-panel" style="display:flex; flex-direction:column;">
-        <div class="sec-hdr">
-          <span class="sec-title"><span class="sec-dot" style="background:#14B8A6;"></span>2D ЧЕРТЁЖ СЕЧЕНИЯ (L, W, D1, D2)</span>
-          <span class="sec-meta">±30° STARBAND</span>
-        </div>
-        <canvas id="canvas2d" width="340" height="170" style="width:100%; flex:1; border-radius:3px;"></canvas>
-      </div>
-    </section>
-
-    <!-- RIGHT COLUMN: RING GAUGE, REPARTITION BARS & TELEMETRY TABLES -->
-    <aside class="hud-col-right">
-      <!-- 1. Scan Quality Maturity Ring Gauge & CVAI Scale -->
-      <div class="hud-panel">
-        <div class="sec-hdr">
-          <span class="sec-title"><span class="sec-dot" style="background:#F59E0B;"></span>КАЧЕСТВО СКАНА & ШКАЛА CVAI</span>
-          <span class="sec-meta">Graham et al. [2]</span>
-        </div>
-
-        <div class="maturity-row">
-          <div class="ring-gauge-box">
-            <svg width="68" height="68" viewBox="0 0 68 68">
-              <circle cx="34" cy="34" r="28" fill="none" stroke="rgba(148,163,184,0.16)" stroke-width="5" />
-              <circle id="qualityRingCircle" cx="34" cy="34" r="28" fill="none" stroke="#10B981" stroke-width="5"
-                stroke-dasharray="175.9" stroke-dashoffset="0" stroke-linecap="round"
-                transform="rotate(-90 34 34)" />
-            </svg>
-            <div class="ring-gauge-label">
-              <span id="qualityScoreVal">100%</span>
-            </div>
-          </div>
-
-          <div class="mini-bars-col">
-            <div class="mini-bar-row">
-              <span style="color:var(--text-sec);">СВОД</span>
-              <div class="mini-bar-track"><div id="barClosure" class="mini-bar-fill" style="width:100%; background:#10B981;"></div></div>
-              <span id="txtClosure" style="text-align:right;">100%</span>
-            </div>
-            <div class="mini-bar-row">
-              <span style="color:var(--text-sec);">КВАДР</span>
-              <div class="mini-bar-track"><div id="barQuad" class="mini-bar-fill" style="width:100%; background:#38BDF8;"></div></div>
-              <span id="txtQuad" style="text-align:right;">100%</span>
-            </div>
-            <div class="mini-bar-row">
-              <span style="color:var(--text-sec);">СЕТКА</span>
-              <div class="mini-bar-track"><div id="barMesh" class="mini-bar-fill" style="width:95%; background:#A855F7;"></div></div>
-              <span id="txtMesh" style="text-align:right;">82.7k</span>
-            </div>
-            <div id="qualityAlertTitle" style="font-size:10px; color:#34D399; margin-top:2px; font-weight:500;">
-              Целостность и полнота 3D-скана подтверждены
-            </div>
-          </div>
-        </div>
-        <div id="qualityAlertBody" style="font-size:10px; color:var(--text-sec); margin-bottom:8px;"></div>
-
-        <!-- 5-Tier CVAI Scale -->
-        <div class="cvai-banner" id="cvaiGradeBanner">Ожидание расчёта...</div>
-        <div class="cvai-track">
-          <div style="background:#0D9488;" title="< 3.5%: Ниже порога шкалы"></div>
-          <div style="background:#65A30D;" title="3.5% – 6.25%: Лёгкая"></div>
-          <div style="background:#D97706;" title="6.25% – 8.75%: Умеренная"></div>
-          <div style="background:#EA580C;" title="8.75% – 11.0%: Тяжёлая"></div>
-          <div style="background:#DC2626;" title="≥ 11.0%: Очень тяжёлая"></div>
-        </div>
-        <div class="cvai-pointer-wrap">
-          <div class="cvai-ptr" id="cvaiPointer" style="left:10%;">▲</div>
-        </div>
-        <div class="cvai-ticks">
-          <span>0%</span><span>3.5%</span><span>6.25%</span><span>8.75%</span><span>11.0%</span><span>14%+</span>
-        </div>
-
-        <div style="margin-top:8px; padding-top:6px; border-top:1px solid var(--border-subtle); font-size:10px; color:var(--text-sec);">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2px;">
-            <strong>Пропорции по CI (п. 6.2 ТЗ):</strong>
-            <label style="cursor:pointer; display:flex; align-items:center; gap:4px;">
-              <input type="checkbox" id="expertCiProfileCheck" />
-              <span>Профиль эксперта</span>
-            </label>
-          </div>
-          <div id="ciInterpretationText" style="color:var(--text-dim);">CI выводится численно без степени тяжести.</div>
-        </div>
-      </div>
-
-      <!-- 2. Regional Asymmetry & ML Shape Repartition Bars (OMEGA LAYERS style) -->
-      <div class="hud-panel">
-        <div class="sec-hdr">
-          <span class="sec-title"><span class="sec-dot" style="background:#38BDF8;"></span>РЕГИОНАЛЬНАЯ АСИММЕТРИЯ & ML-ФОРМА</span>
-          <span class="sec-meta" id="valShapeClass">--</span>
-        </div>
-        <div class="mini-bars-col" style="gap:6px;">
-          <div class="mini-bar-row" style="grid-template-columns: 92px 1fr 78px;">
-            <span style="color:var(--text-sec);">Фронтальная</span>
-            <div class="mini-bar-track"><div id="barFrontal" class="mini-bar-fill" style="width:15%; background:#38BDF8;"></div></div>
-            <span id="valFrontalAsym" style="text-align:right;">-- мм</span>
-          </div>
-          <div class="mini-bar-row" style="grid-template-columns: 92px 1fr 78px;">
-            <span style="color:var(--text-sec);">Затылочная</span>
-            <div class="mini-bar-track"><div id="barOccipital" class="mini-bar-fill" style="width:25%; background:#F59E0B;"></div></div>
-            <span id="valOccipitalAsym" style="text-align:right;">-- мм</span>
-          </div>
-        </div>
-        <div id="shapeProbBars" class="mini-bars-col" style="margin-top:8px; padding-top:6px; border-top:1px solid var(--border-subtle); gap:4px;"></div>
-      </div>
-
-      <!-- 3. Detailed Linear Measurements & Sample Reports / API Docs -->
-      <div class="hud-panel" style="flex:1; display:flex; flex-direction:column; justify-content:space-between;">
-        <div>
+    <!-- Main Cockpit Layout -->
+    <main class="cockpit-layout">
+      <!-- LEFT COLUMN: KPI Numbers, STL Input, Scale & Landmark Correction -->
+      <aside class="hud-col-left">
+        <!-- 4 Compact Clinical Stat Cards -->
+        <div class="hud-panel">
           <div class="sec-hdr">
-            <span class="sec-title"><span class="sec-dot" style="background:#14B8A6;"></span>ЛИНЕЙНЫЕ ИЗМЕРЕНИЯ & ПРОТОКОЛ</span>
-            <span class="sec-meta">±0.01 ММ</span>
+            <span class="sec-title">Краниальные индексы</span>
+            <span class="sec-meta" id="scanIdTag">scan_081</span>
           </div>
-          <table class="tel-table">
-            <tbody>
-              <tr><td class="k">Длина головы (L, переднезадняя)</td><td class="v" id="valL">-- мм</td></tr>
-              <tr><td class="k">Ширина головы (W, поперечная)</td><td class="v" id="valW">-- мм</td></tr>
-              <tr><td class="k">Диагональ D1 (+30° Лев-Лоб↔Прав-Зат)</td><td class="v" id="valD1">-- мм</td></tr>
-              <tr><td class="k">Диагональ D2 (-30° Прав-Лоб↔Лев-Зат)</td><td class="v" id="valD2">-- мм</td></tr>
-              <tr><td class="k" id="valPerimLabel">Периметр измерительного сечения</td><td class="v" id="valPerim">-- мм</td></tr>
-              <tr><td class="k">Справочно CVAI<sub>min</sub> (знам. min)</td><td class="v" id="valCVAIMin">--%</td></tr>
-            </tbody>
-          </table>
+          <div class="telemetry-hero-grid">
+            <div class="telemetry-kpi">
+              <div class="tk-label">Индекс CVAI</div>
+              <div class="tk-val" id="kpiCVAI" style="color: var(--series-amber)">--%</div>
+              <div class="tk-sub">100 × |D1 − D2| / max</div>
+            </div>
+            <div class="telemetry-kpi">
+              <div class="tk-label">Асимметрия CVA</div>
+              <div class="tk-val" id="kpiCVA">-- мм</div>
+              <div class="tk-sub">|D1 − D2| (±30°)</div>
+            </div>
+            <div class="telemetry-kpi">
+              <div class="tk-label">Индекс CI</div>
+              <div class="tk-val" id="kpiCI">--%</div>
+              <div class="tk-sub">100 × W / L</div>
+            </div>
+            <div class="telemetry-kpi">
+              <div class="tk-label">Периметр сечения</div>
+              <div class="tk-val" id="kpiPerim">-- мм</div>
+              <div class="tk-sub" id="sliceHeightTag">Level 3 (30%)</div>
+            </div>
+          </div>
+        </div>
 
-          <div id="gtComparisonBox" style="display:none; margin-top:6px; padding:6px 8px; background:rgba(56,189,248,0.1); border:1px solid rgba(56,189,248,0.3); border-radius:3px; font-size:10px;">
-            <div style="font-weight:600; color:#38BDF8;" id="gtTitle">Сверка с эталоном (Тест):</div>
-            <div class="mono" id="gtMetricsLine" style="color:var(--text-main); margin-top:2px;"></div>
+        <!-- 1. STL Scan Selection & Upload -->
+        <div class="hud-panel">
+          <div class="sec-hdr">
+            <span class="sec-title">1. Источник 3D-скана (STL)</span>
+            <span class="sec-meta" id="scanCountLabel">44 STL</span>
+          </div>
+          <div class="hud-field">
+            <select id="scanSelect" class="hud-select" aria-label="Выбор STL-скана"></select>
+          </div>
+          <div style="display: flex; gap: 8px">
+            <label class="hud-btn" for="stlFileInput" style="flex: 1">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" x2="12" y1="3" y2="15" />
+              </svg>
+              <span>Загрузить STL</span>
+            </label>
+            <input type="file" id="stlFileInput" accept=".stl" style="display: none" />
+            <button type="button" id="batchModalBtn" class="hud-btn hud-btn-amber" title="Пакетная обработка серии STL-сканов">
+              Пакетно
+            </button>
           </div>
         </div>
 
-        <div style="margin-top:8px; padding-top:6px; border-top:1px solid var(--border-subtle);">
-          <div id="valSummaryLine" class="mono" style="font-size:10px; color:#34D399; margin-bottom:6px;">
-            Тест (25 STL): MAE CI=0.43 п.п. • CVAI=0.57 п.п. • CVA=0.71 мм
+        <!-- 2. Scale Calibration & Slicing Plane -->
+        <div class="hud-panel">
+          <div class="sec-hdr">
+            <span class="sec-title">2. Масштаб и уровень сечения</span>
+            <span class="sec-meta" id="scaleActiveLabel">×1.0 (мм)</span>
           </div>
-          <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:4px;">
-            <a href="/reports/report_case1_good_scan.pdf" target="_blank" class="hud-btn hud-btn-sm">PDF Норма</a>
-            <a href="/reports/report_case2_severe_deformity.pdf" target="_blank" class="hud-btn hud-btn-sm">PDF Плагио</a>
-            <a href="/reports/report_case3_rejected_defect.pdf" target="_blank" class="hud-btn hud-btn-sm">PDF Отказ</a>
-            <a href="/reports/validation_protocol_results.csv" target="_blank" class="hud-btn hud-btn-sm">Тест 25 CSV</a>
-            <a href="/api/openapi.json" target="_blank" class="hud-btn hud-btn-sm">OpenAPI 3.0</a>
-            <a href="/api/health" target="_blank" class="hud-btn hud-btn-sm">Health SHA</a>
+          <div class="hud-field">
+            <div style="display: flex; gap: 8px">
+              <select id="scaleSelect" class="hud-select" style="flex: 1" aria-label="Коэффициент масштаба">
+                <option value="1.0">×1.0 — миллиметры (мм)</option>
+                <option value="10.0">×10.0 — сантиметры → мм</option>
+                <option value="1000.0">×1000.0 — метры → мм</option>
+                <option value="25.4">×25.4 — дюймы → мм</option>
+                <option value="custom">Произвольный множитель</option>
+              </select>
+              <input type="number" id="customScaleInput" class="hud-input mono" value="1.0" step="0.1" min="0.001" style="width: 72px; display: none" />
+            </div>
+            <div id="scaleSuggestionBox" style="display: none; margin-top: 8px">
+              <button type="button" id="applySuggestedScaleBtn" class="hud-btn hud-btn-primary" style="width: 100%"></button>
+            </div>
+          </div>
+
+          <div class="hud-field">
+            <div class="hud-label">
+              <span>Уровень среза Z (Level 3 = 30%)</span>
+              <span id="levelRatioVal" class="mono">30% свода</span>
+            </div>
+            <input type="range" id="levelRatioSlider" min="0.18" max="0.60" step="0.01" value="0.30" style="width: 100%; accent-color: var(--accent)" />
+            <div class="level-presets" aria-label="Быстрые уровни сечения свода">
+              <button type="button" class="level-preset-btn" data-level="0.20">20% (L2)</button>
+              <button type="button" class="level-preset-btn active" data-level="0.30">30% (L3)</button>
+              <button type="button" class="level-preset-btn" data-level="0.50">50% (L5)</button>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 4px">
+            <label style="font-size: 12px; color: var(--app-secondary); display: flex; align-items: center; gap: 8px; cursor: pointer">
+              <input type="checkbox" id="useBaselineToggle" />
+              <span>Базовая модель (Baseline)</span>
+            </label>
+            <button type="button" id="robustnessBtn" class="hud-btn hud-btn-sm" title="Проверить устойчивость к 3D-повороту и шуму">
+              Тест 3D/шум
+            </button>
           </div>
         </div>
-      </div>
-    </aside>
-  </main>
 
-  <!-- MODAL FOR BATCH PROCESSING, ROBUSTNESS AUDIT & EXPERT RETRAINING QUEUE -->
-  <div class="modal-backdrop" id="modalBackdrop">
-    <div class="modal-card">
-      <div class="sec-hdr" style="margin-bottom:10px;">
-        <span class="sec-title" id="modalTitle">МОДУЛЬ</span>
-        <button type="button" id="closeModalBtn" class="hud-btn hud-btn-sm">ЗАКРЫТЬ [ESC]</button>
+        <!-- 3. Anatomical Landmarks, Confidence Score & Live Drag Correction -->
+        <div class="hud-panel" style="flex: 1">
+          <div class="sec-hdr">
+            <span class="sec-title">3. Ориентиры и ручная правка</span>
+            <span class="sec-meta" id="landmarkModeTag">ML авто</span>
+          </div>
+          <div style="font-size: 12px; color: var(--app-muted); margin-bottom: 8px">
+            Перетащите точку мышкой в 3D — индексы CI, CVA и CVAI пересчитаются в реальном времени
+          </div>
+          <div class="lm-grid-row" style="font-size: 11px; color: var(--app-muted); font-family: var(--font-mono)">
+            <span>Ориентир</span>
+            <span style="text-align: right">X</span>
+            <span style="text-align: right">Y</span>
+            <span style="text-align: right">Z</span>
+            <span style="text-align: right">Увер.</span>
+          </div>
+          <div class="lm-grid-row">
+            <span class="lm-tag"><span class="sec-dot" style="background: #e06d53"></span>Sellion</span>
+            <input type="number" step="0.5" class="lm-num" id="lm_Sellion_0" aria-label="Sellion X" />
+            <input type="number" step="0.5" class="lm-num" id="lm_Sellion_1" aria-label="Sellion Y" />
+            <input type="number" step="0.5" class="lm-num" id="lm_Sellion_2" aria-label="Sellion Z" />
+            <span class="lm-conf" id="lm_conf_Sellion">--</span>
+          </div>
+          <div class="lm-grid-row">
+            <span class="lm-tag"><span class="sec-dot" style="background: #5b9ee5"></span>Tragion R</span>
+            <input type="number" step="0.5" class="lm-num" id="lm_RightTragion_0" aria-label="RightTragion X" />
+            <input type="number" step="0.5" class="lm-num" id="lm_RightTragion_1" aria-label="RightTragion Y" />
+            <input type="number" step="0.5" class="lm-num" id="lm_RightTragion_2" aria-label="RightTragion Z" />
+            <span class="lm-conf" id="lm_conf_RightTragion">--</span>
+          </div>
+          <div class="lm-grid-row">
+            <span class="lm-tag"><span class="sec-dot" style="background: #e5a93c"></span>Tragion L</span>
+            <input type="number" step="0.5" class="lm-num" id="lm_LeftTragion_0" aria-label="LeftTragion X" />
+            <input type="number" step="0.5" class="lm-num" id="lm_LeftTragion_1" aria-label="LeftTragion Y" />
+            <input type="number" step="0.5" class="lm-num" id="lm_LeftTragion_2" aria-label="LeftTragion Z" />
+            <span class="lm-conf" id="lm_conf_LeftTragion">--</span>
+          </div>
+          <div class="lm-grid-row">
+            <span class="lm-tag"><span class="sec-dot" style="background: #4cc38a"></span>Subnasal</span>
+            <input type="number" step="0.5" class="lm-num" id="lm_Subnasal_0" aria-label="Subnasal X" />
+            <input type="number" step="0.5" class="lm-num" id="lm_Subnasal_1" aria-label="Subnasal Y" />
+            <input type="number" step="0.5" class="lm-num" id="lm_Subnasal_2" aria-label="Subnasal Z" />
+            <span class="lm-conf" id="lm_conf_Subnasal">--</span>
+          </div>
+
+          <div id="lmConfidenceAlertBox" class="lm-conf-alert" style="display: none">
+            <div id="lmConfidenceAlertText"></div>
+            <button type="button" id="confirmLandmarksBtn" class="hud-btn hud-btn-sm" style="margin-top: 6px; width: 100%">
+              Подтвердить положение ориентиров
+            </button>
+          </div>
+
+          <div style="display: flex; gap: 8px; margin-top: 12px">
+            <button type="button" id="applyLandmarksBtn" class="hud-btn hud-btn-primary" style="flex: 1">
+              Пересчитать
+            </button>
+            <button type="button" id="resetLandmarksBtn" class="hud-btn">
+              Сброс
+            </button>
+            <button type="button" id="addToQueueBtn" class="hud-btn" title="Сохранить разметку в очередь дообучения">
+              В очередь
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- CENTER STAGE: 3D CRANIAL VIEWPORT -->
+      <section class="hud-center-stage" aria-label="Интерактивный 3D-просмотрщик модели головы">
+        <div class="stage-overlay-top">
+          <div class="stage-btn-group">
+            <button type="button" class="stage-btn active" id="modeShadedBtn">3D рельеф</button>
+            <button type="button" class="stage-btn" id="modeHeatmapBtn">Карта асимметрии</button>
+            <button type="button" class="stage-btn" id="modeWireBtn">Каркас</button>
+          </div>
+          <div class="stage-btn-group">
+            <button type="button" class="stage-btn active" id="togglePlanesBtn">Сечение и оси</button>
+            <button type="button" class="stage-btn active" id="toggleLandmarksBtn">Ориентиры</button>
+            <button type="button" class="stage-btn active" id="toggleRaysBtn">Лучи 30°</button>
+          </div>
+          <div class="stage-btn-group">
+            <button type="button" class="stage-btn" data-cam="iso">3D</button>
+            <button type="button" class="stage-btn" data-cam="top">Свод</button>
+            <button type="button" class="stage-btn" data-cam="front">Лицо</button>
+            <button type="button" class="stage-btn" data-cam="side">Профиль</button>
+          </div>
+        </div>
+
+        <div class="live-drag-banner" id="liveDragBanner"></div>
+        <canvas id="canvas3d"></canvas>
+
+        <div class="stage-overlay-bottom">
+          <div class="stage-hint-pill">
+            <span style="color: #e06d53">●</span> Se &nbsp;
+            <span style="color: #5b9ee5">●</span> TrR &nbsp;
+            <span style="color: #e5a93c">●</span> TrL &nbsp;
+            <span style="color: #4cc38a">━</span> Level 3 &nbsp;
+            <span style="color: #e5a93c">━</span> D1 (+30°) &nbsp;
+            <span style="color: #e06d53">━</span> D2 (-30°)
+          </div>
+          <div class="stage-hint-pill">
+            ЛКМ вращение · ПКМ сдвиг · Колесо масштаб · Перетаскивание точки пересчитывает индексы
+          </div>
+        </div>
+      </section>
+
+      <!-- BOTTOM DOCK: VERIFICATION, ASYMMETRY PROFILE & 2D BLUEPRINT -->
+      <section class="hud-bottom-dock">
+        <!-- Panel 1: Clinical Verification & Export -->
+        <div class="hud-panel" style="display: flex; flex-direction: column; justify-content: space-between">
+          <div class="sec-hdr">
+            <span class="sec-title">Верификация врача и экспорт</span>
+            <span class="sec-meta">PDF · CSV · JSON</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 96px 1fr; gap: 8px; margin-bottom: 8px">
+            <div>
+              <div class="hud-label"><span>Возраст (мес.)</span></div>
+              <input type="number" id="patientAgeInput" class="hud-input mono" placeholder="Ввод врача" min="0" max="18" step="0.5" />
+            </div>
+            <div>
+              <div class="hud-label"><span>Врач или ортезист</span></div>
+              <input type="text" id="doctorNameInput" class="hud-input" value="Золотухин А.П. / Бойко А." />
+            </div>
+          </div>
+          <div class="hud-field">
+            <input type="text" id="clinicalNotesInput" class="hud-input" placeholder="Комментарий в клинический отчёт" />
+          </div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin: 4px 0 8px">
+            <label style="font-size: 12px; color: var(--app-secondary); display: flex; align-items: center; gap: 8px; cursor: pointer">
+              <input type="checkbox" id="doctorVerifiedCheck" checked />
+              <span>Проверено врачом</span>
+            </label>
+            <button type="button" id="viewQueueBtn" class="hud-btn hud-btn-sm">
+              Очередь (<span id="queueCountSpan">1</span>)
+            </button>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 48px 50px 54px; gap: 6px">
+            <button type="button" id="downloadPdfBtn" class="hud-btn hud-btn-primary">
+              PDF-отчёт
+            </button>
+            <button type="button" id="exportCsvBtn" class="hud-btn" style="padding: 0 6px">CSV</button>
+            <button type="button" id="exportJsonBtn" class="hud-btn" style="padding: 0 6px">JSON</button>
+            <button type="button" id="misExportBtn" class="hud-btn" style="padding: 0 6px" title="Анонимизированный вебхук и экспорт в МИС клиники">МИС</button>
+          </div>
+        </div>
+
+        <!-- Panel 2: Radial Asymmetry Profile Curve -->
+        <div class="hud-panel" style="display: flex; flex-direction: column">
+          <div class="sec-hdr">
+            <span class="sec-title">Радиальная асимметрия Δr(θ), мм</span>
+            <span class="sec-meta" id="dominantZoneTag">Затылочная область</span>
+          </div>
+          <canvas id="canvasAsym" width="380" height="164" style="width: 100%; flex: 1; border-radius: 8px"></canvas>
+        </div>
+
+        <!-- Panel 3: 2D Engineering Cross-Section Blueprint -->
+        <div class="hud-panel" style="display: flex; flex-direction: column">
+          <div class="sec-hdr">
+            <span class="sec-title">Чертёж сечения (L, W, D1, D2)</span>
+            <span class="sec-meta">±30° STARband</span>
+          </div>
+          <canvas id="canvas2d" width="340" height="164" style="width: 100%; flex: 1; border-radius: 8px"></canvas>
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN: QUALITY RING GAUGE, CVAI SCALE, REGIONAL ASYMMETRY & METRICS -->
+      <aside class="hud-col-right">
+        <!-- 1. Quality Ring Gauge & CVAI Scale -->
+        <div class="hud-panel">
+          <div class="sec-hdr">
+            <span class="sec-title">Качество скана и шкала CVAI</span>
+            <span class="sec-meta">Graham et al. [2]</span>
+          </div>
+
+          <div class="maturity-row">
+            <div class="ring-gauge-box">
+              <svg width="68" height="68" viewBox="0 0 68 68" aria-hidden="true">
+                <circle cx="34" cy="34" r="28" fill="none" stroke="rgba(237, 237, 237, 0.08)" stroke-width="5" />
+                <circle
+                  id="qualityRingCircle"
+                  cx="34"
+                  cy="34"
+                  r="28"
+                  fill="none"
+                  stroke="#4cc38a"
+                  stroke-width="5"
+                  stroke-dasharray="175.9"
+                  stroke-dashoffset="0"
+                  stroke-linecap="round"
+                  transform="rotate(-90 34 34)"
+                />
+              </svg>
+              <div class="ring-gauge-label">
+                <span id="qualityScoreVal">100%</span>
+              </div>
+            </div>
+
+            <div class="mini-bars-col">
+              <div class="mini-bar-row">
+                <span style="color: var(--app-secondary)">Свод</span>
+                <div class="mini-bar-track"><div id="barClosure" class="mini-bar-fill" style="width: 100%; background: #4cc38a"></div></div>
+                <span id="txtClosure" class="mono" style="text-align: right">100%</span>
+              </div>
+              <div class="mini-bar-row">
+                <span style="color: var(--app-secondary)">Квадранты</span>
+                <div class="mini-bar-track"><div id="barQuad" class="mini-bar-fill" style="width: 100%; background: #5b9ee5"></div></div>
+                <span id="txtQuad" class="mono" style="text-align: right">100%</span>
+              </div>
+              <div class="mini-bar-row">
+                <span style="color: var(--app-secondary)">Сетка</span>
+                <div class="mini-bar-track"><div id="barMesh" class="mini-bar-fill" style="width: 95%; background: #e5a93c"></div></div>
+                <span id="txtMesh" class="mono" style="text-align: right">82.7k</span>
+              </div>
+              <div id="qualityAlertTitle" style="font-size: 12px; color: var(--positive); margin-top: 2px; font-weight: 500">
+                Целостность свода подтверждена
+              </div>
+            </div>
+          </div>
+          <div id="qualityAlertBody" style="font-size: 12px; color: var(--app-muted); margin-bottom: 8px"></div>
+          <div id="techInstructionBox" class="clinical-alert-red" style="display: none; margin-bottom: 10px"></div>
+
+          <!-- 5-Tier CVAI Scale -->
+          <div class="cvai-banner" id="cvaiGradeBanner">Ожидание расчёта</div>
+          <div id="borderlineAlertBox" class="clinical-alert-amber" style="display: none; margin-bottom: 8px"></div>
+          <div class="cvai-track">
+            <div style="background: #4cc38a" title="< 3.5%: Ниже порога шкалы"></div>
+            <div style="background: #84cc16" title="3.5% – 6.25%: Лёгкая"></div>
+            <div style="background: #e5a93c" title="6.25% – 8.75%: Умеренная"></div>
+            <div style="background: #e06d53" title="8.75% – 11.0%: Тяжёлая"></div>
+            <div style="background: #e5484d" title="≥ 11.0%: Очень тяжёлая"></div>
+          </div>
+          <div class="cvai-pointer-wrap">
+            <div class="cvai-ptr" id="cvaiPointer" style="left: 10%">▲</div>
+          </div>
+          <div class="cvai-ticks">
+            <span>0%</span><span>3.5%</span><span>6.25%</span><span>8.75%</span><span>11.0%</span><span>14%+</span>
+          </div>
+
+          <div style="margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--app-hairline); font-size: 12px; color: var(--app-secondary)">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px">
+              <span style="font-weight: 500; color: var(--app-text)">Пропорции по CI (п. 6.2 ТЗ)</span>
+              <label style="cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 11px">
+                <input type="checkbox" id="expertCiProfileCheck" />
+                <span>Профиль эксперта</span>
+              </label>
+            </div>
+            <div id="ciInterpretationText" style="color: var(--app-muted); font-size: 12px; line-height: 16px">
+              CI выводится численно без автоматической степени тяжести.
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Regional Asymmetry & ML Shape Distribution -->
+        <div class="hud-panel">
+          <div class="sec-hdr">
+            <span class="sec-title">Региональная асимметрия и ML-форма</span>
+            <span class="sec-meta" id="valShapeClass">--</span>
+          </div>
+          <div class="mini-bars-col" style="gap: 8px">
+            <div class="mini-bar-row" style="grid-template-columns: 96px 1fr 84px">
+              <span style="color: var(--app-secondary)">Фронтальная</span>
+              <div class="mini-bar-track"><div id="barFrontal" class="mini-bar-fill" style="width: 15%; background: #5b9ee5"></div></div>
+              <span id="valFrontalAsym" class="mono" style="text-align: right">-- мм</span>
+            </div>
+            <div class="mini-bar-row" style="grid-template-columns: 96px 1fr 84px">
+              <span style="color: var(--app-secondary)">Затылочная</span>
+              <div class="mini-bar-track"><div id="barOccipital" class="mini-bar-fill" style="width: 25%; background: #e5a93c"></div></div>
+              <span id="valOccipitalAsym" class="mono" style="text-align: right">-- мм</span>
+            </div>
+          </div>
+          <div id="shapeProbBars" class="mini-bars-col" style="margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--app-hairline); gap: 8px"></div>
+
+          <!-- Q1-Q4 Volumetric Quadrants & Multi-Level Slice Comparison -->
+          <div style="margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--app-hairline)">
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--app-text); font-weight: 500">
+              <span>Объёмные квадранты Q1–Q4</span>
+              <span id="asrPsrTag" class="mono" style="font-size: 11px; color: var(--app-secondary)">ASR -- · PSR --</span>
+            </div>
+            <div id="quadrantGrid" class="quad-grid"></div>
+          </div>
+
+          <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--app-hairline)">
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--app-text); font-weight: 500">
+              <span>Соседние уровни свода (клик — перейти)</span>
+              <span class="mono" style="font-size: 11px; color: var(--app-muted)">20% · 30% · 50%</span>
+            </div>
+            <table class="multilevel-table">
+              <thead>
+                <tr style="color: var(--app-muted)">
+                  <th>Уровень</th>
+                  <th>CI</th>
+                  <th>CVA</th>
+                  <th>CVAI</th>
+                </tr>
+              </thead>
+              <tbody id="multiLevelBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 3. Detailed Linear Measurements & Sample Reports -->
+        <div class="hud-panel" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between">
+          <div>
+            <div class="sec-hdr">
+              <span class="sec-title">Линейные измерения и протокол</span>
+              <span class="sec-meta">±0.01 мм</span>
+            </div>
+            <table class="tel-table">
+              <tbody>
+                <tr><td class="k">Длина головы (L, переднезадняя)</td><td class="v" id="valL">-- мм</td></tr>
+                <tr><td class="k">Ширина головы (W, поперечная)</td><td class="v" id="valW">-- мм</td></tr>
+                <tr><td class="k">Диагональ D1 (+30° Лев-Лоб ↔ Прав-Зат)</td><td class="v" id="valD1">-- мм</td></tr>
+                <tr><td class="k">Диагональ D2 (-30° Прав-Лоб ↔ Лев-Зат)</td><td class="v" id="valD2">-- мм</td></tr>
+                <tr><td class="k" id="valPerimLabel">Периметр измерительного сечения</td><td class="v" id="valPerim">-- мм</td></tr>
+                <tr><td class="k">Справочно CVAI<sub>min</sub> (знам. min)</td><td class="v" id="valCVAIMin">--%</td></tr>
+              </tbody>
+            </table>
+
+            <div id="gtComparisonBox" style="display: none; margin-top: 8px; padding: 8px 12px; background-color: var(--app-sidebar); border: 1px solid var(--app-hairline-strong); border-radius: 8px; font-size: 12px">
+              <div style="font-weight: 500; color: var(--series-blue)" id="gtTitle">Сверка с эталоном</div>
+              <div class="mono" id="gtMetricsLine" style="color: var(--app-secondary); margin-top: 4px; font-size: 11px"></div>
+            </div>
+          </div>
+
+          <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--app-hairline)">
+            <div id="valSummaryLine" class="mono" style="font-size: 11px; color: var(--positive); margin-bottom: 8px">
+              Тест (25 STL): CI MAE 0.44 (P95 1.26) · CVAI MAE 0.56 (P95 1.57)
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px">
+              <a href="/reports/report_case1_good_scan.pdf" target="_blank" class="hud-btn hud-btn-sm">PDF Норма</a>
+              <a href="/reports/report_case2_severe_deformity.pdf" target="_blank" class="hud-btn hud-btn-sm">PDF Плагио</a>
+              <a href="/reports/report_case3_rejected_defect.pdf" target="_blank" class="hud-btn hud-btn-sm">PDF Отказ</a>
+              <a href="/reports/validation_protocol_results.csv" target="_blank" class="hud-btn hud-btn-sm">Тест 25 CSV</a>
+              <a href="/api/openapi.json" target="_blank" class="hud-btn hud-btn-sm">OpenAPI 3.0</a>
+              <a href="/api/health" target="_blank" class="hud-btn hud-btn-sm">Health SHA</a>
+            </div>
+            <div class="cockpit-disclaimer">
+              Инструмент поддержки принятия клинических решений · результаты измерений требуют визуальной проверки и не заменяют клинический диагноз врача.
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Modal for Batch Processing, Robustness Audit & Retraining Queue -->
+    <div class="modal-backdrop" id="modalBackdrop">
+      <div class="modal-card">
+        <div class="sec-hdr" style="margin-bottom: 12px">
+          <span class="sec-title" id="modalTitle">Модуль</span>
+          <button type="button" id="closeModalBtn" class="hud-btn hud-btn-sm">Закрыть</button>
+        </div>
+        <div id="modalBody" style="font-size: 13px"></div>
       </div>
-      <div id="modalBody" style="font-size:12px;"></div>
     </div>
-  </div>
 
-  <script src="/static/app.js"></script>
-</body>
+    <script src="/static/app.js"></script>
+  </body>
 </html>

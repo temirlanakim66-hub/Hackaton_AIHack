@@ -11,10 +11,16 @@ Implements:
 """
 import base64
 import hashlib
+import hmac
+import io
+import ipaddress
 import json
 import os
 import re
 import time
+import urllib.parse
+import urllib.request
+import zipfile
 from datetime import datetime
 import joblib
 import numpy as np
@@ -26,17 +32,19 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, PROJECT_ROOT)
 
 from core.mesh_io import parse_stl_bytes, validate_mesh, compute_face_normals
-from core.craniometry import compute_craniometry, METHODOLOGY_REGISTRY
+from core.craniometry import compute_craniometry, compare_two_scans, METHODOLOGY_REGISTRY
 from core.features import (
     extract_morphological_features,
     predict_landmarks_baseline,
     compute_vertex_asymmetry_heatmap,
+    estimate_landmark_confidence,
     HybridLandmarkPredictor,  # noqa: F401
 )
 from core.report_generator import (
     generate_pdf_report_bytes,
     export_measurement_json,
     export_measurement_csv_string,
+    export_measurement_excel_xml,
 )
 
 
@@ -226,6 +234,7 @@ def analyze_scan_bytes(
     quality = validate_mesh(mesh)
 
     landmarks = None
+    landmark_confidence = None
     craniometry = None
     shape_prediction = None
     manual_correction = False
@@ -242,6 +251,14 @@ def analyze_scan_bytes(
             landmarks = STATE["landmark_model"].predict_mesh_landmarks(mesh)
             model_used = "Saigak-ML-ExtraTrees-v1.2 (Обученная ML-модель, seed=42)"
 
+        landmark_confidence = estimate_landmark_confidence(
+            STATE["landmark_model"],
+            mesh,
+            landmarks,
+            manual_correction=manual_correction,
+            use_baseline=use_baseline,
+        )
+
         try:
             craniometry = compute_craniometry(
                 mesh=mesh,
@@ -249,6 +266,7 @@ def analyze_scan_bytes(
                 level_ratio=level_ratio,
                 diagonal_angle_deg=diagonal_angle_deg,
                 expert_ci_profile_approved=expert_ci_profile_approved,
+                include_aux_levels=include_mesh_3d,
             )
         except Exception as e:
             quality.status = "REJECTED"
@@ -304,6 +322,7 @@ def analyze_scan_bytes(
         "manual_correction_applied": manual_correction,
         "quality": quality.to_dict(),
         "landmarks_mm": landmarks,
+        "landmark_confidence": landmark_confidence,
         "craniometry": craniometry,
         "shape_classifier": shape_prediction,
         "ground_truth_comparison": gt_comparison,
@@ -420,11 +439,18 @@ class BaseSecureHandler(tornado.web.RequestHandler):
         self.set_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
         self.set_header(
             "Content-Security-Policy",
-            "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self';"
+            "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self';"
         )
 
 
-class IndexHandler(BaseSecureHandler):
+class WelcomeHandler(BaseSecureHandler):
+    def get(self):
+        with open(os.path.join(STATIC_DIR, "welcome.html"), "r", encoding="utf-8") as f:
+            self.set_header("Content-Type", "text/html; charset=utf-8")
+            self.write(f.read())
+
+
+class CockpitHandler(BaseSecureHandler):
     def get(self):
         with open(os.path.join(STATIC_DIR, "index.html"), "r", encoding="utf-8") as f:
             self.set_header("Content-Type", "text/html; charset=utf-8")
@@ -455,27 +481,203 @@ class OpenApiHandler(BaseSecureHandler):
         spec = {
             "openapi": "3.0.3",
             "info": {
-                "title": "Saigak-Orto 3D Craniometry & Deformity Assessment API",
-                "version": "1.2.0",
-                "description": "Локальный REST API для стандартизированного расчёта краниальных индексов (CI, CVA, CVAI), пакетной обработки 3D STL-сканов, генерации PDF-отчётов и управления экспертной очередью разметки.",
+                "title": "Saigak-Orto 3D Craniometry, Longitudinal Dynamics & MIS Integration API",
+                "version": "1.3.0",
+                "description": (
+                    "Локальный REST API для стандартизированного расчёта краниальных индексов (CI, CVA, CVAI), "
+                    "объёмной квадрантной асимметрии (Q1–Q4, ASR, PSR), сравнения в динамике («До / После»), "
+                    "пакетной обработки папок STL с выгрузкой CSV/Excel/ZIP-архива PDF-отчётов и безопасного "
+                    "анонимизированного экспорта/вебхука в МИС клиники (HL7 FHIR DiagnosticReport-совместимый JSON)."
+                ),
                 "contact": {
                     "name": "ТОО Saigak-Orto (Сайгак-Орто)",
                     "url": "https://saigak-orto.kz/",
                     "email": "boiko@saigak-orto.kz",
                 },
             },
+            "servers": [
+                {"url": "http://127.0.0.1:8765", "description": "Локальная рабочая станция врача (airgapped)"},
+            ],
+            "tags": [
+                {"name": "System", "description": "Здоровье сервиса и проверка целостности весов SHA-256"},
+                {"name": "Craniometry", "description": "3D-анализ, уверенность ориентиров, динамика До/После и устойчивость"},
+                {"name": "Reporting & Batch", "description": "Клинические PDF-отчёты, пакетная обработка папок, CSV/Excel/ZIP"},
+                {"name": "MIS Integration", "description": "Анонимизированный вебхук и экспорт в МИС клиники"},
+            ],
             "paths": {
-                "/api/health": {"get": {"summary": "Проверка состояния сервера и целостности весов ML-моделей (SHA-256)"}},
-                "/api/catalog": {"get": {"summary": "Список доступных 3D STL-сканов, реестр методик и метрики валидации"}},
-                "/api/analyze": {"post": {"summary": "Анализ одного 3D STL-скана (контроль качества, ML-ориентиры, расчёт CI/CVA/CVAI, 3D-буфер и карта асимметрии)"}},
-                "/api/robustness": {"post": {"summary": "Тест устойчивости к 3D-повороту модели, гауссовскому шуму поверхности и повторному запуску (Should 5.2)"}},
-                "/api/batch": {"post": {"summary": "Пакетная обработка списка STL-сканов с выгрузкой сводной таблицы (Could 5.3)"}},
-                "/api/queue": {
-                    "get": {"summary": "Получить экспертную очередь сложных случаев и сохранённых разметок для переобучения (Could 5.3)"},
-                    "post": {"summary": "Добавить скан и скорректированные врачом ориентиры в экспертную очередь дообучения (Could 5.3)"},
+                "/api/health": {
+                    "get": {
+                        "tags": ["System"],
+                        "summary": "Проверка состояния сервера и целостности весов ML-моделей (SHA-256)",
+                        "responses": {"200": {"description": "Статус HEALTHY и SHA-256 контрольные суммы моделей"}},
+                    }
                 },
-                "/api/report/pdf": {"post": {"summary": "Сформировать клинический PDF-отчёт по одному скану"}},
-                "/api/report/export": {"post": {"summary": "Экспорт численных результатов в CSV или JSON"}},
+                "/api/catalog": {
+                    "get": {
+                        "tags": ["System"],
+                        "summary": "Список доступных 3D STL-сканов, реестр методик и метрики валидации (MAE, P95, Max)",
+                        "responses": {"200": {"description": "Каталог STL и протокол валидации"}},
+                    }
+                },
+                "/api/analyze": {
+                    "post": {
+                        "tags": ["Craniometry"],
+                        "summary": "Анализ одного 3D STL-скана (контроль дефектов/артефактов, уверенность ориентиров, CI/CVA/CVAI, Q1–Q4, уровни 20%/30%/50%, пограничный флаг)",
+                        "requestBody": {
+                            "required": True,
+                            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AnalyzeRequest"}}},
+                        },
+                        "responses": {"200": {"description": "Полный протокол измерений и 3D-буфер"}},
+                    }
+                },
+                "/api/compare": {
+                    "post": {
+                        "tags": ["Craniometry"],
+                        "summary": "Сравнение двух 3D-сканов одного пациента в динамике («До / После» шлемотерапии)",
+                        "requestBody": {
+                            "required": True,
+                            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/CompareRequest"}}},
+                        },
+                        "responses": {"200": {"description": "Дельты CI/CVAI/CVA, прирост объёма в зоне уплощения (см³) и совмещённые контуры Level 3"}},
+                    }
+                },
+                "/api/robustness": {
+                    "post": {
+                        "tags": ["Craniometry"],
+                        "summary": "Тест устойчивости к 3D-повороту модели, гауссовскому шуму поверхности и повторному запуску",
+                        "responses": {"200": {"description": "Результаты испытания детерминизма и устойчивости"}},
+                    }
+                },
+                "/api/batch": {
+                    "post": {
+                        "tags": ["Reporting & Batch"],
+                        "summary": "Пакетная обработка серии или загруженной папки STL-сканов с выгрузкой CSV и Excel (.xls)",
+                        "requestBody": {
+                            "required": True,
+                            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/BatchRequest"}}},
+                        },
+                        "responses": {"200": {"description": "Сводная таблица, CSV и SpreadsheetML Excel"}},
+                    }
+                },
+                "/api/batch/zip": {
+                    "post": {
+                        "tags": ["Reporting & Batch"],
+                        "summary": "Скачать ZIP-архив пакетной обработки (сводные CSV/Excel/JSON + индивидуальные PDF-отчёты по каждому скану)",
+                        "requestBody": {
+                            "required": True,
+                            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/BatchRequest"}}},
+                        },
+                        "responses": {
+                            "200": {
+                                "description": "ZIP-архив с PDF-отчётами и таблицами",
+                                "content": {"application/zip": {"schema": {"type": "string", "format": "binary"}}},
+                            }
+                        },
+                    }
+                },
+                "/api/queue": {
+                    "get": {
+                        "tags": ["Craniometry"],
+                        "summary": "Получить экспертную очередь сложных случаев и сохранённых разметок для переобучения",
+                        "responses": {"200": {"description": "Список записей экспертной очереди"}},
+                    },
+                    "post": {
+                        "tags": ["Craniometry"],
+                        "summary": "Добавить скан и скорректированные врачом ориентиры в экспертную очередь дообучения",
+                        "responses": {"200": {"description": "Запись добавлена"}},
+                    },
+                },
+                "/api/report/pdf": {
+                    "post": {
+                        "tags": ["Reporting & Batch"],
+                        "summary": "Сформировать клинический A4 PDF-отчёт с 2D-схемой среза, аудитом ориентиров и подписью врача",
+                        "responses": {
+                            "200": {
+                                "description": "Векторный A4 PDF-отчёт",
+                                "content": {"application/pdf": {"schema": {"type": "string", "format": "binary"}}},
+                            }
+                        },
+                    }
+                },
+                "/api/report/export": {
+                    "post": {
+                        "tags": ["Reporting & Batch"],
+                        "summary": "Экспорт численных результатов в CSV, Excel (.xls) или JSON",
+                        "responses": {"200": {"description": "Файл экспорта"}},
+                    }
+                },
+                "/api/mis/export": {
+                    "post": {
+                        "tags": ["MIS Integration"],
+                        "summary": "Анонимизированный вебхук / экспорт в МИС клиники (HL7 FHIR DiagnosticReport JSON + опционально PDF в Base64 + HMAC-SHA256)",
+                        "requestBody": {
+                            "required": True,
+                            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/MisExportRequest"}}},
+                        },
+                        "responses": {"200": {"description": "Анонимизированный пакет МИС и статус доставки вебхука"}},
+                    }
+                },
+            },
+            "components": {
+                "schemas": {
+                    "AnalyzeRequest": {
+                        "type": "object",
+                        "properties": {
+                            "filename": {"type": "string", "example": "scan_081.stl"},
+                            "file_b64": {"type": "string", "description": "Опционально: STL в Base64"},
+                            "scale_factor": {"type": "number", "default": 1.0},
+                            "level_ratio": {"type": "number", "default": 0.30, "description": "Доля высоты свода (0.20, 0.30, 0.50)"},
+                            "custom_landmarks": {"type": "object", "description": "Ручные координаты Sellion, RightTragion, LeftTragion"},
+                            "include_mesh_3d": {"type": "boolean", "default": True, "description": "False для мгновенного пересчёта при перетаскивании ориентиров"},
+                        },
+                    },
+                    "CompareRequest": {
+                        "type": "object",
+                        "required": ["scan_before", "scan_after"],
+                        "properties": {
+                            "scan_before": {"type": "string", "example": "clinical_severe_plagio_P03.stl"},
+                            "scan_after": {"type": "string", "example": "clinical_mild_plagio_P01.stl"},
+                            "file_before_b64": {"type": "string"},
+                            "file_after_b64": {"type": "string"},
+                            "scale_before": {"type": "number", "default": 1.0},
+                            "scale_after": {"type": "number", "default": 1.0},
+                            "level_ratio": {"type": "number", "default": 0.30},
+                        },
+                    },
+                    "BatchRequest": {
+                        "type": "object",
+                        "properties": {
+                            "filenames": {"type": "array", "items": {"type": "string"}},
+                            "uploaded_files": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "filename": {"type": "string"},
+                                        "file_b64": {"type": "string"},
+                                    },
+                                },
+                            },
+                            "scale_factor": {"type": "number", "default": 1.0},
+                            "level_ratio": {"type": "number", "default": 0.30},
+                            "doctor_name": {"type": "string"},
+                        },
+                    },
+                    "MisExportRequest": {
+                        "type": "object",
+                        "properties": {
+                            "filename": {"type": "string", "example": "clinical_severe_plagio_P03.stl"},
+                            "mode": {"type": "string", "enum": ["preview", "dispatch"], "default": "preview"},
+                            "webhook_url": {"type": "string", "example": "http://127.0.0.1:9000/mis/craniometry-webhook"},
+                            "webhook_secret": {"type": "string", "description": "Секрет для подписи X-Saigak-Signature (HMAC-SHA256)"},
+                            "include_pdf": {"type": "boolean", "default": True},
+                            "patient_age_months": {"type": "number"},
+                            "doctor_name": {"type": "string"},
+                            "doctor_verified": {"type": "boolean", "default": True},
+                            "clinical_notes": {"type": "string"},
+                        },
+                    },
+                }
             },
         }
         self.write(json.dumps(spec, ensure_ascii=False, indent=2))
@@ -547,6 +749,7 @@ class AnalyzeHandler(BaseSecureHandler):
             custom_landmarks = body.get("custom_landmarks")
             use_baseline = bool(body.get("use_baseline", False))
             expert_ci = bool(body.get("expert_ci_profile_approved", False))
+            include_mesh_3d = bool(body.get("include_mesh_3d", True))
 
             if body.get("file_b64"):
                 raw_bytes = scrub_stl_binary_header(base64.b64decode(body["file_b64"]))
@@ -565,11 +768,64 @@ class AnalyzeHandler(BaseSecureHandler):
                 custom_landmarks=custom_landmarks,
                 use_baseline=use_baseline,
                 expert_ci_profile_approved=expert_ci,
+                include_mesh_3d=include_mesh_3d,
             )
             self.write(json.dumps(result, ensure_ascii=False))
         except FileNotFoundError as e:
             self.set_status(404)
             self.write(json.dumps({"error": str(e)}, ensure_ascii=False))
+        except Exception as e:
+            self.set_status(400)
+            self.write(json.dumps({"error": str(e)}, ensure_ascii=False))
+
+
+class CompareHandler(BaseSecureHandler):
+    """Longitudinal 'Before / After' comparison of two 3D STL scans in canonical cranial space."""
+    def post(self):
+        self.set_header("Content-Type", "application/json; charset=utf-8")
+        try:
+            body = json.loads(self.request.body.decode("utf-8"))
+            fn_before = sanitize_filename(body.get("scan_before", "clinical_severe_plagio_P03.stl"))
+            fn_after = sanitize_filename(body.get("scan_after", "clinical_mild_plagio_P01.stl"))
+            scale_before = float(body.get("scale_before", 1.0))
+            scale_after = float(body.get("scale_after", 1.0))
+            level_ratio = float(body.get("level_ratio", 0.30))
+            diagonal_angle_deg = float(body.get("diagonal_angle_deg", 30.0))
+
+            if body.get("file_before_b64"):
+                raw_before = scrub_stl_binary_header(base64.b64decode(body["file_before_b64"]))
+                STATE["uploaded_files"][fn_before] = raw_before
+            else:
+                raw_before = get_raw_stl_bytes(fn_before)
+
+            if body.get("file_after_b64"):
+                raw_after = scrub_stl_binary_header(base64.b64decode(body["file_after_b64"]))
+                STATE["uploaded_files"][fn_after] = raw_after
+            else:
+                raw_after = get_raw_stl_bytes(fn_after)
+
+            res_b = analyze_scan_bytes(
+                raw_before, fn_before, scale_factor=scale_before,
+                level_ratio=level_ratio, diagonal_angle_deg=diagonal_angle_deg,
+                include_mesh_3d=False,
+            )
+            res_a = analyze_scan_bytes(
+                raw_after, fn_after, scale_factor=scale_after,
+                level_ratio=level_ratio, diagonal_angle_deg=diagonal_angle_deg,
+                include_mesh_3d=False,
+            )
+            if not res_b["quality"]["is_usable"] or not res_b["craniometry"]:
+                raise ValueError(f"Скан «До» ({res_b['scan_id']}) не прошёл контроль качества и непригоден для сравнения.")
+            if not res_a["quality"]["is_usable"] or not res_a["craniometry"]:
+                raise ValueError(f"Скан «После» ({res_a['scan_id']}) не прошёл контроль качества и непригоден для сравнения.")
+
+            comp = compare_two_scans(
+                cran_before=res_b["craniometry"],
+                cran_after=res_a["craniometry"],
+                scan_before_id=res_b["scan_id"],
+                scan_after_id=res_a["scan_id"],
+            )
+            self.write(json.dumps(comp, ensure_ascii=False))
         except Exception as e:
             self.set_status(400)
             self.write(json.dumps({"error": str(e)}, ensure_ascii=False))
@@ -600,29 +856,54 @@ class RobustnessHandler(BaseSecureHandler):
             self.write(json.dumps({"error": str(e)}, ensure_ascii=False))
 
 
+def _resolve_batch_items(body: dict) -> list:
+    """
+    Resolve batch inputs from either uploaded STL files (folder upload) or catalog filenames.
+    Returns list of (safe_filename, raw_bytes).
+    """
+    items = []
+    uploaded = body.get("uploaded_files") or []
+    if uploaded:
+        for entry in uploaded[:30]:
+            fn = sanitize_filename(entry.get("filename", "batch_scan.stl"))
+            raw = scrub_stl_binary_header(base64.b64decode(entry["file_b64"]))
+            if len(raw) > MAX_UPLOAD_BYTES:
+                raise ValueError(f"Файл {fn} превышает лимит 64 МБ.")
+            STATE["uploaded_files"][fn] = raw
+            items.append((fn, raw))
+        return items
+
+    filenames = body.get("filenames") or [
+        "clinical_normal_N01.stl",
+        "clinical_mild_plagio_P01.stl",
+        "clinical_moderate_bp_BP05.stl",
+        "clinical_severe_plagio_P03.stl",
+        "clinical_very_severe_plagio_P04.stl",
+        "defect_incomplete_occipital.stl",
+    ]
+    for fn in filenames[:30]:
+        safe_fn = sanitize_filename(fn)
+        items.append((safe_fn, get_raw_stl_bytes(safe_fn)))
+    return items
+
+
 class BatchProcessHandler(BaseSecureHandler):
     def post(self):
         self.set_header("Content-Type", "application/json; charset=utf-8")
         try:
             body = json.loads(self.request.body.decode("utf-8"))
-            filenames = body.get("filenames") or [
-                "clinical_normal_N01.stl",
-                "clinical_mild_plagio_P01.stl",
-                "clinical_moderate_bp_BP05.stl",
-                "clinical_severe_plagio_P03.stl",
-                "clinical_very_severe_plagio_P04.stl",
-                "defect_incomplete_occipital.stl",
-            ]
+            batch_inputs = _resolve_batch_items(body)
             scale_factor = float(body.get("scale_factor", 1.0))
             level_ratio = float(body.get("level_ratio", 0.30))
+            doctor_name = sanitize_text_field(body.get("doctor_name", "Золотухин А.П. / Бойко А."), 100)
 
             t0 = time.perf_counter()
             batch_results = []
             export_records = []
+            resolved_filenames = []
 
-            for fn in filenames[:30]:
-                safe_fn = sanitize_filename(fn)
-                raw_bytes = get_raw_stl_bytes(safe_fn)
+            for safe_fn, raw_bytes in batch_inputs:
+                resolved_filenames.append(safe_fn)
                 res = analyze_scan_bytes(
                     raw_bytes=raw_bytes,
                     scan_id=safe_fn,
@@ -633,8 +914,12 @@ class BatchProcessHandler(BaseSecureHandler):
                 q = res["quality"]
                 cran = res["craniometry"]
                 ind = cran["indices"] if cran else {}
-                cls_grade = cran["classification"]["cvai_grade"] if cran else {"code": "REJECTED", "label": "Отказ (дефект)"}
+                qvol = cran.get("quadrant_volumes") if cran else {}
+                cls_wrap = cran["classification"] if cran else {}
+                cls_grade = cls_wrap.get("cvai_grade", {"code": "REJECTED", "label": "Отказ (дефект)"})
+                borderline = cls_wrap.get("borderline_alert", {})
                 batch_results.append({
+                    "filename": safe_fn,
                     "scan_id": res["scan_id"],
                     "status": q["status"],
                     "quality_score": q["quality_score"],
@@ -643,6 +928,8 @@ class BatchProcessHandler(BaseSecureHandler):
                     "CVAI": ind.get("CVAI"),
                     "grade_code": cls_grade.get("code"),
                     "grade_label": cls_grade.get("label"),
+                    "is_borderline": bool(borderline.get("is_borderline", False)),
+                    "PSR": qvol.get("posterior_symmetry_ratio") if qvol else None,
                     "processing_time_sec": res["processing_time_sec"],
                 })
                 export_records.append(export_measurement_json(
@@ -650,14 +937,255 @@ class BatchProcessHandler(BaseSecureHandler):
                     quality=validate_mesh(parse_stl_bytes(raw_bytes, scale_factor=scale_factor)),
                     craniometry=cran,
                     landmarks=res["landmarks_mm"],
+                    doctor_name=doctor_name,
+                    landmark_confidence=res.get("landmark_confidence"),
                 ))
 
             csv_summary = export_measurement_csv_string(export_records)
+            excel_xml = export_measurement_excel_xml(export_records)
             self.write(json.dumps({
                 "processed_count": len(batch_results),
                 "total_time_sec": round(time.perf_counter() - t0, 4),
+                "filenames": resolved_filenames,
                 "results": batch_results,
                 "csv_summary": csv_summary,
+                "excel_xml": excel_xml,
+            }, ensure_ascii=False))
+        except Exception as e:
+            self.set_status(400)
+            self.write(json.dumps({"error": str(e)}, ensure_ascii=False))
+
+
+class BatchZipHandler(BaseSecureHandler):
+    """Return a single ZIP archive containing CSV, Excel (.xls), JSON, and individual PDF reports for all batch scans."""
+    def post(self):
+        try:
+            body = json.loads(self.request.body.decode("utf-8"))
+            batch_inputs = _resolve_batch_items(body)
+            scale_factor = float(body.get("scale_factor", 1.0))
+            level_ratio = float(body.get("level_ratio", 0.30))
+            doctor_name = sanitize_text_field(body.get("doctor_name", "Золотухин А.П. / Бойко А."), 100)
+            doctor_verified = bool(body.get("doctor_verified", True))
+
+            export_records = []
+            zip_buf = io.BytesIO()
+            with zipfile.ZipFile(zip_buf, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+                for safe_fn, raw_bytes in batch_inputs:
+                    mesh = parse_stl_bytes(raw_bytes, scale_factor=scale_factor)
+                    quality = validate_mesh(mesh)
+                    res = analyze_scan_bytes(
+                        raw_bytes=raw_bytes,
+                        scan_id=safe_fn,
+                        scale_factor=scale_factor,
+                        level_ratio=level_ratio,
+                        include_mesh_3d=False,
+                    )
+                    scan_id = res["scan_id"]
+                    pdf_bytes = generate_pdf_report_bytes(
+                        scan_id=scan_id,
+                        mesh=mesh,
+                        quality=quality,
+                        craniometry=res["craniometry"],
+                        landmarks=res["landmarks_mm"],
+                        model_version=res["model_version"],
+                        doctor_name=doctor_name,
+                        doctor_verified=doctor_verified,
+                        manual_correction_applied=False,
+                        landmark_confidence=res.get("landmark_confidence"),
+                    )
+                    zf.writestr(f"reports/saigak_orto_report_{scan_id}.pdf", pdf_bytes)
+                    export_records.append(export_measurement_json(
+                        scan_id=scan_id,
+                        quality=quality,
+                        craniometry=res["craniometry"],
+                        landmarks=res["landmarks_mm"],
+                        model_version=res["model_version"],
+                        doctor_name=doctor_name,
+                        doctor_verified=doctor_verified,
+                        landmark_confidence=res.get("landmark_confidence"),
+                    ))
+
+                csv_summary = "\ufeff" + export_measurement_csv_string(export_records)
+                excel_xml = export_measurement_excel_xml(export_records)
+                zf.writestr("batch_summary.csv", csv_summary.encode("utf-8"))
+                zf.writestr("batch_summary.xls", excel_xml.encode("utf-8"))
+                zf.writestr("batch_summary.json", json.dumps(export_records, ensure_ascii=False, indent=2).encode("utf-8"))
+
+            self.set_header("Content-Type", "application/zip")
+            self.set_header("Content-Disposition", 'attachment; filename="saigak_orto_batch_reports.zip"')
+            self.write(zip_buf.getvalue())
+        except Exception as e:
+            self.set_status(400)
+            self.set_header("Content-Type", "application/json; charset=utf-8")
+            self.write(json.dumps({"error": str(e)}, ensure_ascii=False))
+
+
+def _is_safe_clinic_webhook_host(url: str) -> tuple:
+    parsed = urllib.parse.urlparse(url)
+    if parsed.scheme not in ("http", "https"):
+        return False, "Поддерживаются только протоколы http:// и https://"
+    host = (parsed.hostname or "").strip().lower()
+    if not host:
+        return False, "Не указан хост МИС-сервера"
+    if host in ("localhost", "127.0.0.1", "::1"):
+        return True, "loopback"
+    try:
+        ip = ipaddress.ip_address(host)
+        if ip.is_private or ip.is_loopback:
+            return True, "private_lan"
+        return False, "По политике локальной безопасности разрешены только адреса локальной сети клиники (localhost / RFC1918)"
+    except ValueError:
+        if host.endswith(".local") or host.endswith(".lan") or host.endswith(".internal"):
+            return True, "local_domain"
+        return False, "По политике локальной безопасности разрешены только локальные/внутрисетевые хосты МИС (*.local, *.lan, 127.0.0.1, 10.x, 192.168.x)"
+
+
+class MisExportHandler(BaseSecureHandler):
+    """
+    Build an anonymized HL7-FHIR-style DiagnosticReport JSON + optional Base64 PDF payload
+    for clinic MIS integration, with HMAC-SHA256 signing and safe local-LAN webhook dispatch.
+    """
+    def post(self):
+        self.set_header("Content-Type", "application/json; charset=utf-8")
+        try:
+            body = json.loads(self.request.body.decode("utf-8"))
+            filename = sanitize_filename(body.get("filename", "scan_081.stl"))
+            mode = str(body.get("mode", "preview")).lower()
+            webhook_url = str(body.get("webhook_url", "") or "").strip()
+            webhook_secret = str(body.get("webhook_secret", "") or "saigak-local-clinic-hmac")
+            include_pdf = bool(body.get("include_pdf", True))
+            scale_factor = float(body.get("scale_factor", 1.0))
+            level_ratio = float(body.get("level_ratio", 0.30))
+            custom_landmarks = body.get("custom_landmarks")
+            expert_ci = bool(body.get("expert_ci_profile_approved", False))
+            age_val = body.get("patient_age_months")
+            patient_age = float(age_val) if age_val not in (None, "") else None
+            doctor_name = sanitize_text_field(body.get("doctor_name", "Золотухин А.П. / Бойко А."), 100)
+            doctor_verified = bool(body.get("doctor_verified", True))
+            clinical_notes = sanitize_text_field(body.get("clinical_notes", ""), 220)
+
+            raw_bytes = get_raw_stl_bytes(filename)
+            mesh = parse_stl_bytes(raw_bytes, scale_factor=scale_factor)
+            quality = validate_mesh(mesh)
+            res = analyze_scan_bytes(
+                raw_bytes=raw_bytes,
+                scan_id=filename,
+                scale_factor=scale_factor,
+                level_ratio=level_ratio,
+                custom_landmarks=custom_landmarks,
+                expert_ci_profile_approved=expert_ci,
+                include_mesh_3d=False,
+            )
+            scan_id = res["scan_id"]
+            cran = res["craniometry"]
+
+            pdf_attachment = None
+            if include_pdf:
+                pdf_bytes = generate_pdf_report_bytes(
+                    scan_id=scan_id,
+                    mesh=mesh,
+                    quality=quality,
+                    craniometry=cran,
+                    landmarks=res["landmarks_mm"],
+                    model_version=res["model_version"],
+                    patient_age_months=patient_age,
+                    doctor_name=doctor_name,
+                    doctor_verified=doctor_verified,
+                    manual_correction_applied=res["manual_correction_applied"],
+                    clinical_notes=clinical_notes,
+                    landmark_confidence=res.get("landmark_confidence"),
+                )
+                pdf_attachment = {
+                    "contentType": "application/pdf",
+                    "filename": f"saigak_orto_report_{scan_id}.pdf",
+                    "size_bytes": len(pdf_bytes),
+                    "sha256": hashlib.sha256(pdf_bytes).hexdigest(),
+                    "data_base64": base64.b64encode(pdf_bytes).decode("ascii"),
+                }
+
+            mis_payload = {
+                "resourceType": "DiagnosticReport",
+                "protocol": "SAIGAK-ORTO-MIS-WEBHOOK-V1",
+                "status": "final" if doctor_verified else "preliminary",
+                "issued": datetime.now().isoformat(),
+                "anonymized_subject_ref": scan_id,
+                "patient_age_months": patient_age,
+                "methodology": "STARBAND-GRAHAM-2020-V1.2",
+                "model_version": res["model_version"],
+                "model_integrity_sha256": STATE["model_hashes"],
+                "clinical_disclaimer": "Инструмент поддержки принятия клинических решений; не заменяет врачебный диагноз.",
+                "quality_gate": {
+                    "status": quality.status,
+                    "quality_score": round(quality.quality_score, 1),
+                    "vault_closure_pct": round(quality.vault_closure_pct, 1),
+                    "defects": quality.defects,
+                },
+                "observations": {
+                    "indices": cran["indices"] if cran else None,
+                    "linear_measurements_mm": cran["linear_measurements_mm"] if cran else None,
+                    "regional_asymmetry": cran["regional_asymmetry"] if cran else None,
+                    "quadrant_volumes": cran.get("quadrant_volumes") if cran else None,
+                    "cvai_grade": cran["classification"]["cvai_grade"] if cran else None,
+                    "borderline_alert": cran["classification"].get("borderline_alert") if cran else None,
+                },
+                "doctor_verification": {
+                    "verified": doctor_verified,
+                    "doctor_name": doctor_name,
+                    "landmarks_audit_mode": "manual_corrected" if res["manual_correction_applied"] else "ml_auto",
+                    "clinical_notes": clinical_notes,
+                },
+                "presentedForm": [pdf_attachment] if pdf_attachment else [],
+            }
+
+            payload_bytes = json.dumps(mis_payload, ensure_ascii=False).encode("utf-8")
+            sig = hmac.new(webhook_secret.encode("utf-8"), payload_bytes, hashlib.sha256).hexdigest()
+
+            dispatch_result = {"mode": mode, "dispatched": False, "status_code": None, "detail": "Локальный предпросмотр (внешние запросы не выполнялись)"}
+            if mode == "dispatch":
+                if not webhook_url:
+                    raise ValueError("Укажите локальный URL вебхука МИС клиники для отправки.")
+                safe_ok, reason = _is_safe_clinic_webhook_host(webhook_url)
+                if not safe_ok:
+                    raise ValueError(reason)
+                req = urllib.request.Request(
+                    webhook_url,
+                    data=payload_bytes,
+                    headers={
+                        "Content-Type": "application/json; charset=utf-8",
+                        "X-Saigak-Protocol": "SAIGAK-ORTO-MIS-WEBHOOK-V1",
+                        "X-Saigak-Signature": f"sha256={sig}",
+                    },
+                    method="POST",
+                )
+                try:
+                    with urllib.request.urlopen(req, timeout=5.0) as resp:
+                        dispatch_result = {
+                            "mode": "dispatch",
+                            "dispatched": True,
+                            "status_code": resp.status,
+                            "detail": f"Пакет успешно принят МИС ({resp.status})",
+                        }
+                except Exception as net_err:
+                    dispatch_result = {
+                        "mode": "dispatch",
+                        "dispatched": False,
+                        "status_code": None,
+                        "detail": f"Не удалось подключиться к указанному локальному вебхуку МИС: {net_err}",
+                    }
+
+            # Return lightweight preview copy (truncate huge PDF base64 in UI preview field while keeping full payload available)
+            preview_payload = dict(mis_payload)
+            if pdf_attachment:
+                preview_att = dict(pdf_attachment)
+                preview_att["data_base64"] = preview_att["data_base64"][:64] + f"... ({pdf_attachment['size_bytes']} bytes PDF)"
+                preview_payload["presentedForm"] = [preview_att]
+
+            self.write(json.dumps({
+                "signature_header": f"sha256={sig}",
+                "payload_size_bytes": len(payload_bytes),
+                "dispatch": dispatch_result,
+                "payload_preview": preview_payload,
+                "full_payload": mis_payload,
             }, ensure_ascii=False))
         except Exception as e:
             self.set_status(400)
@@ -737,6 +1265,10 @@ class PdfReportHandler(BaseSecureHandler):
                 else:
                     lms = STATE["landmark_model"].predict_mesh_landmarks(mesh)
                     m_ver = "Saigak-ML-ExtraTrees-v1.2 (seed=42)"
+                lm_conf = estimate_landmark_confidence(
+                    STATE["landmark_model"], mesh, lms,
+                    manual_correction=manual_corr, use_baseline=use_baseline,
+                )
                 cran = compute_craniometry(
                     mesh, lms,
                     level_ratio=level_ratio,
@@ -745,6 +1277,7 @@ class PdfReportHandler(BaseSecureHandler):
                 )
             else:
                 m_ver = "Контроль качества входных данных (отказ)"
+                lm_conf = None
 
             scan_id = filename.replace(".stl", "")
             pdf_bytes = generate_pdf_report_bytes(
@@ -759,6 +1292,7 @@ class PdfReportHandler(BaseSecureHandler):
                 doctor_verified=doctor_verified,
                 manual_correction_applied=manual_corr,
                 clinical_notes=clinical_notes,
+                landmark_confidence=lm_conf,
             )
 
             self.set_header("Content-Type", "application/pdf")
@@ -786,12 +1320,14 @@ class ExportDataHandler(BaseSecureHandler):
             patient_age = float(age_val) if age_val not in (None, "") else None
             doctor_name = sanitize_text_field(body.get("doctor_name", "Золотухин А.П. / Бойко А."), 100)
             doctor_verified = bool(body.get("doctor_verified", True))
+            clinical_notes = sanitize_text_field(body.get("clinical_notes", ""), 220)
 
             raw_bytes = get_raw_stl_bytes(filename)
             mesh = parse_stl_bytes(raw_bytes, scale_factor=scale_factor)
             quality = validate_mesh(mesh)
             manual_corr = False
             lms = None
+            lm_conf = None
             cran = None
 
             if quality.is_usable:
@@ -802,6 +1338,10 @@ class ExportDataHandler(BaseSecureHandler):
                     lms = predict_landmarks_baseline(mesh)
                 else:
                     lms = STATE["landmark_model"].predict_mesh_landmarks(mesh)
+                lm_conf = estimate_landmark_confidence(
+                    STATE["landmark_model"], mesh, lms,
+                    manual_correction=manual_corr, use_baseline=use_baseline,
+                )
                 cran = compute_craniometry(
                     mesh, lms,
                     level_ratio=level_ratio,
@@ -819,6 +1359,8 @@ class ExportDataHandler(BaseSecureHandler):
                 doctor_name=doctor_name,
                 doctor_verified=doctor_verified,
                 manual_correction_applied=manual_corr,
+                clinical_notes=clinical_notes,
+                landmark_confidence=lm_conf,
             )
 
             if fmt == "csv":
@@ -826,6 +1368,11 @@ class ExportDataHandler(BaseSecureHandler):
                 self.set_header("Content-Type", "text/csv; charset=utf-8")
                 self.set_header("Content-Disposition", f'attachment; filename="saigak_orto_{scan_id}.csv"')
                 self.write("\ufeff" + csv_str)
+            elif fmt == "xls":
+                xls_str = export_measurement_excel_xml([record])
+                self.set_header("Content-Type", "application/vnd.ms-excel; charset=utf-8")
+                self.set_header("Content-Disposition", f'attachment; filename="saigak_orto_{scan_id}.xls"')
+                self.write(xls_str)
             else:
                 self.set_header("Content-Type", "application/json; charset=utf-8")
                 self.set_header("Content-Disposition", f'attachment; filename="saigak_orto_{scan_id}.json"')
@@ -838,13 +1385,17 @@ class ExportDataHandler(BaseSecureHandler):
 def make_app():
     load_resources()
     return tornado.web.Application([
-        (r"/", IndexHandler),
+        (r"/", WelcomeHandler),
+        (r"/cockpit", CockpitHandler),
         (r"/api/health", HealthHandler),
         (r"/api/openapi.json", OpenApiHandler),
         (r"/api/catalog", CatalogHandler),
         (r"/api/analyze", AnalyzeHandler),
+        (r"/api/compare", CompareHandler),
         (r"/api/robustness", RobustnessHandler),
         (r"/api/batch", BatchProcessHandler),
+        (r"/api/batch/zip", BatchZipHandler),
+        (r"/api/mis/export", MisExportHandler),
         (r"/api/queue", ExpertQueueHandler),
         (r"/api/report/pdf", PdfReportHandler),
         (r"/api/report/export", ExportDataHandler),

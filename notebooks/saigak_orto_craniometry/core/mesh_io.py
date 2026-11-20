@@ -1,8 +1,13 @@
 """
 3D Mesh I/O, Scale Calibration, and Surface Integrity/Completeness Validator.
 Supports Binary STL, ASCII STL, and Wavefront OBJ formats.
+Includes:
+- Anatomical defect sector localization (for 3D red highlighting & technician instructions)
+- Floating polygon / disconnected island artifact detection
+- Automatic unit/scale mismatch diagnosis (mm vs cm vs m vs inches)
 """
 import struct
+from collections import deque
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple
 import numpy as np
@@ -25,6 +30,13 @@ class QualityReport:
     vault_closure_pct: float
     defects: List[str] = field(default_factory=list)
     warnings: List[str] = field(default_factory=list)
+    defect_zones: List[Dict] = field(default_factory=list)
+    technician_instructions: List[str] = field(default_factory=list)
+    per_quadrant_coverage: Dict[str, float] = field(default_factory=dict)
+    floating_triangles_count: int = 0
+    floating_triangles_pct: float = 0.0
+    disconnected_components_count: int = 1
+    unit_diagnosis: str = "Миллиметры (мм) — масштаб соответствует норме"
 
     def to_dict(self) -> Dict:
         return {
@@ -43,6 +55,13 @@ class QualityReport:
             "vault_closure_pct": round(self.vault_closure_pct, 1),
             "defects": self.defects,
             "warnings": self.warnings,
+            "defect_zones": self.defect_zones,
+            "technician_instructions": self.technician_instructions,
+            "per_quadrant_coverage": self.per_quadrant_coverage,
+            "floating_triangles_count": self.floating_triangles_count,
+            "floating_triangles_pct": round(self.floating_triangles_pct, 3),
+            "disconnected_components_count": self.disconnected_components_count,
+            "unit_diagnosis": self.unit_diagnosis,
         }
 
 
@@ -174,17 +193,106 @@ def write_binary_stl(path: str, v1: np.ndarray, v2: np.ndarray, v3: np.ndarray, 
         f.write(data.tobytes())
 
 
+def _describe_anatomical_sector(angle_mid_deg: float) -> Tuple[str, str]:
+    """
+    Map angular sector in STL coordinates (+X anterior/face, -X posterior/occiput,
+    +Y left ear, -Y right ear) to Russian clinical anatomy and technician rescan instruction.
+    """
+    a = ((angle_mid_deg + 180.0) % 360.0) - 180.0
+    if -180.0 <= a < -90.0:
+        return (
+            "правой затылочной области",
+            "Не хватает данных в правой затылочной области — требуется повторное сканирование задне-правой поверхности головы (убедитесь, что рука или опора не перекрывают затылок).",
+        )
+    if 90.0 <= a <= 180.0:
+        return (
+            "левой затылочной области",
+            "Не хватает данных в левой затылочной области — требуется повторное сканирование задне-левой поверхности головы.",
+        )
+    if -90.0 <= a < 0.0:
+        return (
+            "правой лобно-височной области",
+            "Не хватает данных в правой лобно-височной области — выполните дополнительный проход сканером со стороны правого виска и лба.",
+        )
+    return (
+        "левой лобно-височной области",
+        "Не хватает данных в левой лобно-височной области — выполните дополнительный проход сканером со стороны левого виска и лба.",
+    )
+
+
+def _detect_floating_islands(centroids: np.ndarray, extents: np.ndarray) -> Tuple[int, int, float]:
+    """
+    Fast voxel-based spatial connected-component check to detect floating noise polygons
+    disconnected from the main cranial surface (which could bias bounding box or centering).
+    Returns: (num_components, floating_tri_count, floating_tri_pct)
+    """
+    n_tri = len(centroids)
+    if n_tri < 20:
+        return 1, 0, 0.0
+
+    # Voxel size ~ 6% of max dimension (typically ~8-9 mm on an infant head)
+    voxel_size = max(float(np.max(extents)) * 0.06, 1e-4)
+    vmin = centroids.min(axis=0)
+    ijk = np.floor((centroids - vmin) / voxel_size).astype(np.int32)
+
+    # Map each occupied voxel to triangle count
+    uniq_vox, inverse, counts = np.unique(ijk, axis=0, return_inverse=True, return_counts=True)
+    vox_to_idx = {tuple(v): idx for idx, v in enumerate(uniq_vox.tolist())}
+    n_vox = len(uniq_vox)
+
+    visited = np.zeros(n_vox, dtype=bool)
+    comp_tri_counts: List[int] = []
+
+    # 26-connected neighbor offsets
+    offsets = [
+        (dx, dy, dz)
+        for dx in (-1, 0, 1)
+        for dy in (-1, 0, 1)
+        for dz in (-1, 0, 1)
+        if not (dx == 0 and dy == 0 and dz == 0)
+    ]
+
+    for start in range(n_vox):
+        if visited[start]:
+            continue
+        q = deque([start])
+        visited[start] = True
+        tri_sum = 0
+        while q:
+            cur = q.popleft()
+            tri_sum += int(counts[cur])
+            cx, cy, cz = uniq_vox[cur]
+            for dx, dy, dz in offsets:
+                nb = vox_to_idx.get((int(cx + dx), int(cy + dy), int(cz + dz)))
+                if nb is not None and not visited[nb]:
+                    visited[nb] = True
+                    q.append(nb)
+        comp_tri_counts.append(tri_sum)
+
+    if len(comp_tri_counts) <= 1:
+        return 1, 0, 0.0
+
+    largest = max(comp_tri_counts)
+    floating_count = int(n_tri - largest)
+    floating_pct = 100.0 * floating_count / max(1, n_tri)
+    return len(comp_tri_counts), floating_count, floating_pct
+
+
 def validate_mesh(mesh: MeshData) -> QualityReport:
     defects: List[str] = []
     warnings: List[str] = []
+    defect_zones: List[Dict] = []
+    technician_instructions: List[str] = []
     n_tri = len(mesh.v1)
 
     if n_tri < 400:
         defects.append(f"Недостаточная плотность сетки: всего {n_tri} треугольников (минимум 400).")
+        technician_instructions.append("Повторите 3D-сканирование с более высоким разрешением сетки.")
 
     all_verts = np.vstack([mesh.v1, mesh.v2, mesh.v3])
     if not np.all(np.isfinite(all_verts)):
         defects.append("Обнаружены некорректные координаты вершин (NaN или Inf).")
+        technician_instructions.append("Повторно экспортируйте STL из программы 3D-сканера — исходный файл повреждён.")
         all_verts = np.nan_to_num(all_verts, nan=0.0)
 
     vmin = all_verts.min(axis=0)
@@ -200,14 +308,34 @@ def validate_mesh(mesh: MeshData) -> QualityReport:
     if degen_ratio > 0.05:
         warnings.append(f"Высокая доля вырожденных треугольников ({degen_ratio * 100:.1f}%).")
 
-    # Suggest scale if dimensions look like meters or centimeters
+    # Detect floating / disconnected noise polygons
+    centroids = (mesh.v1 + mesh.v2 + mesh.v3) / 3.0
+    n_components, floating_count, floating_pct = _detect_floating_islands(centroids, extents)
+    if floating_count > 0:
+        # Check whether floating triangles distort the bounding box significantly
+        if floating_pct >= 0.5 or floating_count >= 50:
+            warnings.append(
+                f"Обнаружены «летающие» полигоны / шум вне основного контура: {floating_count} тр. ({floating_pct:.2f}%, отдельных фрагментов: {n_components})."
+            )
+            technician_instructions.append(
+                "Обнаружены отдельные «летающие» фрагменты сетки (фон/рука). Рекомендуется обрезать лишний фон в ПО сканера для максимально точного центрирования."
+            )
+
+    # Suggest scale if dimensions look like meters, centimeters, or inches
     raw_mean_ext = float(np.mean(extents)) / max(mesh.scale_factor, 1e-9)
+    unit_diagnosis = "Миллиметры (мм) — масштаб соответствует анатомической норме"
     if 0.07 <= raw_mean_ext <= 0.25:
         suggested_scale = 1000.0
+        if abs(mesh.scale_factor - 1000.0) > 1e-3:
+            unit_diagnosis = "Единицы файла похожи на метры (м) вместо миллиметров — требуется масштаб ×1000"
     elif 7.0 <= raw_mean_ext <= 25.0:
         suggested_scale = 10.0
+        if abs(mesh.scale_factor - 10.0) > 1e-3:
+            unit_diagnosis = "Единицы файла похожи на сантиметры (см) вместо миллиметров — требуется масштаб ×10"
     elif 2.8 <= raw_mean_ext <= 9.0:
         suggested_scale = 25.4
+        if abs(mesh.scale_factor - 25.4) > 1e-3:
+            unit_diagnosis = "Единицы файла похожи на дюймы (in) вместо миллиметров — требуется масштаб ×25.4"
     else:
         suggested_scale = 1.0
 
@@ -218,9 +346,15 @@ def validate_mesh(mesh: MeshData) -> QualityReport:
         defects.append(
             f"Габариты модели ({extents[0]:.1f} × {extents[1]:.1f} × {extents[2]:.1f} мм) меньше допустимых анатомических границ головы младенца. Проверьте коэффициент масштаба (рекомендуется ×{suggested_scale:g})."
         )
+        technician_instructions.append(
+            f"Перепутаны единицы измерения STL ({unit_diagnosis}). Нажмите «Применить масштаб ×{suggested_scale:g}» в левой панели."
+        )
     elif max_dim > 250.0:
         defects.append(
-            f"Габариты модели ({extents[0]:.1f} × {extents[1]:.1f} × {extents[2]:.1f} мм) превышают анатомическую норму (0–18 мес). Проверьте масштаб."
+            f"Габариты модели ({extents[0]:.1f} × {extents[1]:.1f} × {extents[2]:.1f} мм) превышают анатомическую норму (0–18 мес). Проверьте масштаб или наличие «летающих» полигонов."
+        )
+        technician_instructions.append(
+            "Проверьте масштаб STL-файла и убедитесь, что в сцену не попали лишние объекты (стол, плечи, шум сканера)."
         )
 
     # Check angular / azimuthal coverage in the cranial vault band (Z_rel in [0.40, 0.80])
@@ -230,28 +364,111 @@ def validate_mesh(mesh: MeshData) -> QualityReport:
 
     quadrant_coverage_pct = 0.0
     vault_closure_pct = 0.0
+    per_quadrant_coverage = {
+        "front_left": 0.0,
+        "front_right": 0.0,
+        "back_left": 0.0,
+        "back_right": 0.0,
+    }
     if len(vault_pts) >= 100:
         center_xy = 0.5 * (vmin[:2] + vmax[:2])
         rel_xy = vault_pts[:, :2] - center_xy
-        angles = np.arctan2(rel_xy[:, 1], rel_xy[:, 0])  # [-pi, pi]
+        angles = np.arctan2(rel_xy[:, 1], rel_xy[:, 0])  # [-pi, pi], 0=+X(front), +90=+Y(left), -90=-Y(right), 180=-X(back)
         # 36 angular sectors of 10 degrees each
-        hist, _ = np.histogram(angles, bins=36, range=(-np.pi, np.pi))
-        occupied_sectors = int(np.sum(hist >= max(3, len(vault_pts) // 360)))
+        hist, bin_edges = np.histogram(angles, bins=36, range=(-np.pi, np.pi))
+        min_sector_pts = max(3, len(vault_pts) // 360)
+        occupied_mask = hist >= min_sector_pts
+        occupied_sectors = int(np.sum(occupied_mask))
         vault_closure_pct = 100.0 * occupied_sectors / 36.0
 
-        # 4 anatomical quadrants (FL, FR, BL, BR)
-        q_counts = [
-            np.sum((rel_xy[:, 0] >= 0) & (rel_xy[:, 1] >= 0)),
-            np.sum((rel_xy[:, 0] >= 0) & (rel_xy[:, 1] < 0)),
-            np.sum((rel_xy[:, 0] < 0) & (rel_xy[:, 1] >= 0)),
-            np.sum((rel_xy[:, 0] < 0) & (rel_xy[:, 1] < 0)),
-        ]
-        min_q_ratio = min(q_counts) / max(1, len(vault_pts) / 4.0)
+        # Identify contiguous missing sectors (>= 20 degrees) for 3D red highlighting
+        empty_indices = [i for i in range(36) if not occupied_mask[i]]
+        if empty_indices:
+            groups: List[List[int]] = []
+            cur_grp = [empty_indices[0]]
+            for idx in empty_indices[1:]:
+                if idx == cur_grp[-1] + 1:
+                    cur_grp.append(idx)
+                else:
+                    groups.append(cur_grp)
+                    cur_grp = [idx]
+            groups.append(cur_grp)
+            # Merge wrap-around at -180/+180
+            if len(groups) > 1 and groups[0][0] == 0 and groups[-1][-1] == 35:
+                groups[0] = groups[-1] + groups[0]
+                groups.pop()
+
+            mean_r = float(np.median(np.linalg.norm(rel_xy, axis=1)))
+            z_band_lo = float(vmin[2] + 0.42 * extents[2])
+            z_band_hi = float(vmin[2] + 0.80 * extents[2])
+            z_band_mid = 0.5 * (z_band_lo + z_band_hi)
+
+            for grp in groups:
+                if len(grp) < 2:
+                    continue
+                deg_start = -180.0 + grp[0] * 10.0
+                deg_span = len(grp) * 10.0
+                deg_end = deg_start + deg_span
+                deg_mid = deg_start + 0.5 * deg_span
+                region_name, instr = _describe_anatomical_sector(deg_mid)
+
+                # Build 3D patch boundary points for direct red overlay in 3D viewer
+                arc_angles = np.deg2rad(np.linspace(deg_start, deg_end, max(8, len(grp) * 2)))
+                arc_low = [
+                    [round(float(center_xy[0] + mean_r * np.cos(a)), 2),
+                     round(float(center_xy[1] + mean_r * np.sin(a)), 2),
+                     round(z_band_lo, 2)]
+                    for a in arc_angles
+                ]
+                arc_high = [
+                    [round(float(center_xy[0] + mean_r * np.cos(a)), 2),
+                     round(float(center_xy[1] + mean_r * np.sin(a)), 2),
+                     round(z_band_hi, 2)]
+                    for a in arc_angles
+                ]
+                rad_mid = np.deg2rad(deg_mid)
+                label_3d = [
+                    round(float(center_xy[0] + mean_r * 1.05 * np.cos(rad_mid)), 2),
+                    round(float(center_xy[1] + mean_r * 1.05 * np.sin(rad_mid)), 2),
+                    round(z_band_mid, 2),
+                ]
+
+                defect_zones.append({
+                    "region_name": region_name,
+                    "angle_start_deg": round(deg_start, 1),
+                    "angle_end_deg": round(deg_end, 1),
+                    "missing_span_deg": round(deg_span, 1),
+                    "center_xy": [round(float(center_xy[0]), 2), round(float(center_xy[1]), 2)],
+                    "radius_mm": round(mean_r, 2),
+                    "z_min_mm": round(z_band_lo, 2),
+                    "z_max_mm": round(z_band_hi, 2),
+                    "arc_low_3d": arc_low,
+                    "arc_high_3d": arc_high,
+                    "label_anchor_3d": label_3d,
+                    "technician_instruction": instr,
+                })
+                if instr not in technician_instructions:
+                    technician_instructions.append(instr)
+
+        # 4 anatomical quadrants (FL: +X,+Y; FR: +X,-Y; BL: -X,+Y; BR: -X,-Y)
+        expected_q = max(1.0, len(vault_pts) / 4.0)
+        q_fl = int(np.sum((rel_xy[:, 0] >= 0) & (rel_xy[:, 1] >= 0)))
+        q_fr = int(np.sum((rel_xy[:, 0] >= 0) & (rel_xy[:, 1] < 0)))
+        q_bl = int(np.sum((rel_xy[:, 0] < 0) & (rel_xy[:, 1] >= 0)))
+        q_br = int(np.sum((rel_xy[:, 0] < 0) & (rel_xy[:, 1] < 0)))
+        per_quadrant_coverage = {
+            "front_left": round(min(100.0, 100.0 * q_fl / expected_q), 1),
+            "front_right": round(min(100.0, 100.0 * q_fr / expected_q), 1),
+            "back_left": round(min(100.0, 100.0 * q_bl / expected_q), 1),
+            "back_right": round(min(100.0, 100.0 * q_br / expected_q), 1),
+        }
+        min_q_ratio = min(q_fl, q_fr, q_bl, q_br) / expected_q
         quadrant_coverage_pct = min(100.0, 100.0 * min_q_ratio)
 
         if vault_closure_pct < 85.0:
+            zone_desc = f" ({', '.join(z['region_name'] for z in defect_zones)})" if defect_zones else ""
             defects.append(
-                f"Нарушена замкнутость свода черепа: заполнено лишь {vault_closure_pct:.1f}% угловых секторов сечения (крупная лакуна / отсутствующий фрагмент скана)."
+                f"Нарушена замкнутость свода черепа{zone_desc}: заполнено лишь {vault_closure_pct:.1f}% угловых секторов сечения (крупная лакуна / отсутствующий фрагмент скана)."
             )
         elif vault_closure_pct < 95.0:
             warnings.append(
@@ -259,17 +476,26 @@ def validate_mesh(mesh: MeshData) -> QualityReport:
             )
 
         if quadrant_coverage_pct < 35.0:
+            worst_q_key = min(per_quadrant_coverage, key=per_quadrant_coverage.get)
+            q_labels_ru = {
+                "front_left": "левом лобном квадранте",
+                "front_right": "правом лобном квадранте",
+                "back_left": "левом затылочном квадранте",
+                "back_right": "правом затылочном квадранте",
+            }
             defects.append(
-                f"Неполная поверхность скана: критический дефицит точек в одном из анатомических квадрантов ({quadrant_coverage_pct:.1f}% от нормы)."
+                f"Неполная поверхность скана: критический дефицит точек в {q_labels_ru[worst_q_key]} ({quadrant_coverage_pct:.1f}% от нормы)."
             )
     else:
         defects.append("В области свода черепа отсутствуют полигоны для построения измерительного сечения.")
+        technician_instructions.append("Повторите 3D-сканирование: свод головы не попал в область захвата.")
 
     # Compute overall quality score
     score = 100.0
     score -= max(0.0, 100.0 - vault_closure_pct) * 1.5
     score -= max(0.0, 80.0 - quadrant_coverage_pct) * 0.5
     score -= degen_ratio * 100.0
+    score -= min(10.0, floating_pct * 2.0)
     if defects:
         score = min(score, 35.0)
     score = max(0.0, min(100.0, score))
@@ -300,4 +526,11 @@ def validate_mesh(mesh: MeshData) -> QualityReport:
         vault_closure_pct=vault_closure_pct,
         defects=defects,
         warnings=warnings,
+        defect_zones=defect_zones,
+        technician_instructions=technician_instructions,
+        per_quadrant_coverage=per_quadrant_coverage,
+        floating_triangles_count=floating_count,
+        floating_triangles_pct=floating_pct,
+        disconnected_components_count=n_components,
+        unit_diagnosis=unit_diagnosis,
     )

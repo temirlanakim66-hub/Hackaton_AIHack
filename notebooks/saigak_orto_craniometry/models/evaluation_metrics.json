@@ -10,32 +10,32 @@
   },
   "ml_model_test_metrics": {
     "CI_pp": {
-      "mae": 0.533,
-      "median_ae": 0.333,
-      "p95_ae": 1.682,
-      "max_ae": 2.741,
-      "std_ae": 0.614
+      "mae": 0.436,
+      "median_ae": 0.262,
+      "p95_ae": 1.263,
+      "max_ae": 3.299,
+      "std_ae": 0.657
     },
     "CVAI_pp": {
-      "mae": 1.158,
-      "median_ae": 0.839,
-      "p95_ae": 3.235,
-      "max_ae": 4.533,
-      "std_ae": 1.057
+      "mae": 0.557,
+      "median_ae": 0.283,
+      "p95_ae": 1.574,
+      "max_ae": 2.294,
+      "std_ae": 0.57
     },
     "CVA_mm": {
-      "mae": 1.458,
-      "median_ae": 1.115,
-      "p95_ae": 4.196,
-      "max_ae": 5.942,
-      "std_ae": 1.362
+      "mae": 0.697,
+      "median_ae": 0.365,
+      "p95_ae": 1.974,
+      "max_ae": 2.574,
+      "std_ae": 0.694
     },
     "landmark_3d_mm": {
-      "mae": 6.082,
-      "median_ae": 5.449,
-      "p95_ae": 13.142,
-      "max_ae": 16.358,
-      "std_ae": 3.258
+      "mae": 4.849,
+      "median_ae": 4.448,
+      "p95_ae": 8.763,
+      "max_ae": 13.654,
+      "std_ae": 2.401
     }
   },
   "baseline_model_test_metrics": {
@@ -70,24 +70,24 @@
   },
   "target_criteria_compliance": {
     "target_CI_mae_max_pp": 1.0,
-    "achieved_CI_mae_pp": 0.533,
+    "achieved_CI_mae_pp": 0.436,
     "CI_passed": true,
     "target_CVAI_mae_max_pp": 1.0,
-    "achieved_CVAI_mae_pp": 1.158,
-    "CVAI_passed": false,
+    "achieved_CVAI_mae_pp": 0.557,
+    "CVAI_passed": true,
     "target_CVA_mae_max_mm": 1.0,
-    "achieved_CVA_mae_mm": 1.458,
-    "CVA_passed": false,
+    "achieved_CVA_mae_mm": 0.697,
+    "CVA_passed": true,
     "target_max_time_sec": 120.0,
-    "achieved_mean_time_sec": 0.0495,
+    "achieved_mean_time_sec": 0.0501,
     "time_passed": true,
     "target_repeat_run_max_diff": 0.01,
     "achieved_repeat_run_max_diff": 0.0,
     "reproducibility_passed": true
   },
   "robustness_evaluation": {
-    "noise_sigma_025mm_mean_CI_shift_pp": 0.182,
-    "noise_sigma_025mm_mean_CVAI_shift_pp": 0.648
+    "noise_sigma_025mm_mean_CI_shift_pp": 0.154,
+    "noise_sigma_025mm_mean_CVAI_shift_pp": 0.151
   },
   "hardware_benchmark": {
     "os": "Windows 11 (10.0.26300)",
@@ -95,9 +95,9 @@
     "cpu_cores_logical": 32,
     "ram_total_gb": 31.21,
     "python_version": "3.13.5",
-    "training_time_sec": 2.552,
-    "mean_scan_processing_time_sec": 0.0495,
-    "p95_scan_processing_time_sec": 0.0518,
+    "training_time_sec": 2.582,
+    "mean_scan_processing_time_sec": 0.0501,
+    "p95_scan_processing_time_sec": 0.0532,
     "mean_triangles_per_scan": 82742
   }
 }

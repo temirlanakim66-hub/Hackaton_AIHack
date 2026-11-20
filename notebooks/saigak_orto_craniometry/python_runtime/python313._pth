@@ -1,0 +1,5 @@
+Lib
+DLLs
+Lib\site-packages
+..
+# Note: 'import site' is intentionally disabled so user site-packages (%APPDATA%) cannot conflict with bundled packages.

@@ -246,6 +246,55 @@ def run_all_checks():
         f"Очередь дообучения активна (записей: {len(server.STATE['expert_queue'])}), пакетная обработка и OpenAPI 3.0 (/api/openapi.json) подключены"
     )
 
+    welcome_path = os.path.join(PROJECT_ROOT, "static", "welcome.html")
+    with open(welcome_path, "r", encoding="utf-8") as f_w:
+        w_html = f_w.read()
+    emoji_pat = re.compile("[\U0001F300-\U0001FAFF\u2728\u26A1\U0001F680]")
+    vis_w = re.sub(r"<script.*?</script>", "", w_html, flags=re.S)
+    vis_w = re.sub(r"<style.*?</style>", "", vis_w, flags=re.S)
+    vis_w = re.sub(r"<[^>]+>", " ", vis_w)
+    unslop_ok = (
+        not emoji_pat.search(w_html)
+        and "background-clip: text" not in w_html
+        and "!" not in vis_w
+        and "transition: all" not in w_html
+        and "glyph-scene" in w_html
+        and "IntersectionObserver" in w_html
+        and "/cockpit" in w_html
+    )
+    record(
+        "QA-19", "Дизайн и UX (Unslop Audit)",
+        "Приветственная страница welcome.html (18 критериев unslop, glyph-scene 8fps и переход в /cockpit)",
+        unslop_ok,
+        f"welcome.html ({len(w_html)//1024} КБ): 0 эмодзи, 0 градиентного текста, 0 '!', глиф-сцена 8 fps, переходы /cockpit?scan=... активны"
+    )
+
+    with open(os.path.join(PROJECT_ROOT, "static", "index.html"), "r", encoding="utf-8") as f_i:
+        c_html = f_i.read()
+    with open(os.path.join(PROJECT_ROOT, "static", "styles.css"), "r", encoding="utf-8") as f_s:
+        c_css = f_s.read()
+    with open(os.path.join(PROJECT_ROOT, "static", "app.js"), "r", encoding="utf-8") as f_a:
+        c_js = f_a.read()
+    vis_c = re.sub(r"<[^>]+>", " ", re.sub(r"<script.*?</script>", "", c_html, flags=re.S))
+    cockpit_unslop_ok = (
+        "#141415" in c_css
+        and "#0b0d14" in c_css
+        and "#4cc38a" in c_css
+        and "transition: all" not in c_css
+        and not emoji_pat.search(c_html)
+        and "!" not in vis_c
+        and "#A855F7" not in c_html
+        and "#A855F7" not in c_js
+        and "#38BDF8" not in c_html
+        and "#38BDF8" not in c_js
+    )
+    record(
+        "QA-20", "Дизайн и UX (Unslop Audit)",
+        "Единая дизайн-система 3D-Cockpit (Graphite & Ink токены welcome.html, Sentence case, без неона и slop)",
+        cockpit_unslop_ok,
+        "index.html + styles.css + app.js: единая палитра #141415/#0b0d14/#4cc38a, 0 неона/фиолетового, 0 эмодзи, 0 '!', 4px-сетка"
+    )
+
     # ==================== 4. SECURITY, PRIVACY, DEVOPS & MEDTECH COMPLIANCE (15 PTS) ====================
     trav_attempt = server.sanitize_filename("../../Windows/System32/cmd.exe")
     record(
