@@ -33,6 +33,7 @@ sys.path.insert(0, PROJECT_ROOT)
 
 from core.mesh_io import parse_stl_bytes, validate_mesh, compute_face_normals
 from core.craniometry import compute_craniometry, compare_two_scans, METHODOLOGY_REGISTRY
+from core.pose_align import canonicalize_mesh_pose
 from core.features import (
     extract_morphological_features,
     predict_landmarks_baseline,
@@ -185,12 +186,66 @@ def get_raw_stl_bytes(filename: str) -> bytes:
         return f.read()
 
 
-def build_threejs_mesh_payload(mesh, origin=None, R=None, max_tris: int = 18000) -> dict:
+def _decimate_mesh_vertex_clustering(v1: np.ndarray, v2: np.ndarray, v3: np.ndarray, target_tris: int = 16000):
+    """
+    Fast pure-NumPy Rossignac-Borrel smooth vertex clustering decimation.
+    Preserves a watertight, hole-free surface for dense 100k+ triangle Artec 3D meshes
+    (instead of striding faces which creates speckled gaps).
+    """
+    n_tri = len(v1)
+    if n_tri <= target_tris:
+        return v1, v2, v3
+
+    all_v = np.concatenate([v1, v2, v3], axis=0)
+    vmin = all_v.min(axis=0)
+    vmax = all_v.max(axis=0)
+    ext = np.maximum(vmax - vmin, 1e-3)
+    diag = float(np.linalg.norm(ext))
+
+    # Estimate surface voxel pitch for target_tris (~2 triangles per occupied surface voxel)
+    # Surface area of an infant head ~ 4 * pi * (diag/3.4)^2; target occupied cells ~ target_tris / 2.2
+    voxel = max(1.8, diag / np.sqrt(max(target_tris, 4000) * 0.28))
+
+    for _ in range(3):
+        q = np.floor((all_v - vmin) / voxel).astype(np.int64)
+        # Pack 3D voxel index into 1D key (grid <= 512 per axis)
+        keys = (q[:, 0] << 22) + (q[:, 1] << 11) + q[:, 2]
+        uniq, inv = np.unique(keys, return_inverse=True)
+
+        c1 = inv[:n_tri]
+        c2 = inv[n_tri : 2 * n_tri]
+        c3 = inv[2 * n_tri :]
+        valid = (c1 != c2) & (c2 != c3) & (c1 != c3)
+        nv = int(valid.sum())
+        if nv <= target_tris * 1.45 and nv >= target_tris * 0.35:
+            break
+        scale = np.sqrt(max(nv, 100) / float(target_tris))
+        voxel *= float(np.clip(scale, 0.65, 1.8))
+
+    # Deduplicate identical clustered faces (unordered vertex triple)
+    vc1, vc2, vc3 = c1[valid], c2[valid], c3[valid]
+    tri_idx = np.stack([vc1, vc2, vc3], axis=1)
+    tri_sorted = np.sort(tri_idx, axis=1)
+    _, keep_idx = np.unique(tri_sorted, axis=0, return_index=True)
+    tri_keep = tri_idx[keep_idx]
+
+    # Smooth vertex position = centroid of all original vertices in each voxel cell
+    n_cells = len(uniq)
+    counts = np.bincount(inv, minlength=n_cells).astype(np.float64)
+    counts = np.maximum(counts, 1.0)
+    centroids = np.empty((n_cells, 3), dtype=np.float64)
+    for ax in range(3):
+        centroids[:, ax] = np.bincount(inv, weights=all_v[:, ax], minlength=n_cells) / counts
+
+    return centroids[tri_keep[:, 0]], centroids[tri_keep[:, 1]], centroids[tri_keep[:, 2]]
+
+
+def build_threejs_mesh_payload(mesh, origin=None, R=None, max_tris: int = 16000) -> dict:
     n_tri = len(mesh.v1)
-    step = max(1, n_tri // max_tris)
-    v1 = mesh.v1[::step]
-    v2 = mesh.v2[::step]
-    v3 = mesh.v3[::step]
+    if n_tri > max_tris:
+        v1, v2, v3 = _decimate_mesh_vertex_clustering(mesh.v1, mesh.v2, mesh.v3, target_tris=max_tris)
+    else:
+        v1, v2, v3 = mesh.v1, mesh.v2, mesh.v3
     n_sub = len(v1)
 
     verts = np.empty((n_sub * 3, 3), dtype=np.float32)
@@ -215,6 +270,28 @@ def build_threejs_mesh_payload(mesh, origin=None, R=None, max_tris: int = 18000)
     }
 
 
+def prepare_mesh_and_quality(raw_bytes: bytes, scale_factor: float = 1.0):
+    """
+    Parse STL, run quality gate, and automatically canonicalize arbitrarily rotated 3D scans
+    (such as handheld Artec 3D clinic scans) into upright cranial orientation (+X face, +Y left, +Z up).
+    """
+    mesh = parse_stl_bytes(raw_bytes, scale_factor=scale_factor)
+    quality = validate_mesh(mesh)
+    pose_alignment = {"auto_aligned": False, "correction_deg": 0.0, "alignment_chamfer": 0.0}
+
+    if quality.is_usable and quality.vault_closure_pct >= 85.0:
+        pose = canonicalize_mesh_pose(mesh, force_align=False)
+        if pose.get("was_rotated"):
+            mesh = pose["mesh_canonical"]
+            quality = validate_mesh(mesh)
+            pose_alignment = {
+                "auto_aligned": True,
+                "correction_deg": pose["rotation_deg"],
+                "alignment_chamfer": pose["alignment_chamfer"],
+            }
+    return mesh, quality, pose_alignment
+
+
 def analyze_scan_bytes(
     raw_bytes: bytes,
     scan_id: str,
@@ -230,8 +307,7 @@ def analyze_scan_bytes(
     if len(raw_bytes) > MAX_UPLOAD_BYTES:
         raise ValueError(f"Размер файла превышает допустимый лимит безопасности ({MAX_UPLOAD_BYTES // (1024*1024)} МБ).")
 
-    mesh = parse_stl_bytes(raw_bytes, scale_factor=scale_factor)
-    quality = validate_mesh(mesh)
+    mesh, quality, pose_alignment = prepare_mesh_and_quality(raw_bytes, scale_factor=scale_factor)
 
     landmarks = None
     landmark_confidence = None
@@ -320,6 +396,7 @@ def analyze_scan_bytes(
         "processing_time_sec": round(elapsed_sec, 4),
         "model_version": model_used,
         "manual_correction_applied": manual_correction,
+        "pose_alignment": pose_alignment,
         "quality": quality.to_dict(),
         "landmarks_mm": landmarks,
         "landmark_confidence": landmark_confidence,
@@ -689,6 +766,8 @@ class CatalogHandler(BaseSecureHandler):
         files = sorted([f for f in os.listdir(STL_DIR) if f.endswith(".stl")])
         demos = STATE["dataset_split"].get("clinical_and_defect_demos", [])
         demo_map = {d["filename"]: d for d in demos}
+        artec_demos = STATE["dataset_split"].get("artec_clinic_dataset", {}).get("representative_demos", [])
+        artec_map = {d["filename"]: d for d in artec_demos}
 
         catalog_items = []
         for fname in files:
@@ -701,6 +780,15 @@ class CatalogHandler(BaseSecureHandler):
                     "group": "1. Клинические случаи деформаций и контроль дефектов",
                     "label": f"{sid} — {d['description']}",
                     "category": d["category"],
+                })
+            elif fname in artec_map:
+                d = artec_map[fname]
+                catalog_items.append({
+                    "filename": fname,
+                    "scan_id": sid,
+                    "group": "1b. Реальные клинические сканы (Artec 3D)",
+                    "label": f"{sid} — {d['description']}",
+                    "category": "artec_clinic_real",
                 })
             elif sid in STATE["ground_truth"]:
                 sp = STATE["ground_truth"][sid]["split"]
@@ -1065,8 +1153,7 @@ class MisExportHandler(BaseSecureHandler):
             clinical_notes = sanitize_text_field(body.get("clinical_notes", ""), 220)
 
             raw_bytes = get_raw_stl_bytes(filename)
-            mesh = parse_stl_bytes(raw_bytes, scale_factor=scale_factor)
-            quality = validate_mesh(mesh)
+            mesh, quality, _ = prepare_mesh_and_quality(raw_bytes, scale_factor=scale_factor)
             res = analyze_scan_bytes(
                 raw_bytes=raw_bytes,
                 scan_id=filename,
@@ -1248,8 +1335,7 @@ class PdfReportHandler(BaseSecureHandler):
             clinical_notes = sanitize_text_field(body.get("clinical_notes", ""), 220)
 
             raw_bytes = get_raw_stl_bytes(filename)
-            mesh = parse_stl_bytes(raw_bytes, scale_factor=scale_factor)
-            quality = validate_mesh(mesh)
+            mesh, quality, _ = prepare_mesh_and_quality(raw_bytes, scale_factor=scale_factor)
             manual_corr = False
             lms = None
             cran = None
@@ -1258,13 +1344,13 @@ class PdfReportHandler(BaseSecureHandler):
                 if custom_landmarks and all(k in custom_landmarks for k in ["Sellion", "RightTragion", "LeftTragion"]):
                     lms = custom_landmarks
                     manual_corr = True
-                    m_ver = "Ручная коррекция специалистом + Saigak-ML-v1.2"
+                    m_ver = "Ручная коррекция специалистом + Saigak-ML-v1.3"
                 elif use_baseline:
                     lms = predict_landmarks_baseline(mesh)
                     m_ver = "Saigak-Baseline-BBox-Heuristic-v1.0"
                 else:
                     lms = STATE["landmark_model"].predict_mesh_landmarks(mesh)
-                    m_ver = "Saigak-ML-ExtraTrees-v1.2 (seed=42)"
+                    m_ver = "Saigak-ML-ExtraTrees-v1.3-Artec (seed=42)"
                 lm_conf = estimate_landmark_confidence(
                     STATE["landmark_model"], mesh, lms,
                     manual_correction=manual_corr, use_baseline=use_baseline,
@@ -1323,8 +1409,7 @@ class ExportDataHandler(BaseSecureHandler):
             clinical_notes = sanitize_text_field(body.get("clinical_notes", ""), 220)
 
             raw_bytes = get_raw_stl_bytes(filename)
-            mesh = parse_stl_bytes(raw_bytes, scale_factor=scale_factor)
-            quality = validate_mesh(mesh)
+            mesh, quality, _ = prepare_mesh_and_quality(raw_bytes, scale_factor=scale_factor)
             manual_corr = False
             lms = None
             lm_conf = None

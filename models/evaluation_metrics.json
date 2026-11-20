@@ -1,0 +1,125 @@
+{
+  "model_version": "Saigak-ML-ExtraTrees-v1.3-Artec (seed=42)",
+  "baseline_version": "Saigak-Baseline-BBox-Heuristic-v1.0",
+  "deformity_classifier_version": "Saigak-Shape-RF-v1.3 (6 classes, N=412: 335 synth + 77 Artec 3D)",
+  "deformity_classifier_accuracy_pct": 74.63,
+  "deformity_classifier_artec_accuracy_pct": 68.42,
+  "dataset_split": {
+    "train_count": 80,
+    "artec_clinic_train_count": 65,
+    "artec_clinic_holdout_count": 19,
+    "artec_clinic_total_valid": 96,
+    "augmented_train_samples": 670,
+    "reserved_test_count": 25
+  },
+  "artec_clinic_evaluation": {
+    "total_raw_archive_scans": 100,
+    "valid_canonicalized_scans": 96,
+    "holdout_evaluated": 19,
+    "holdout_success_count": 19,
+    "holdout_success_rate_pct": 100.0,
+    "mean_processing_time_sec": 0.211,
+    "mean_landmark_confidence_pct": 60.4,
+    "mean_CI_pct": 90.27,
+    "mean_CVAI_pct": 6.63,
+    "shape_distribution": {
+      "BP": 54,
+      "B": 16,
+      "P": 17,
+      "SP": 6,
+      "N": 3
+    }
+  },
+  "ml_model_test_metrics": {
+    "CI_pp": {
+      "mae": 0.43,
+      "median_ae": 0.217,
+      "p95_ae": 1.38,
+      "max_ae": 3.369,
+      "std_ae": 0.677
+    },
+    "CVAI_pp": {
+      "mae": 0.558,
+      "median_ae": 0.307,
+      "p95_ae": 1.553,
+      "max_ae": 2.448,
+      "std_ae": 0.552
+    },
+    "CVA_mm": {
+      "mae": 0.693,
+      "median_ae": 0.388,
+      "p95_ae": 1.98,
+      "max_ae": 2.751,
+      "std_ae": 0.659
+    },
+    "landmark_3d_mm": {
+      "mae": 4.753,
+      "median_ae": 4.481,
+      "p95_ae": 8.131,
+      "max_ae": 13.676,
+      "std_ae": 2.408
+    }
+  },
+  "baseline_model_test_metrics": {
+    "CI_pp": {
+      "mae": 0.817,
+      "median_ae": 0.583,
+      "p95_ae": 2.029,
+      "max_ae": 4.897,
+      "std_ae": 0.972
+    },
+    "CVAI_pp": {
+      "mae": 1.209,
+      "median_ae": 1.22,
+      "p95_ae": 2.142,
+      "max_ae": 2.681,
+      "std_ae": 0.616
+    },
+    "CVA_mm": {
+      "mae": 1.515,
+      "median_ae": 1.467,
+      "p95_ae": 2.771,
+      "max_ae": 3.578,
+      "std_ae": 0.796
+    },
+    "landmark_3d_mm": {
+      "mae": 12.388,
+      "median_ae": 11.334,
+      "p95_ae": 16.89,
+      "max_ae": 19.224,
+      "std_ae": 2.603
+    }
+  },
+  "target_criteria_compliance": {
+    "target_CI_mae_max_pp": 1.0,
+    "achieved_CI_mae_pp": 0.43,
+    "CI_passed": true,
+    "target_CVAI_mae_max_pp": 1.0,
+    "achieved_CVAI_mae_pp": 0.558,
+    "CVAI_passed": true,
+    "target_CVA_mae_max_mm": 1.0,
+    "achieved_CVA_mae_mm": 0.693,
+    "CVA_passed": true,
+    "target_max_time_sec": 120.0,
+    "achieved_mean_time_sec": 0.0559,
+    "time_passed": true,
+    "target_repeat_run_max_diff": 0.01,
+    "achieved_repeat_run_max_diff": 0.0,
+    "reproducibility_passed": true
+  },
+  "robustness_evaluation": {
+    "noise_sigma_025mm_mean_CI_shift_pp": 0.136,
+    "noise_sigma_025mm_mean_CVAI_shift_pp": 0.154
+  },
+  "hardware_benchmark": {
+    "os": "Windows 11 (10.0.26300)",
+    "cpu": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+    "cpu_cores_logical": 32,
+    "ram_total_gb": 31.21,
+    "python_version": "3.13.5",
+    "training_time_sec": 3.869,
+    "mean_scan_processing_time_sec": 0.0559,
+    "p95_scan_processing_time_sec": 0.0582,
+    "mean_triangles_per_scan": 82742
+  }
+}

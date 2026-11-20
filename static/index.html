@@ -4,10 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Сайгак-Орто — 3D-краниометрия и оценка деформаций головы</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230c6b6e'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23fcfbf8' stroke-width='2'/%3E%3Cline x1='9.5' y1='22.5' x2='22.5' y2='9.5' stroke='%23e5a93c' stroke-width='2'/%3E%3C/svg%3E"
+    />
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
-    <!-- Quiet Top Navigation Bar (56px, matching welcome.html) -->
+    <a href="#cockpitLayout" class="skip-link">Перейти к 3D-редактору</a>
+    <!-- Quiet Top Navigation Bar -->
     <header class="cockpit-topbar">
       <div class="topbar-left">
         <a href="/" class="hud-btn hud-btn-sm" title="Вернуться на приветственную страницу продукта">
@@ -29,29 +35,45 @@
         <div class="top-divider"></div>
         <span class="cockpit-sub" id="liveClockLabel">
           <span class="signature-dot"></span>
-          <span>■ Протокол STARband (Graham et al., 2020) · 0–18 мес. · Локальный режим</span>
+          <span>STARband · 0–18 мес.</span>
         </span>
+        <div class="top-divider"></div>
+        <div class="dock-toggle-group" role="group" aria-label="Скрыть или показать окна редактора">
+          <button type="button" class="dock-toggle-btn is-on" data-dock-toggle="left" aria-pressed="true" title="Скрыть/показать левую панель (клавиша 1)">
+            <span>Левая</span><kbd class="dock-kbd">1</kbd>
+          </button>
+          <button type="button" class="dock-toggle-btn is-on" data-dock-toggle="bottom" aria-pressed="true" title="Скрыть/показать нижнюю панель графиков и PDF (клавиша 2)">
+            <span>Нижняя</span><kbd class="dock-kbd">2</kbd>
+          </button>
+          <button type="button" class="dock-toggle-btn is-on" data-dock-toggle="right" aria-pressed="true" title="Скрыть/показать правую панель метрик (клавиша 3)">
+            <span>Правая</span><kbd class="dock-kbd">3</kbd>
+          </button>
+          <button type="button" class="dock-toggle-btn" id="focus3dBtn" aria-pressed="false" title="Скрыть все окна и развернуть только 3D-сцену (клавиша F)">
+            <span>Только 3D</span><kbd class="dock-kbd">F</kbd>
+          </button>
+          <button type="button" class="dock-toggle-btn" id="resetLayoutBtn" style="display: none" title="Вернуть все скрытые панели и карточки">
+            <span>Сброс</span>
+          </button>
+        </div>
       </div>
 
       <div class="topbar-right">
         <button type="button" id="compareModalBtn" class="hud-btn hud-btn-sm" title="Сравнение двух сканов пациента в динамике (До / После)">
-          Динамика До/После
+          До / После
         </button>
-        <div class="top-divider"></div>
-        <span class="telemetry-stat" id="meshStatsBadge"><strong>82,742</strong> тр. · <strong>41,373</strong> верш.</span>
-        <div class="top-divider"></div>
-        <span class="telemetry-stat" id="scaleBadge">Масштаб <strong>×1.0</strong> (мм)</span>
-        <div class="top-divider"></div>
-        <span class="telemetry-stat" id="runtimeBadge"><strong>0.05 с</strong> · Δ ≤ 0.01</span>
+        <span class="telemetry-stat" id="poseAlignBadge" style="display: none; color: var(--positive)"></span>
+        <span class="telemetry-stat" id="meshStatsBadge"><strong>82,742</strong> тр.</span>
+        <span class="telemetry-stat" id="scaleBadge"><strong>×1.0</strong> мм</span>
+        <span class="telemetry-stat" id="runtimeBadge"><strong>0.05 с</strong></span>
         <span class="status-chip chip-VALID" id="headerStatusBadge">Норма · 100%</span>
         <button type="button" id="themeToggleBtn" class="hud-btn hud-btn-sm" title="Переключить тёмную и светлую тему">
-          Тема: тёмная
+          Тема
         </button>
       </div>
     </header>
 
     <!-- Main Cockpit Layout -->
-    <main class="cockpit-layout">
+    <main class="cockpit-layout" id="cockpitLayout">
       <!-- LEFT COLUMN: KPI Numbers, STL Input, Scale & Landmark Correction -->
       <aside class="hud-col-left">
         <!-- 4 Compact Clinical Stat Cards -->
@@ -243,6 +265,9 @@
         </div>
 
         <div class="live-drag-banner" id="liveDragBanner"></div>
+        <button type="button" class="edge-restore-btn edge-restore-left" data-dock-restore="left" title="Показать левую панель (1)">› Панель [1]</button>
+        <button type="button" class="edge-restore-btn edge-restore-right" data-dock-restore="right" title="Показать правую панель (3)">‹ Метрики [3]</button>
+        <button type="button" class="edge-restore-btn edge-restore-bottom" data-dock-restore="bottom" title="Показать нижнюю панель (2)">⌃ Графики и PDF [2]</button>
         <canvas id="canvas3d"></canvas>
 
         <div class="stage-overlay-bottom">
@@ -303,7 +328,7 @@
         <!-- Panel 2: Radial Asymmetry Profile Curve -->
         <div class="hud-panel" style="display: flex; flex-direction: column">
           <div class="sec-hdr">
-            <span class="sec-title">Радиальная асимметрия Δr(θ), мм</span>
+            <span class="sec-title">Радиальная Δr(θ)</span>
             <span class="sec-meta" id="dominantZoneTag">Затылочная область</span>
           </div>
           <canvas id="canvasAsym" width="380" height="164" style="width: 100%; flex: 1; border-radius: 8px"></canvas>
@@ -312,7 +337,7 @@
         <!-- Panel 3: 2D Engineering Cross-Section Blueprint -->
         <div class="hud-panel" style="display: flex; flex-direction: column">
           <div class="sec-hdr">
-            <span class="sec-title">Чертёж сечения (L, W, D1, D2)</span>
+            <span class="sec-title">Чертёж Level 3</span>
             <span class="sec-meta">±30° STARband</span>
           </div>
           <canvas id="canvas2d" width="340" height="164" style="width: 100%; flex: 1; border-radius: 8px"></canvas>
@@ -373,7 +398,7 @@
             </div>
           </div>
           <div id="qualityAlertBody" style="font-size: 12px; color: var(--app-muted); margin-bottom: 8px"></div>
-          <div id="techInstructionBox" class="clinical-alert-red" style="display: none; margin-bottom: 10px"></div>
+          <div id="techInstructionBox" class="clinical-alert-red" style="display: none; margin-bottom: 12px"></div>
 
           <!-- 5-Tier CVAI Scale -->
           <div class="cvai-banner" id="cvaiGradeBanner">Ожидание расчёта</div>
@@ -435,7 +460,7 @@
             <div id="quadrantGrid" class="quad-grid"></div>
           </div>
 
-          <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--app-hairline)">
+          <div style="margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--app-hairline)">
             <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--app-text); font-weight: 500">
               <span>Соседние уровни свода (клик — перейти)</span>
               <span class="mono" style="font-size: 11px; color: var(--app-muted)">20% · 30% · 50%</span>
@@ -456,11 +481,11 @@
 
         <!-- 3. Detailed Linear Measurements & Sample Reports -->
         <div class="hud-panel" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between">
+          <div class="sec-hdr">
+            <span class="sec-title">Линейные измерения и протокол</span>
+            <span class="sec-meta">±0.01 мм</span>
+          </div>
           <div>
-            <div class="sec-hdr">
-              <span class="sec-title">Линейные измерения и протокол</span>
-              <span class="sec-meta">±0.01 мм</span>
-            </div>
             <table class="tel-table">
               <tbody>
                 <tr><td class="k">Длина головы (L, переднезадняя)</td><td class="v" id="valL">-- мм</td></tr>

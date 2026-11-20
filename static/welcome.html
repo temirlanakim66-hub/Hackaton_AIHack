@@ -1,0 +1,2587 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Сайгак-Орто — локальная рабочая станция 3D-краниометрии младенцев (0–18 мес.) по протоколу STARband / Graham et al. (2020) с обучением на реальных сканах Artec 3D"
+    />
+    <title>Сайгак-Орто — 3D-краниометрия младенцев</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230c6b6e'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23fdfbf7' stroke-width='2'/%3E%3Cline x1='9.5' y1='22.5' x2='22.5' y2='9.5' stroke='%23e5a93c' stroke-width='2'/%3E%3C/svg%3E"
+    />
+    <style>
+      /* =====================================================================
+         SAIGAK-ORTO — UNSLOPPED SWISS CRANIAL ATELIER (9-PASS REDLINE)
+         Direction:
+           Product:   Local 3D infant craniometry workstation for orthotists
+           Character: Calm, exact, clinical warmth
+           World:     Warm plaster casts, archival millimeter paper, steel caliper
+           Moments:   1) Interactive 3D cranial blueprint plate (#glyph-scene)
+                      2) Validation MAE/P95/Max matrix & Graham CVAI scale
+           Signature: Precision millimeter caliper mark + hairline ruled ledger
+         Credit: unslop by Damir Sokolovsky (@heydamir), CC BY 4.0
+         ===================================================================== */
+
+      :root {
+        /* Warm neutral ramp (unslop tokens.md Warm Light) */
+        --bg-canvas: #f7f4ee;
+        --bg-surface: #fdfbf7;
+        --bg-recessed: #efe9df;
+        --bg-plate: #ebe5da;
+        --bg-hover: #eae3d7;
+        --bg-header: rgba(247, 244, 238, 0.92);
+
+        /* Three text roles only (WCAG AA/AAA) */
+        --ink-primary: #1f1b16;
+        --ink-secondary: #5e554a;
+        --ink-muted: #6c6357;
+
+        /* Quiet hairlines (primary text at 8% and 14%) */
+        --rule-subtle: rgba(31, 27, 22, 0.09);
+        --rule-default: rgba(31, 27, 22, 0.16);
+        --rule-strong: #1f1b16;
+
+        /* Single clinical accent — Optical Caliper Teal */
+        --accent: #0c6b6e;
+        --accent-hover: #085154;
+        --accent-tint: rgba(12, 107, 110, 0.09);
+        --accent-ink: #fdfbf7;
+
+        /* Primary button tokens */
+        --btn-primary-bg: #0c6b6e;
+        --btn-primary-hover: #085154;
+        --btn-primary-ink: #fdfbf7;
+
+        /* Clinical semantics (toned to sit inside the warm ramp) */
+        --sem-ok: #16794b;
+        --sem-mild: #4d7c0f;
+        --sem-warn: #a15c07;
+        --sem-warn-bg: rgba(161, 92, 7, 0.09);
+        --sem-danger: #b53823;
+
+        /* Soft neutral light shadow (tokens.md Depth) */
+        --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.05), 0 8px 24px rgba(0, 0, 0, 0.06);
+        --shadow-focus: 0 0 0 2px var(--bg-canvas), 0 0 0 4px var(--accent);
+
+        /* Typography — 100% local, zero CDN, weights 400 / 500 / rare 600 */
+        --font-display: "Georgia", "Cambria", "Times New Roman", serif;
+        --font-sans: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+        --font-mono: "Cascadia Mono", "Consolas", "SFMono-Regular", monospace;
+
+        /* Concentric nested radii: inner (8) = outer (16) - padding (8) */
+        --r-outer: 16px;
+        --r-inner: 8px;
+        --r-ctl: 8px;
+        --r-tag: 4px;
+
+        /* Single unslop easing curve (tokens.md Motion) */
+        --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+        --container: 1280px;
+        --nav-h: 64px;
+      }
+
+      [data-theme="dark"] {
+        /* Warm dark ramp (unslop tokens.md Warm Dark) */
+        --bg-canvas: #161513;
+        --bg-surface: #1c1a18;
+        --bg-recessed: #262421;
+        --bg-plate: #191715;
+        --bg-hover: #2d2a26;
+        --bg-header: rgba(22, 21, 19, 0.92);
+
+        --ink-primary: #efe9de;
+        --ink-secondary: #aaa398;
+        --ink-muted: #8a847a;
+
+        --rule-subtle: rgba(239, 233, 222, 0.08);
+        --rule-default: rgba(239, 233, 222, 0.15);
+        --rule-strong: #efe9de;
+
+        --accent: #4cc38a;
+        --accent-hover: #62cf9b;
+        --accent-tint: rgba(76, 195, 138, 0.12);
+        --accent-ink: #12110f;
+
+        /* Off-white primary button on dark (unslop Pass 2) */
+        --btn-primary-bg: #efe9de;
+        --btn-primary-hover: #ffffff;
+        --btn-primary-ink: #161513;
+
+        --sem-ok: #4cc38a;
+        --sem-mild: #a3e635;
+        --sem-warn: #e5a93c;
+        --sem-warn-bg: rgba(229, 169, 60, 0.12);
+        --sem-danger: #e5484d;
+
+        /* No drop shadows on dark: depth from surface steps and hairlines */
+        --shadow-card: none;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+
+      body {
+        margin: 0;
+        background-color: var(--bg-canvas);
+        color: var(--ink-primary);
+        font-family: var(--font-sans);
+        font-size: 15px;
+        line-height: 24px;
+        font-weight: 400;
+        overflow-x: clip;
+      }
+
+      .skip-link {
+        position: fixed;
+        top: -64px;
+        left: 16px;
+        z-index: 200;
+        padding: 8px 16px;
+        background-color: var(--btn-primary-bg);
+        color: var(--btn-primary-ink);
+        border-radius: var(--r-ctl);
+        font-weight: 500;
+        font-size: 14px;
+        text-decoration: none;
+        transition: transform 160ms var(--ease);
+      }
+      .skip-link:focus {
+        top: 12px;
+        outline: none;
+        box-shadow: var(--shadow-focus);
+      }
+
+      :where(a, button, [tabindex="0"]):focus-visible {
+        outline: none;
+        box-shadow: var(--shadow-focus);
+      }
+
+      .container {
+        width: 100%;
+        max-width: var(--container);
+        margin: 0 auto;
+        padding-inline: 32px;
+      }
+
+      .num {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* =====================================================================
+         QUIET TOP NAVIGATION — LOGO, LINKS, QUIET THEME TEXT, ONE BUTTON
+         ===================================================================== */
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 80;
+        min-height: var(--nav-h);
+        background-color: var(--bg-header);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--rule-subtle);
+        display: flex;
+        align-items: center;
+      }
+
+      .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        padding-block: 12px;
+      }
+
+      /* Flat single-color brand mark + wordmark in main interface family (unslop Pass 7) */
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        color: var(--ink-primary);
+        min-width: 0;
+      }
+
+      .brand-mark {
+        width: 24px;
+        height: 24px;
+        color: var(--accent);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .brand-name {
+        font-family: var(--font-sans);
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 0;
+        line-height: 1;
+      }
+
+      .brand-meta {
+        font-size: 12px;
+        line-height: 16px;
+        color: var(--ink-muted);
+        border-left: 1px solid var(--rule-default);
+        padding-left: 12px;
+        white-space: nowrap;
+      }
+
+      .nav-list {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        flex-wrap: wrap;
+      }
+
+      .nav-list a {
+        display: inline-flex;
+        align-items: center;
+        height: 36px;
+        padding: 0 12px;
+        border-radius: var(--r-ctl);
+        color: var(--ink-secondary);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 400;
+        transition: color 140ms var(--ease), background-color 140ms var(--ease);
+      }
+
+      .nav-list a:hover {
+        color: var(--ink-primary);
+        background-color: var(--bg-recessed);
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      /* Quiet text theme control — keeps header to strictly ONE button */
+      .nav-text-action {
+        appearance: none;
+        border: none;
+        background: transparent;
+        height: 36px;
+        padding: 0 8px;
+        border-radius: var(--r-ctl);
+        color: var(--ink-secondary);
+        font-family: var(--font-sans);
+        font-size: 14px;
+        font-weight: 400;
+        cursor: pointer;
+        transition: color 140ms var(--ease), background-color 140ms var(--ease);
+      }
+
+      .nav-text-action:hover {
+        color: var(--ink-primary);
+        background-color: var(--bg-recessed);
+      }
+
+      /* Buttons — 4px grid, 8px radius, weight 500, subtle press scale(0.98) */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        height: 44px;
+        padding: 0 20px;
+        border-radius: var(--r-ctl);
+        font-family: var(--font-sans);
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+        text-decoration: none;
+        cursor: pointer;
+        border: 1px solid transparent;
+        white-space: nowrap;
+        transition:
+          transform 140ms var(--ease),
+          background-color 140ms var(--ease),
+          border-color 140ms var(--ease),
+          color 140ms var(--ease);
+      }
+
+      .btn:active {
+        transform: scale(0.98);
+      }
+
+      .btn-nav {
+        height: 36px;
+        padding: 0 16px;
+      }
+
+      .btn-primary {
+        background-color: var(--btn-primary-bg);
+        color: var(--btn-primary-ink);
+        border-color: var(--btn-primary-bg);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      }
+
+      .btn-primary:hover {
+        background-color: var(--btn-primary-hover);
+        border-color: var(--btn-primary-hover);
+      }
+
+      .btn-secondary {
+        background-color: var(--bg-recessed);
+        color: var(--ink-primary);
+        border-color: var(--rule-default);
+      }
+
+      .btn-secondary:hover {
+        background-color: var(--bg-hover);
+        border-color: var(--ink-secondary);
+      }
+
+      /* =====================================================================
+         HERO — VERTICALLY CENTERED ASYMMETRIC SPLIT (STRICTLY 2 ACTIONS)
+         ===================================================================== */
+      .hero {
+        padding-top: 64px;
+        padding-bottom: 64px;
+        border-bottom: 1px solid var(--rule-subtle);
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+        gap: 48px;
+        align-items: center;
+      }
+
+      .hero-context {
+        font-size: 13px;
+        line-height: 20px;
+        color: var(--ink-muted);
+        margin: 0 0 16px 0;
+      }
+
+      .hero-title {
+        font-family: var(--font-display);
+        font-size: clamp(2.25rem, 4.1vw, 3.5rem);
+        font-weight: 500;
+        line-height: 1.06;
+        letter-spacing: -0.025em;
+        margin: 0 0 20px 0;
+        color: var(--ink-primary);
+        text-wrap: balance;
+      }
+
+      .hero-title .accent-word {
+        color: var(--accent);
+      }
+
+      .hero-lead {
+        font-size: 16px;
+        line-height: 26px;
+        color: var(--ink-secondary);
+        max-width: 52ch;
+        margin: 0 0 32px 0;
+        text-wrap: pretty;
+      }
+
+      /* Strictly one primary + one secondary action (unslop Pass 6) */
+      .hero-cta-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 32px;
+      }
+
+      /* Compact ruled telemetry strip (4px grid, weight 500) */
+      .hero-ledger {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        border-top: 1px solid var(--rule-default);
+      }
+
+      .ledger-cell {
+        padding: 16px 16px 0 0;
+        min-width: 0;
+      }
+
+      .ledger-cell + .ledger-cell {
+        padding-left: 16px;
+        border-left: 1px solid var(--rule-subtle);
+      }
+
+      .ledger-val {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+        font-size: 24px;
+        font-weight: 500;
+        color: var(--ink-primary);
+        line-height: 28px;
+        margin-bottom: 4px;
+      }
+
+      .ledger-lbl {
+        font-size: 12px;
+        line-height: 16px;
+        color: var(--ink-muted);
+      }
+
+      /* Signature Moment 1: Concentric Cranial Blueprint Plate (16px outer / 8px pad -> 8px inner) */
+      .drafting-plate {
+        background-color: var(--bg-surface);
+        border: 1px solid var(--rule-default);
+        border-radius: var(--r-outer);
+        padding: 8px;
+        box-shadow: var(--shadow-card);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 0;
+      }
+
+      .plate-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+        padding: 8px 8px 4px 8px;
+      }
+
+      .plate-title {
+        font-size: 13px;
+        line-height: 20px;
+        font-weight: 500;
+        color: var(--ink-primary);
+      }
+
+      .plate-tabs {
+        display: inline-flex;
+        gap: 4px;
+        background-color: var(--bg-recessed);
+        padding: 4px;
+        border-radius: var(--r-ctl);
+        border: 1px solid var(--rule-subtle);
+        flex-wrap: wrap;
+      }
+
+      .plate-tab {
+        appearance: none;
+        border: none;
+        background: transparent;
+        color: var(--ink-secondary);
+        font-family: var(--font-sans);
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 500;
+        padding: 4px 12px;
+        border-radius: var(--r-tag);
+        cursor: pointer;
+        transition:
+          background-color 140ms var(--ease),
+          color 140ms var(--ease),
+          transform 120ms var(--ease);
+      }
+
+      .plate-tab:hover {
+        color: var(--ink-primary);
+      }
+
+      .plate-tab:active {
+        transform: scale(0.98);
+      }
+
+      .plate-tab.is-active {
+        background-color: var(--bg-surface);
+        color: var(--ink-primary);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+      }
+
+      .plate-stage {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        min-height: 300px;
+        border-radius: var(--r-inner);
+        border: 1px solid var(--rule-subtle);
+        background-color: var(--bg-plate);
+        overflow: hidden;
+      }
+
+      #glyph-scene {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .plate-caption-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+        padding: 8px 12px;
+        border-radius: var(--r-inner);
+        background-color: var(--bg-recessed);
+        border: 1px solid var(--rule-subtle);
+        font-size: 12px;
+        line-height: 16px;
+        color: var(--ink-secondary);
+      }
+
+      .plate-caption-bar strong {
+        color: var(--ink-primary);
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+        font-weight: 500;
+      }
+
+      .plate-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        padding: 4px 8px 8px 8px;
+        font-size: 12px;
+        line-height: 16px;
+        color: var(--ink-muted);
+      }
+
+      .plate-footer a {
+        color: var(--accent);
+        font-weight: 500;
+        text-decoration: none;
+      }
+
+      .plate-footer a:hover {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+
+      /* =====================================================================
+         EDITORIAL CHAPTERS — STRICT 4PX SPACING RHYTHM (80PX SECTION BREATH)
+         ===================================================================== */
+      .chapter {
+        padding-block: 80px;
+        border-bottom: 1px solid var(--rule-subtle);
+      }
+
+      .chapter-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+        gap: 48px;
+        align-items: start;
+      }
+
+      .chapter-rail {
+        position: sticky;
+        top: calc(var(--nav-h) + 24px);
+        min-width: 0;
+      }
+
+      .chapter-index {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 500;
+        color: var(--accent);
+        margin-bottom: 8px;
+      }
+
+      .chapter-title {
+        font-family: var(--font-display);
+        font-size: clamp(1.5rem, 2.4vw, 2rem);
+        font-weight: 500;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        margin: 0 0 12px 0;
+        text-wrap: balance;
+      }
+
+      .chapter-desc {
+        font-size: 14px;
+        line-height: 22px;
+        color: var(--ink-secondary);
+        margin: 0 0 24px 0;
+        max-width: 42ch;
+        text-wrap: pretty;
+      }
+
+      .cohort-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-bottom: 24px;
+      }
+
+      .cohort-btn {
+        appearance: none;
+        width: 100%;
+        height: 40px;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 0 12px;
+        border-radius: var(--r-ctl);
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--ink-secondary);
+        font-family: var(--font-sans);
+        font-size: 14px;
+        font-weight: 400;
+        cursor: pointer;
+        transition:
+          background-color 140ms var(--ease),
+          border-color 140ms var(--ease),
+          color 140ms var(--ease),
+          transform 120ms var(--ease);
+      }
+
+      .cohort-btn:hover {
+        background-color: var(--bg-recessed);
+        color: var(--ink-primary);
+      }
+
+      .cohort-btn:active {
+        transform: scale(0.99);
+      }
+
+      .cohort-btn.is-active {
+        background-color: var(--bg-surface);
+        border-color: var(--rule-default);
+        color: var(--ink-primary);
+        font-weight: 500;
+      }
+
+      .cohort-btn .num {
+        font-size: 12px;
+        color: var(--ink-muted);
+      }
+
+      .cohort-btn.is-active .num {
+        color: var(--accent);
+      }
+
+      /* Quiet SHA-256 weight verification ledger */
+      .integrity-ledger {
+        padding: 16px;
+        border-radius: var(--r-inner);
+        background-color: var(--bg-recessed);
+        border: 1px solid var(--rule-subtle);
+        font-size: 12px;
+        line-height: 16px;
+        color: var(--ink-secondary);
+      }
+
+      .integrity-head {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        color: var(--ink-primary);
+        margin-bottom: 8px;
+      }
+
+      .integrity-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        background-color: var(--sem-ok);
+        flex-shrink: 0;
+      }
+
+      .integrity-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        padding-top: 4px;
+      }
+
+      .integrity-row code {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--ink-primary);
+      }
+
+      /* Signature Moment 2: Swiss 2x2 Validation Sheet */
+      .validation-sheet {
+        background-color: var(--bg-surface);
+        border: 1px solid var(--rule-default);
+        border-radius: var(--r-outer);
+        overflow: hidden;
+        box-shadow: var(--shadow-card);
+        min-width: 0;
+      }
+
+      .sheet-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        padding: 16px 24px;
+        background-color: var(--bg-recessed);
+        border-bottom: 1px solid var(--rule-subtle);
+      }
+
+      .sheet-heading {
+        font-size: 13px;
+        line-height: 20px;
+        font-weight: 500;
+        color: var(--ink-primary);
+      }
+
+      .sheet-status {
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 500;
+        color: var(--sem-ok);
+      }
+
+      .metric-matrix {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .metric-cell {
+        padding: 24px;
+        border-bottom: 1px solid var(--rule-subtle);
+        min-width: 0;
+      }
+
+      .metric-cell:nth-child(odd) {
+        border-right: 1px solid var(--rule-subtle);
+      }
+
+      .metric-label {
+        font-size: 13px;
+        line-height: 20px;
+        font-weight: 400;
+        color: var(--ink-muted);
+        margin-bottom: 8px;
+      }
+
+      .metric-value {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+        font-size: 32px;
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        color: var(--ink-primary);
+        margin-bottom: 12px;
+      }
+
+      .metric-sub {
+        font-size: 13px;
+        line-height: 20px;
+        color: var(--ink-secondary);
+      }
+
+      .metric-sub strong {
+        color: var(--ink-primary);
+        font-weight: 500;
+      }
+
+      .metric-worst {
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px dashed var(--rule-subtle);
+        font-size: 12px;
+        line-height: 16px;
+        color: var(--ink-muted);
+      }
+
+      .metric-worst strong {
+        color: var(--ink-secondary);
+        font-weight: 500;
+      }
+
+      .sheet-lower {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      }
+
+      .scale-panel {
+        padding: 24px;
+        border-right: 1px solid var(--rule-subtle);
+        min-width: 0;
+      }
+
+      .cohort-panel {
+        padding: 24px;
+        min-width: 0;
+      }
+
+      .subpanel-title {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .subpanel-title h3 {
+        margin: 0;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 500;
+        color: var(--ink-primary);
+      }
+
+      .subpanel-title span {
+        font-size: 12px;
+        line-height: 16px;
+        color: var(--ink-muted);
+      }
+
+      .cvai-track-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .cvai-item {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 4px 12px;
+        align-items: center;
+      }
+
+      .cvai-name {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        line-height: 20px;
+        color: var(--ink-primary);
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 2px;
+        flex-shrink: 0;
+      }
+
+      .cvai-bar {
+        grid-column: 1 / -1;
+        height: 4px;
+        border-radius: 2px;
+        background-color: var(--bg-recessed);
+        overflow: hidden;
+      }
+
+      .cvai-fill {
+        height: 100%;
+        border-radius: 2px;
+      }
+
+      .borderline-note {
+        margin-top: 16px;
+        padding: 12px;
+        border-radius: var(--r-ctl);
+        background-color: var(--sem-warn-bg);
+        border-left: 2px solid var(--sem-warn);
+        font-size: 12px;
+        line-height: 18px;
+        color: var(--ink-primary);
+      }
+
+      .borderline-note strong {
+        font-weight: 500;
+      }
+
+      .cohort-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        line-height: 20px;
+      }
+
+      .cohort-table td {
+        height: 36px;
+        padding: 0;
+        border-bottom: 1px solid var(--rule-subtle);
+      }
+
+      .cohort-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .cohort-table a {
+        color: var(--ink-primary);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 400;
+      }
+
+      .cohort-table a:hover {
+        color: var(--accent);
+      }
+
+      .cohort-table td.num {
+        text-align: right;
+        font-weight: 500;
+        color: var(--ink-primary);
+      }
+
+      .cohort-sum-row td {
+        font-weight: 500;
+        color: var(--accent);
+        border-top: 1px solid var(--rule-default);
+      }
+
+      /* =====================================================================
+         CHAPTER 02 — 3-STEP CLINICAL PROTOCOL
+         ===================================================================== */
+      .chapter-intro {
+        max-width: 60ch;
+        margin-bottom: 32px;
+      }
+
+      .chapter-intro .chapter-desc {
+        max-width: 58ch;
+        margin-bottom: 0;
+      }
+
+      .workflow-strip {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        border-top: 1px solid var(--rule-strong);
+        border-bottom: 1px solid var(--rule-default);
+        background-color: var(--bg-surface);
+      }
+
+      .wf-step {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 16px;
+        min-width: 0;
+      }
+
+      .wf-step + .wf-step {
+        border-left: 1px solid var(--rule-subtle);
+      }
+
+      .wf-num {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+        font-size: 13px;
+        line-height: 16px;
+        font-weight: 500;
+        color: var(--accent);
+        margin-bottom: 12px;
+      }
+
+      .wf-title {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 22px;
+        color: var(--ink-primary);
+        margin: 0 0 8px 0;
+      }
+
+      .wf-body {
+        font-size: 14px;
+        line-height: 22px;
+        color: var(--ink-secondary);
+        margin: 0;
+      }
+
+      .wf-meta {
+        padding-top: 12px;
+        border-top: 1px solid var(--rule-subtle);
+        font-size: 12px;
+        line-height: 16px;
+        color: var(--ink-muted);
+      }
+
+      .disclaimer-bar {
+        margin-top: 24px;
+        padding: 16px 20px;
+        border-radius: var(--r-inner);
+        background-color: var(--bg-recessed);
+        border: 1px solid var(--rule-default);
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-size: 13px;
+        line-height: 20px;
+        color: var(--ink-secondary);
+      }
+
+      .disclaimer-bar strong {
+        color: var(--ink-primary);
+        font-weight: 500;
+      }
+
+      /* =====================================================================
+         CHAPTER 03 — INTERACTIVE CLINICAL CASE INSPECTOR
+         ===================================================================== */
+      .inspector-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+        gap: 24px;
+        align-items: start;
+      }
+
+      .table-shell {
+        background-color: var(--bg-surface);
+        border: 1px solid var(--rule-default);
+        border-radius: var(--r-outer);
+        overflow-x: auto;
+        box-shadow: var(--shadow-card);
+      }
+
+      .cases-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        line-height: 20px;
+      }
+
+      .cases-table th {
+        text-align: left;
+        height: 40px;
+        padding: 0 16px;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--ink-muted);
+        background-color: var(--bg-recessed);
+        border-bottom: 1px solid var(--rule-subtle);
+        white-space: nowrap;
+      }
+
+      .cases-table th.num,
+      .cases-table td.num {
+        text-align: right;
+      }
+
+      .cases-table tbody tr {
+        cursor: pointer;
+        border-bottom: 1px solid var(--rule-subtle);
+        transition: background-color 140ms var(--ease);
+      }
+
+      .cases-table tbody tr:last-child {
+        border-bottom: none;
+      }
+
+      .cases-table tbody tr:hover {
+        background-color: var(--bg-hover);
+      }
+
+      .cases-table tbody tr.is-selected {
+        background-color: var(--accent-tint);
+      }
+
+      .cases-table td {
+        height: 48px;
+        padding: 0 16px;
+        vertical-align: middle;
+      }
+
+      .case-id {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--ink-primary);
+      }
+
+      .tag-chip {
+        display: inline-block;
+        margin-left: 8px;
+        padding: 2px 6px;
+        border-radius: var(--r-tag);
+        font-size: 11px;
+        line-height: 16px;
+        font-weight: 500;
+        font-family: var(--font-sans);
+        background-color: var(--bg-recessed);
+        border: 1px solid var(--rule-subtle);
+        color: var(--ink-secondary);
+      }
+
+      .protocol-card {
+        background-color: var(--bg-surface);
+        border: 1px solid var(--rule-default);
+        border-radius: var(--r-outer);
+        padding: 24px;
+        box-shadow: var(--shadow-card);
+        min-width: 0;
+      }
+
+      .protocol-top {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--rule-subtle);
+        margin-bottom: 16px;
+      }
+
+      .protocol-top h3 {
+        margin: 0;
+        font-size: 15px;
+        line-height: 20px;
+        font-weight: 500;
+      }
+
+      .kv-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .kv-row {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--rule-subtle);
+      }
+
+      .kv-k {
+        font-size: 12px;
+        line-height: 16px;
+        color: var(--ink-muted);
+      }
+
+      .kv-v {
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 500;
+        color: var(--ink-primary);
+      }
+
+      .audit-trace {
+        padding: 12px;
+        border-radius: var(--r-inner);
+        background-color: var(--bg-recessed);
+        border: 1px solid var(--rule-subtle);
+        font-size: 12px;
+        line-height: 16px;
+        color: var(--ink-secondary);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .trace-line {
+        display: flex;
+        gap: 12px;
+      }
+
+      .trace-ts {
+        font-family: var(--font-mono);
+        color: var(--ink-muted);
+        flex-shrink: 0;
+      }
+
+      .trace-ok {
+        color: var(--sem-ok);
+        font-weight: 500;
+      }
+
+      .protocol-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .protocol-actions .btn-primary {
+        flex: 1 1 180px;
+      }
+
+      /* =====================================================================
+         CHAPTER 04 — METHODOLOGY & PRIVACY
+         ===================================================================== */
+      .arch-list {
+        border-top: 1px solid var(--rule-strong);
+      }
+
+      .arch-row {
+        display: grid;
+        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+        gap: 16px 32px;
+        padding: 24px 0;
+        border-bottom: 1px solid var(--rule-subtle);
+        align-items: baseline;
+      }
+
+      .arch-benefit {
+        font-family: var(--font-display);
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 24px;
+        color: var(--ink-primary);
+        margin: 0;
+      }
+
+      .arch-detail {
+        font-size: 14px;
+        line-height: 22px;
+        color: var(--ink-secondary);
+        margin: 0;
+      }
+
+      .arch-spec {
+        display: block;
+        margin-top: 8px;
+        font-size: 12px;
+        line-height: 16px;
+        color: var(--ink-muted);
+      }
+
+      /* =====================================================================
+         FOOTER
+         ===================================================================== */
+      .site-footer {
+        padding-block: 32px;
+        font-size: 13px;
+        line-height: 20px;
+        color: var(--ink-muted);
+      }
+
+      .footer-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .footer-links {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .footer-links a {
+        color: var(--ink-secondary);
+        text-decoration: none;
+      }
+
+      .footer-links a:hover {
+        color: var(--accent);
+        text-decoration: underline;
+      }
+
+      /* One short fade and rise entrance on load (unslop Pass 9) */
+      @keyframes riseIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .reveal-1 {
+        animation: riseIn 360ms var(--ease) both;
+      }
+      .reveal-2 {
+        animation: riseIn 420ms var(--ease) 60ms both;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .reveal-1,
+        .reveal-2 {
+          animation: none;
+        }
+        .btn,
+        .plate-tab,
+        .cohort-btn {
+          transition-duration: 0ms;
+        }
+      }
+
+      /* =====================================================================
+         RESPONSIVE BREAKPOINTS (1024px & 390px HORIZONTAL OVERFLOW = 0)
+         ===================================================================== */
+      @media (max-width: 1060px) {
+        .container {
+          padding-inline: 24px;
+        }
+        .hero {
+          padding-top: 48px;
+          padding-bottom: 48px;
+        }
+        .chapter {
+          padding-block: 56px;
+        }
+        .hero-grid,
+        .chapter-grid,
+        .inspector-grid,
+        .sheet-lower,
+        .arch-row {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 32px;
+        }
+        .chapter-rail {
+          position: static;
+        }
+        .cohort-nav {
+          flex-direction: row;
+          flex-wrap: wrap;
+        }
+        .cohort-btn {
+          width: auto;
+          flex: 1 1 180px;
+        }
+        .scale-panel {
+          border-right: none;
+          border-bottom: 1px solid var(--rule-subtle);
+        }
+        .workflow-strip {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .wf-step + .wf-step {
+          border-left: none;
+          border-top: 1px solid var(--rule-subtle);
+        }
+      }
+
+      @media (max-width: 680px) {
+        .container {
+          padding-inline: 16px;
+        }
+        .site-header {
+          position: static;
+        }
+        .header-inner {
+          gap: 8px;
+          padding-block: 8px;
+        }
+        .nav-list a {
+          height: 32px;
+          padding: 0 8px;
+          font-size: 13px;
+        }
+        .brand-meta {
+          display: none;
+        }
+        .hero {
+          padding-top: 32px;
+          padding-bottom: 40px;
+        }
+        .hero-ledger,
+        .metric-matrix {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .ledger-cell + .ledger-cell {
+          padding-left: 0;
+          border-left: none;
+          border-top: 1px solid var(--rule-subtle);
+          margin-top: 12px;
+        }
+        .metric-cell:nth-child(odd) {
+          border-right: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Перейти к содержанию</a>
+
+    <!-- Quiet Top Navigation Bar -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="/" class="brand">
+          <span class="brand-mark" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="1.5" />
+              <line x1="4.5" y1="13.5" x2="13.5" y2="4.5" stroke="currentColor" stroke-width="1.5" />
+              <circle cx="9" cy="9" r="1.5" fill="currentColor" />
+            </svg>
+          </span>
+          <span class="brand-name">Сайгак-Орто</span>
+          <span class="brand-meta">3D-краниометрия · v1.3 Artec</span>
+        </a>
+
+        <nav aria-label="Разделы страницы">
+          <ul class="nav-list">
+            <li><a href="#validation">Валидация</a></li>
+            <li><a href="#workflow">Протокол</a></li>
+            <li><a href="#inspector">Сканы Artec 3D</a></li>
+            <li><a href="#architecture">Методика</a></li>
+          </ul>
+        </nav>
+
+        <div class="header-actions">
+          <button
+            type="button"
+            class="nav-text-action"
+            id="themeToggleBtn"
+            aria-label="Переключить светлую и тёмную тему"
+          >
+            Тёмная тема
+          </button>
+          <a href="/cockpit" class="btn btn-primary btn-nav">Открыть 3D-редактор</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <!-- HERO SECTION -->
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="reveal-1">
+            <p class="hero-context">Локальная станция краниометрии · 0–18 месяцев · STARband / Graham (2020)</p>
+
+            <h1 class="hero-title">
+              Точная 3D-краниометрия <span class="accent-word">без облака</span> и ручной рутины
+            </h1>
+
+            <p class="hero-lead">
+              Система автоматически выравнивает произвольно повёрнутые сканы Artec 3D, находит
+              анатомические ориентиры Se–TrR–TrL, вычисляет CI, CVA, CVAI и объёмные квадранты Q1–Q4.
+              Перед печатью PDF-отчёта врач может перетащить любую точку прямо в 3D-редакторе с
+              мгновенным пересчётом индексов.
+            </p>
+
+            <div class="hero-cta-row">
+              <a href="/cockpit" class="btn btn-primary">Загрузить STL и измерить</a>
+              <a href="/cockpit?scan=artec_clinic_001.stl" class="btn btn-secondary">
+                Открыть скан Artec 3D
+              </a>
+            </div>
+
+            <div class="hero-ledger" aria-label="Ключевые показатели точности и скорости">
+              <div class="ledger-cell">
+                <div class="ledger-val">0.43 п.п.</div>
+                <div class="ledger-lbl">Средняя ошибка CI на 25 закрытых тестовых STL (порог ≤ 1.0)</div>
+              </div>
+              <div class="ledger-cell">
+                <div class="ledger-val">96 / 100</div>
+                <div class="ledger-lbl">Реальных сканов Artec 3D выровнено и включено в v1.3</div>
+              </div>
+              <div class="ledger-cell">
+                <div class="ledger-val">0.056 с</div>
+                <div class="ledger-lbl">Средний расчёт на CPU · повторный прогон Δ = 0.0000</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Signature Moment 1: Interactive 3D Cranial Blueprint Plate -->
+          <div class="drafting-plate reveal-2" aria-label="Интерактивный чертёж 3D-краниометрии">
+            <div class="plate-header">
+              <span class="plate-title">Чертёж сечения и ориентиров</span>
+              <div class="plate-tabs" role="tablist" aria-label="Режим отображения чертежа">
+                <button
+                  type="button"
+                  class="plate-tab is-active"
+                  role="tab"
+                  aria-selected="true"
+                  data-scene="level3"
+                >
+                  Level 3
+                </button>
+                <button
+                  type="button"
+                  class="plate-tab"
+                  role="tab"
+                  aria-selected="false"
+                  data-scene="landmarks"
+                >
+                  Se–TrR–TrL
+                </button>
+                <button
+                  type="button"
+                  class="plate-tab"
+                  role="tab"
+                  aria-selected="false"
+                  data-scene="compare"
+                >
+                  До / После
+                </button>
+              </div>
+            </div>
+
+            <div class="plate-stage">
+              <canvas
+                id="glyph-scene"
+                width="560"
+                height="420"
+                aria-label="Схема свода черепа, плоскости Level 3, диагоналей D1 и D2 и ориентиров Se, TrR, TrL"
+              ></canvas>
+            </div>
+
+            <div class="plate-caption-bar" id="plateCaptionBar">
+              <span id="plateModeLabel">Сечение Level 3 · диагонали D1 / D2 под углом ±30°</span>
+              <strong id="plateModeStat">CI 82.40% · CVAI 7.94%</strong>
+            </div>
+
+            <div class="plate-footer">
+              <span>Автовыравнивание SE(3) + ICP · 100% локально</span>
+              <a href="/cockpit?scan=artec_clinic_001.stl">Проверить в 3D-редакторе →</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHAPTER 01: CLINICAL VALIDATION & ARTEC 3D RETRAINING -->
+      <section id="validation" class="chapter">
+        <div class="container chapter-grid">
+          <div class="chapter-rail">
+            <div class="chapter-index">01 / Клиническая валидация</div>
+            <h2 class="chapter-title">Точность, худшие случаи (P95 / Max) и обучение на Artec 3D</h2>
+            <p class="chapter-desc">
+              Врачу важно видеть не только среднюю ошибку (MAE), но и предельный разброс на сложных
+              деформациях. Модель v1.3 дообучена на 100 реальных сканах Artec 3D при полной изоляции
+              25 закрытых тестовых STL.
+            </p>
+
+            <div class="cohort-nav" role="tablist" aria-label="Выбор когорты валидации">
+              <button type="button" class="cohort-btn is-active" role="tab" aria-selected="true" data-cohort="test">
+                <span>Закрытый тест (изолирован)</span>
+                <span class="num">25 STL</span>
+              </button>
+              <button type="button" class="cohort-btn" role="tab" aria-selected="false" data-cohort="artec">
+                <span>Реальная клиника Artec 3D</span>
+                <span class="num">100 STL</span>
+              </button>
+              <button type="button" class="cohort-btn" role="tab" aria-selected="false" data-cohort="deform">
+                <span>Библиотека деформаций</span>
+                <span class="num">335 + 77</span>
+              </button>
+              <button type="button" class="cohort-btn" role="tab" aria-selected="false" data-cohort="train">
+                <span>Обучающая матрица v1.3</span>
+                <span class="num">670 сэмпл.</span>
+              </button>
+            </div>
+
+            <div class="integrity-ledger" aria-label="Проверка целостности весов ML-моделей">
+              <div class="integrity-head">
+                <span class="integrity-dot" aria-hidden="true"></span>
+                <span>Целостность весов подтверждена (SHA-256)</span>
+              </div>
+              <div class="integrity-row">
+                <span>Ориентиры v1.3</span>
+                <code>c220..7818</code>
+              </div>
+              <div class="integrity-row">
+                <span>Классификатор форм</span>
+                <code>926c..62e8</code>
+              </div>
+            </div>
+          </div>
+
+          <div class="validation-sheet" aria-live="polite">
+            <div class="sheet-topbar">
+              <span class="sheet-heading" id="cohortHeading">
+                Закрытый тест · 25 зарезервированных STL (scan_081..scan_105, нулевая утечка)
+              </span>
+              <span class="sheet-status">Все критерии ТЗ выполнены</span>
+            </div>
+
+            <div class="metric-matrix">
+              <div class="metric-cell">
+                <div class="metric-label" id="m1Label">Средняя ошибка индекса CI (MAE)</div>
+                <div class="metric-value" id="m1Val">0.43 п.п.</div>
+                <div class="metric-sub" id="m1Sub">
+                  <strong>−47% к базовой модели</strong> (Baseline 0.82 п.п., порог ≤ 1.00)
+                </div>
+                <div class="metric-worst" id="m1Worst">
+                  95-й перцентиль (P95): <strong>1.38 п.п.</strong> · Max error: <strong>3.37 п.п.</strong>
+                </div>
+              </div>
+
+              <div class="metric-cell">
+                <div class="metric-label" id="m2Label">Средняя ошибка асимметрии CVAI (MAE)</div>
+                <div class="metric-value" id="m2Val">0.56 п.п.</div>
+                <div class="metric-sub" id="m2Sub">
+                  <strong>−54% к базовой модели</strong> (Baseline 1.21 п.п., порог ≤ 1.00)
+                </div>
+                <div class="metric-worst" id="m2Worst">
+                  95-й перцентиль (P95): <strong>1.55 п.п.</strong> · Max error: <strong>2.45 п.п.</strong>
+                </div>
+              </div>
+
+              <div class="metric-cell">
+                <div class="metric-label" id="m3Label">Диагональная разница CVA (MAE)</div>
+                <div class="metric-value" id="m3Val">0.69 мм</div>
+                <div class="metric-sub" id="m3Sub">
+                  <strong>−54% к базовой модели</strong> (Baseline 1.52 мм, порог ≤ 1.00)
+                </div>
+                <div class="metric-worst" id="m3Worst">
+                  95-й перцентиль (P95): <strong>1.98 мм</strong> · Max error: <strong>2.75 мм</strong>
+                </div>
+              </div>
+
+              <div class="metric-cell">
+                <div class="metric-label" id="m4Label">3D-ошибка ориентиров Se–TrR–TrL (MAE)</div>
+                <div class="metric-value" id="m4Val">4.75 мм</div>
+                <div class="metric-sub" id="m4Sub">
+                  <strong>−62% к базовой модели</strong> (Baseline 12.39 мм · 100% на поверхности)
+                </div>
+                <div class="metric-worst" id="m4Worst">
+                  95-й перцентиль (P95): <strong>8.13 мм</strong> · Max error: <strong>13.68 мм</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="sheet-lower">
+              <div class="scale-panel">
+                <div class="subpanel-title">
+                  <h3>Шкала тяжести CVAI</h3>
+                  <span>Graham et al. (2020)</span>
+                </div>
+                <div class="cvai-track-list">
+                  <div class="cvai-item">
+                    <span class="cvai-name"><span class="dot" style="background: var(--sem-ok)"></span>Ниже порога (Норма)</span>
+                    <span class="num">&lt; 3.50%</span>
+                    <div class="cvai-bar"><div class="cvai-fill" style="width: 24%; background: var(--sem-ok)"></div></div>
+                  </div>
+                  <div class="cvai-item">
+                    <span class="cvai-name"><span class="dot" style="background: var(--sem-mild)"></span>Лёгкая степень</span>
+                    <span class="num">3.50–6.25%</span>
+                    <div class="cvai-bar"><div class="cvai-fill" style="width: 46%; background: var(--sem-mild)"></div></div>
+                  </div>
+                  <div class="cvai-item">
+                    <span class="cvai-name"><span class="dot" style="background: var(--sem-warn)"></span>Умеренная степень</span>
+                    <span class="num">6.25–8.75%</span>
+                    <div class="cvai-bar"><div class="cvai-fill" style="width: 68%; background: var(--sem-warn)"></div></div>
+                  </div>
+                  <div class="cvai-item">
+                    <span class="cvai-name"><span class="dot" style="background: var(--sem-danger)"></span>Тяжёлая / Очень тяжёлая</span>
+                    <span class="num">8.75–11.0%+</span>
+                    <div class="cvai-bar"><div class="cvai-fill" style="width: 92%; background: var(--sem-danger)"></div></div>
+                  </div>
+                </div>
+                <div class="borderline-note">
+                  <strong>Пограничная зона (±0.60 п.п.):</strong> случаи возле порогов 3.50%, 6.25%,
+                  8.75% и 11.0% автоматически получают флаг «пограничный — требуется визуальная
+                  проверка ориентиров врачом»
+                </div>
+              </div>
+
+              <div class="cohort-panel">
+                <div class="subpanel-title">
+                  <h3>Прозрачный состав когорт</h3>
+                  <span>Точная сумма</span>
+                </div>
+                <table class="cohort-table" aria-label="Точная раскладка профилей деформаций">
+                  <tbody>
+                    <tr>
+                      <td>
+                        <a href="/cockpit?scan=clinical_normal_N01.stl">
+                          <span class="dot" style="background: var(--sem-ok)"></span>Норма (N)
+                        </a>
+                      </td>
+                      <td class="num">68</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <a href="/cockpit?scan=clinical_severe_plagio_P03.stl">
+                          <span class="dot" style="background: var(--sem-warn)"></span>Плагиоцефалия (P)
+                        </a>
+                      </td>
+                      <td class="num">74</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <a href="/cockpit?scan=clinical_brachycephaly_B01.stl">
+                          <span class="dot" style="background: var(--accent)"></span>Брахицефалия (B)
+                        </a>
+                      </td>
+                      <td class="num">59</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <a href="/cockpit?scan=clinical_moderate_bp_BP05.stl">
+                          <span class="dot" style="background: var(--sem-danger)"></span>Комбинированные (BP / SP)
+                        </a>
+                      </td>
+                      <td class="num">82</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <a href="/cockpit?scan=clinical_scaphocephaly_S01.stl">
+                          <span class="dot" style="background: var(--ink-muted)"></span>Скафо (S)
+                        </a>
+                      </td>
+                      <td class="num">52</td>
+                    </tr>
+                    <tr class="cohort-sum-row">
+                      <td>Итого библиотека деформаций</td>
+                      <td class="num">335 STL</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <a href="/cockpit?scan=artec_clinic_001.stl">
+                          <span class="dot" style="background: var(--accent)"></span>Реальные сканы Artec 3D
+                        </a>
+                      </td>
+                      <td class="num">+100 STL</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHAPTER 02: 3-STEP CLINICAL WORKFLOW -->
+      <section id="workflow" class="chapter">
+        <div class="container">
+          <div class="chapter-intro">
+            <div class="chapter-index">02 / Сценарий на приёме</div>
+            <h2 class="chapter-title">Как это работает в клинике за три шага</h2>
+            <p class="chapter-desc">
+              От сырого STL со сканера Artec 3D до подписанного клинического PDF-отчёта и пакета
+              в медицинскую информационную систему — без передачи данных во внешнюю сеть
+            </p>
+          </div>
+
+          <div class="workflow-strip">
+            <article class="wf-step">
+              <div>
+                <div class="wf-num">01</div>
+                <h3 class="wf-title">Загрузка STL и контроль качества</h3>
+                <p class="wf-body">
+                  Перетащите одиночный файл или всю папку сканов за смену. Система очищает заголовок
+                  STL, проверяет масштаб (мм / см / м), обнаруживает «летающие» полигоны и при
+                  дефекте подсвечивает проблемную зону красным прямо на 3D-модели.
+                </p>
+              </div>
+              <div class="wf-meta">Одиночный скан · Пакетный ZIP с PDF и Excel</div>
+            </article>
+
+            <article class="wf-step">
+              <div>
+                <div class="wf-num">02</div>
+                <h3 class="wf-title">Проверка и ручная доводка в 3D</h3>
+                <p class="wf-body">
+                  Алгоритм автоматически выравнивает наклон головы и расставляет Se, TrR, TrL с
+                  оценкой уверенности каждой точки. Если модель сомневается (шапочка, волосы), точка
+                  подсвечивается жёлтым — врач сдвигает её мышкой и сразу видит новые CI, CVA, CVAI.
+                </p>
+              </div>
+              <div class="wf-meta">Пересчёт за 0.05 с · Сравнение До / После (1–3 мес.)</div>
+            </article>
+
+            <article class="wf-step">
+              <div>
+                <div class="wf-num">03</div>
+                <h3 class="wf-title">Готовый PDF в карту пациента</h3>
+                <p class="wf-body">
+                  Формируется лист A4 со схемой сечения Level 3 (оси L / W, диагонали D1 / D2,
+                  квадранты Q1–Q4), пометкой аудита «Ориентиры: авто / скорректированы врачом»,
+                  клиническим комментарием, блоком подписи и экспортом в МИС по OpenAPI 3.0.
+                </p>
+              </div>
+              <div class="wf-meta">PDF · CSV · Excel (.xls) · Локальный вебхук МИС</div>
+            </article>
+          </div>
+
+          <div class="disclaimer-bar" role="note" aria-label="Клиническое предупреждение">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" style="flex-shrink: 0; margin-top: 2px; color: var(--ink-muted)">
+              <circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.5" />
+              <line x1="9" y1="5.5" x2="9" y2="9.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              <circle cx="9" cy="12.5" r="0.9" fill="currentColor" />
+            </svg>
+            <div>
+              <strong>Дисклеймер:</strong> Сайгак-Орто является инструментом поддержки принятия
+              клинических решений (СППВР) для объективной морфометрии 3D-сканов и не заменяет
+              клинический диагноз врача-ортопеда или нейрохирурга. Окончательное заключение и
+              показания к ортезированию утверждает специалист после визуальной верификации ориентиров.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHAPTER 03: INTERACTIVE SCAN INSPECTOR -->
+      <section id="inspector" class="chapter">
+        <div class="container">
+          <div class="chapter-intro">
+            <div class="chapter-index">03 / Интерактивный каталог</div>
+            <h2 class="chapter-title">Проверьте реальные сканы Artec 3D и контрольные случаи</h2>
+            <p class="chapter-desc">
+              Выберите строку таблицы, чтобы изучить протокол измерения, затем откройте выбранный
+              скан прямо в 3D-редакторе для ручной проверки ориентиров или сравнения в динамике
+            </p>
+          </div>
+
+          <div class="inspector-grid">
+            <div class="table-shell">
+              <table class="cases-table" aria-label="Примеры клинических 3D-сканов">
+                <thead>
+                  <tr>
+                    <th scope="col">Код скана</th>
+                    <th scope="col">Клинический профиль</th>
+                    <th scope="col" class="num">CI</th>
+                    <th scope="col" class="num">CVA</th>
+                    <th scope="col" class="num">CVAI</th>
+                  </tr>
+                </thead>
+                <tbody id="inspectorBody">
+                  <tr
+                    class="is-selected"
+                    tabindex="0"
+                    data-scan="artec_clinic_001.stl"
+                    data-code="artec_clinic_001"
+                    data-group="Реальный Artec 3D · Умеренная плагиоцефалия (P)"
+                    data-ci="82.40%"
+                    data-cva="11.49 мм"
+                    data-cvai="7.94%"
+                    data-orient="Автовыравнивание 108.5° (SE(3) + ICP)"
+                    data-slice="Level 3 · реальный сканер Artec Group 3D · уверенность 96.1%"
+                    data-pdf="/reports/report_case2_severe_deformity.pdf"
+                    data-log="Автовыравнивание 108.5° · статус VALID · 0.80 с"
+                  >
+                    <td>
+                      <span class="case-id">
+                        <span class="dot" style="background: var(--sem-warn)"></span>artec_clinic_001
+                      </span>
+                      <span class="tag-chip">Artec 3D</span>
+                    </td>
+                    <td>Реальная клиника · Плагио (P)</td>
+                    <td class="num">82.40%</td>
+                    <td class="num">11.49 мм</td>
+                    <td class="num">7.94%</td>
+                  </tr>
+
+                  <tr
+                    tabindex="0"
+                    data-scan="artec_clinic_003.stl"
+                    data-code="artec_clinic_003"
+                    data-group="Реальный Artec 3D · Симметричная брахицефалия (B)"
+                    data-ci="96.66%"
+                    data-cva="2.42 мм"
+                    data-cvai="1.70%"
+                    data-orient="Автовыравнивание 109.3° (SE(3) + ICP)"
+                    data-slice="Level 3 · симметричный свод (CVAI &lt; 3.5%) · уверенность 95.5%"
+                    data-pdf="/reports/report_case1_good_scan.pdf"
+                    data-log="Автовыравнивание 109.3° · статус VALID · 0.90 с"
+                  >
+                    <td>
+                      <span class="case-id">
+                        <span class="dot" style="background: var(--sem-ok)"></span>artec_clinic_003
+                      </span>
+                      <span class="tag-chip">Artec 3D</span>
+                    </td>
+                    <td>Реальная клиника · Брахи (B)</td>
+                    <td class="num">96.66%</td>
+                    <td class="num">2.42 мм</td>
+                    <td class="num">1.70%</td>
+                  </tr>
+
+                  <tr
+                    tabindex="0"
+                    data-scan="scan_081.stl"
+                    data-code="scan_081"
+                    data-group="Закрытый тест (25 STL) · Норма (N)"
+                    data-ci="74.47%"
+                    data-cva="1.27 мм"
+                    data-cvai="0.96%"
+                    data-orient="Каноническая поза (без поворота)"
+                    data-slice="Level 3 · зарезервированный эталонный тест · 0.056 с"
+                    data-pdf="/reports/report_case1_good_scan.pdf"
+                    data-log="Эталонный тест · статус VALID · расхождение повтора 0.0000"
+                  >
+                    <td>
+                      <span class="case-id">
+                        <span class="dot" style="background: var(--sem-ok)"></span>scan_081
+                      </span>
+                    </td>
+                    <td>Закрытый тест · Норма</td>
+                    <td class="num">74.47%</td>
+                    <td class="num">1.27 мм</td>
+                    <td class="num">0.96%</td>
+                  </tr>
+
+                  <tr
+                    tabindex="0"
+                    data-scan="clinical_severe_plagio_P03.stl"
+                    data-code="clinical_severe_plagio_P03"
+                    data-group="Умеренно-тяжёлая плагиоцефалия · Пограничный (8.75%)"
+                    data-ci="80.63%"
+                    data-cva="9.30 мм"
+                    data-cvai="8.42%"
+                    data-orient="Каноническая поза · 8 582 полигона"
+                    data-slice="Пограничная зона ±0.33 п.п. до 8.75% — показана проверка врача"
+                    data-pdf="/reports/report_case2_severe_deformity.pdf"
+                    data-log="Статус VALID · флаг пограничного значения CVAI"
+                  >
+                    <td>
+                      <span class="case-id">
+                        <span class="dot" style="background: var(--sem-danger)"></span>clinical_P03
+                      </span>
+                    </td>
+                    <td>Плагиоцефалия · Пограничный</td>
+                    <td class="num">80.63%</td>
+                    <td class="num">9.30 мм</td>
+                    <td class="num">8.42%</td>
+                  </tr>
+
+                  <tr
+                    tabindex="0"
+                    data-scan="defect_incomplete_occipital.stl"
+                    data-code="defect_incomplete_occipital"
+                    data-group="Контроль качества · Отказ (неполный затылок)"
+                    data-ci="—"
+                    data-cva="—"
+                    data-cvai="Отказ"
+                    data-orient="Замкнутость свода 75.0% (ниже порога 85%)"
+                    data-slice="Красная подсветка дефекта в правой затылочной области + инструкция технику"
+                    data-pdf="/reports/report_case3_rejected_defect.pdf"
+                    data-log="Статус REJECTED · требуется повторное сканирование затылка"
+                  >
+                    <td>
+                      <span class="case-id">
+                        <span class="dot" style="background: var(--sem-danger)"></span>defect_occipital
+                      </span>
+                    </td>
+                    <td>Дефект скана · Объяснимый отказ</td>
+                    <td class="num">—</td>
+                    <td class="num">—</td>
+                    <td class="num">Отказ</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <aside class="protocol-card" aria-live="polite" aria-label="Карточка выбранного скана">
+              <div class="protocol-top">
+                <h3>Протокол выбранного скана</h3>
+                <span class="num" id="proofCode" style="font-size: 12px; color: var(--accent)">
+                  artec_clinic_001
+                </span>
+              </div>
+
+              <div class="kv-grid">
+                <div class="kv-row">
+                  <span class="kv-k">Клиническая категория</span>
+                  <span class="kv-v" id="proofGroup">Реальный Artec 3D · Умеренная плагиоцефалия (P)</span>
+                </div>
+                <div class="kv-row">
+                  <span class="kv-k">Индексы CI / CVA / CVAI</span>
+                  <span class="kv-v num" id="proofIndices">CI 82.40% · CVA 11.49 мм · CVAI 7.94%</span>
+                </div>
+                <div class="kv-row">
+                  <span class="kv-k">Ориентация и контроль качества</span>
+                  <span class="kv-v" id="proofOrient">Автовыравнивание 108.5° (SE(3) + ICP)</span>
+                </div>
+                <div class="kv-row">
+                  <span class="kv-k">Детали сечения</span>
+                  <span class="kv-v" id="proofSlice">Level 3 · реальный сканер Artec Group 3D · уверенность 96.1%</span>
+                </div>
+              </div>
+
+              <div class="audit-trace">
+                <div class="trace-line">
+                  <span class="trace-ts">00.01s</span>
+                  <span>Очистка бинарного заголовка STL · персональные данные удалены</span>
+                </div>
+                <div class="trace-line">
+                  <span class="trace-ts">00.09s</span>
+                  <span>SE(3)-выравнивание и поиск Se–TrR–TrL (доступна ручная доводка)</span>
+                </div>
+                <div class="trace-line">
+                  <span class="trace-ts">00.21s</span>
+                  <span class="trace-ok" id="proofLog">Автовыравнивание 108.5° · статус VALID · 0.80 с</span>
+                </div>
+              </div>
+
+              <div class="protocol-actions">
+                <a href="/cockpit?scan=artec_clinic_001.stl" id="proofOpenCockpit" class="btn btn-primary">
+                  Открыть в 3D-редакторе →
+                </a>
+                <a
+                  href="/reports/report_case2_severe_deformity.pdf"
+                  id="proofOpenPdf"
+                  target="_blank"
+                  rel="noopener"
+                  class="btn btn-secondary"
+                >
+                  Пример PDF
+                </a>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHAPTER 04: METHODOLOGY & PRIVACY -->
+      <section id="architecture" class="chapter">
+        <div class="container chapter-grid">
+          <div class="chapter-rail">
+            <div class="chapter-index">04 / Методика и защита</div>
+            <h2 class="chapter-title">Клиническая польза на первом плане, точная математика внутри</h2>
+            <p class="chapter-desc">
+              Вся обработка выполняется на локальной машине клиники — без облачных серверов,
+              сторонних API и отправки медицинских данных за периметр
+            </p>
+            <a href="/api/openapi.json" target="_blank" rel="noopener" class="btn btn-secondary">
+              Спецификация OpenAPI 3.0
+            </a>
+          </div>
+
+          <div class="arch-list">
+            <div class="arch-row">
+              <h3 class="arch-benefit">Поворот головы при сканировании не искажает измерения</h3>
+              <p class="arch-detail">
+                Даже если ребёнок шевелился или сканер Artec 3D сохранил модель под углом до 175°,
+                система автоматически приводит скан к единой анатомической плоскости и воспроизводит
+                сечение Level 3 с нулевым расхождением.
+                <span class="arch-spec">
+                  96-ориентационный поиск SE(3) + Kabsch ICP + гауссовское угловое ядро σ = 1.8°, Δ при повороте +15° = 0.0000 п.п.
+                </span>
+              </p>
+            </div>
+
+            <div class="arch-row">
+              <h3 class="arch-benefit">Объёмные квадранты Q1–Q4 и динамика «До / После»</h3>
+              <p class="arch-detail">
+                Для оценки результата шлемотерапии за 1–3 месяца можно наложить два STL-скана
+                одного пациента, увидеть дельту по CI, CVAI и точный прирост объёма (см³) в зоне
+                уплощения, а также переключиться на уровни 20%, 30% и 50% высоты свода.
+                <span class="arch-spec">
+                  POST /api/compare + расчёт ASR / PSR / APVR в канонической системе Se–TrR–TrL
+                </span>
+              </p>
+            </div>
+
+            <div class="arch-row">
+              <h3 class="arch-benefit">Контроль дефектов с понятной подсказкой технику</h3>
+              <p class="arch-detail">
+                Вместо сухого «Отказ» программа подсвечивает недостающий участок красным на 3D-модели,
+                проверяет ошибки единиц измерения (м / см / мм / дюймы) и отсекает «летающие»
+                артефактные фрагменты сетки.
+                <span class="arch-spec">
+                  Поквадрантный анализ замкнутости свода + воксельный поиск связных компонент сетки
+                </span>
+              </p>
+            </div>
+
+            <div class="arch-row">
+              <h3 class="arch-benefit">Готовая интеграция с МИС и пакетная обработка за смену</h3>
+              <p class="arch-detail">
+                Загрузите папку сканов за день и скачайте единый ZIP-архив с таблицами CSV/Excel и
+                всеми PDF-отчётами, либо передавайте анонимизированный DiagnosticReport (JSON + PDF)
+                в локальную МИС клиники с подписью HMAC-SHA256.
+                <span class="arch-spec">
+                  POST /api/batch/zip · POST /api/mis/export (loopback / RFC1918 LAN) · scrub_stl_binary_header()
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>
+          Сайгак-Орто · Локальная станция 3D-краниометрии v1.3 Artec · STARband / Graham et al. (2020)
+        </div>
+        <div class="footer-links">
+          <a href="/cockpit">3D-редактор</a>
+          <a href="/api/openapi.json" target="_blank" rel="noopener">OpenAPI 3.0</a>
+          <a href="/reports/report_case2_severe_deformity.pdf" target="_blank" rel="noopener">Пример PDF</a>
+          <span>unslop by @heydamir (CC BY 4.0)</span>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        "use strict";
+
+        // 1. Light / Dark theme toggle
+        const htmlEl = document.documentElement;
+        const themeBtn = document.getElementById("themeToggleBtn");
+        const savedTheme = localStorage.getItem("saigak_welcome_theme_v2");
+        if (savedTheme === "dark" || savedTheme === "light") {
+          htmlEl.setAttribute("data-theme", savedTheme);
+        }
+
+        function syncThemeLabel() {
+          const isDark = htmlEl.getAttribute("data-theme") === "dark";
+          themeBtn.textContent = isDark ? "Светлая тема" : "Тёмная тема";
+        }
+        syncThemeLabel();
+
+        themeBtn.addEventListener("click", () => {
+          const next = htmlEl.getAttribute("data-theme") === "dark" ? "light" : "dark";
+          htmlEl.setAttribute("data-theme", next);
+          localStorage.setItem("saigak_welcome_theme_v2", next);
+          syncThemeLabel();
+          drawBlueprint(performance.now());
+        });
+
+        // 2. Interactive Cranial Blueprint Canvas (#glyph-scene, 8 fps + IntersectionObserver)
+        const canvas = document.getElementById("glyph-scene");
+        const ctx = canvas.getContext("2d");
+        const modeLabelEl = document.getElementById("plateModeLabel");
+        const modeStatEl = document.getElementById("plateModeStat");
+        let activeScene = "level3";
+        let inView = true;
+        let phase = 0;
+        let lastFrame = 0;
+
+        const SCENE_META = {
+          level3: [
+            "Сечение Level 3 · диагонали D1 / D2 под углом ±30°",
+            "CI 82.40% · CVAI 7.94%",
+          ],
+          landmarks: [
+            "Автопоиск Se–TrR–TrL на поверхности + ручная доводка",
+            "Уверенность 96.1% · MAE 4.75 мм",
+          ],
+          compare: [
+            "Динамика шлемотерапии: наложение До / После (3 мес.)",
+            "ΔCVAI −3.16 п.п. · Прирост +24 см³",
+          ],
+        };
+
+        document.querySelectorAll(".plate-tab").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            activeScene = btn.dataset.scene;
+            document.querySelectorAll(".plate-tab").forEach((b) => {
+              const on = b === btn;
+              b.classList.toggle("is-active", on);
+              b.setAttribute("aria-selected", on ? "true" : "false");
+            });
+            const meta = SCENE_META[activeScene];
+            modeLabelEl.textContent = meta[0];
+            modeStatEl.textContent = meta[1];
+            drawBlueprint(performance.now());
+          });
+        });
+
+        function getPlatePalette() {
+          const dark = htmlEl.getAttribute("data-theme") === "dark";
+          return dark
+            ? {
+                ink: "#efe9de",
+                grid: "rgba(239,233,222,0.06)",
+                faint: "rgba(239,233,222,0.14)",
+                accent: "#4cc38a",
+                amber: "#e5a93c",
+                danger: "#e5484d",
+                blue: "#6ba7e8",
+              }
+            : {
+                ink: "#1f1b16",
+                grid: "rgba(31,27,22,0.06)",
+                faint: "rgba(31,27,22,0.14)",
+                accent: "#0c6b6e",
+                amber: "#a15c07",
+                danger: "#b53823",
+                blue: "#1d5fa8",
+              };
+        }
+
+        function drawBlueprint() {
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          const rect = canvas.getBoundingClientRect();
+          const w = Math.max(300, Math.round(rect.width));
+          const h = Math.max(220, Math.round(rect.height));
+          if (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)) {
+            canvas.width = Math.round(w * dpr);
+            canvas.height = Math.round(h * dpr);
+          }
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          ctx.clearRect(0, 0, w, h);
+
+          const p = getPlatePalette();
+          const cx = w * 0.5;
+          const cy = h * 0.51;
+          const rx = Math.min(w * 0.25, 118);
+          const ry = Math.min(h * 0.30, 106);
+
+          // Millimeter architectural drafting grid drawn in canvas (0 CSS gradients)
+          ctx.save();
+          ctx.strokeStyle = p.grid;
+          ctx.lineWidth = 1;
+          const step = 24;
+          ctx.beginPath();
+          for (let gx = step; gx < w; gx += step) {
+            ctx.moveTo(gx + 0.5, 0);
+            ctx.lineTo(gx + 0.5, h);
+          }
+          for (let gy = step; gy < h; gy += step) {
+            ctx.moveTo(0, gy + 0.5);
+            ctx.lineTo(w, gy + 0.5);
+          }
+          ctx.stroke();
+
+          // Precision crosshairs
+          ctx.strokeStyle = p.faint;
+          ctx.setLineDash([4, 4]);
+          ctx.beginPath();
+          ctx.moveTo(cx - rx * 1.38, cy);
+          ctx.lineTo(cx + rx * 1.38, cy);
+          ctx.moveTo(cx, cy - ry * 1.25);
+          ctx.lineTo(cx, cy + ry * 1.25);
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          // Outer caliper reference ring
+          ctx.beginPath();
+          ctx.arc(cx, cy, Math.max(rx, ry) * 1.12, 0, Math.PI * 2);
+          ctx.strokeStyle = p.faint;
+          ctx.stroke();
+
+          function traceVault(scale, asym) {
+            ctx.beginPath();
+            const steps = 96;
+            for (let i = 0; i <= steps; i++) {
+              const a = (i / steps) * Math.PI * 2;
+              const flatOccip = Math.exp(-Math.pow((a - Math.PI * 0.72) / 0.48, 2)) * asym;
+              const bossFront = Math.exp(-Math.pow((a + Math.PI * 0.28) / 0.52, 2)) * (asym * 0.42);
+              const rMult = scale * (1 - flatOccip + bossFront);
+              const px = Math.cos(a) * rx * 0.92 * rMult;
+              const py = Math.sin(a) * ry * 1.06 * rMult;
+              if (i === 0) ctx.moveTo(cx + px, cy + py);
+              else ctx.lineTo(cx + px, cy + py);
+            }
+            ctx.closePath();
+          }
+
+          if (activeScene === "compare") {
+            traceVault(1.0, 0.16);
+            ctx.strokeStyle = p.danger;
+            ctx.lineWidth = 1.8;
+            ctx.setLineDash([6, 4]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            traceVault(1.02, 0.045);
+            ctx.fillStyle = p.accent + "1a";
+            ctx.fill();
+            ctx.strokeStyle = p.accent;
+            ctx.lineWidth = 2.2;
+            ctx.stroke();
+
+            ctx.fillStyle = p.ink;
+            ctx.font = "500 12px Consolas, monospace";
+            ctx.fillText("До (CVAI 8.42%)", cx - rx * 1.28, cy - ry * 0.96);
+            ctx.fillStyle = p.accent;
+            ctx.fillText("После (+24 см³)", cx + rx * 0.36, cy + ry * 1.08);
+          } else {
+            traceVault(0.84, 0.11);
+            ctx.strokeStyle = p.faint;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            traceVault(1.0, 0.145);
+            ctx.fillStyle = p.accent + "12";
+            ctx.fill();
+            ctx.strokeStyle = p.ink;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            if (activeScene === "level3") {
+              ctx.strokeStyle = p.accent;
+              ctx.lineWidth = 1.5;
+              ctx.beginPath();
+              ctx.moveTo(cx, cy - ry * 1.06);
+              ctx.lineTo(cx, cy + ry * 1.03);
+              ctx.moveTo(cx - rx * 0.92, cy);
+              ctx.lineTo(cx + rx * 0.92, cy);
+              ctx.stroke();
+
+              const deg30 = Math.PI / 6;
+              const dLen = ry * 0.96;
+              ctx.strokeStyle = p.amber;
+              ctx.lineWidth = 1.8;
+              ctx.beginPath();
+              ctx.moveTo(cx - Math.sin(deg30) * dLen, cy - Math.cos(deg30) * dLen);
+              ctx.lineTo(cx + Math.sin(deg30) * dLen, cy + Math.cos(deg30) * dLen);
+              ctx.stroke();
+
+              ctx.strokeStyle = p.danger;
+              ctx.lineWidth = 1.8;
+              ctx.beginPath();
+              ctx.moveTo(cx + Math.sin(deg30) * dLen * 0.96, cy - Math.cos(deg30) * dLen * 0.96);
+              ctx.lineTo(cx - Math.sin(deg30) * dLen * 0.87, cy + Math.cos(deg30) * dLen * 0.87);
+              ctx.stroke();
+
+              // Calm single caliper sweep tick along the outer ring
+              const sweepA = (phase * 0.35) % (Math.PI * 2);
+              const ringR = Math.max(rx, ry) * 1.12;
+              ctx.beginPath();
+              ctx.arc(cx + Math.cos(sweepA) * ringR, cy + Math.sin(sweepA) * ringR, 3, 0, Math.PI * 2);
+              ctx.fillStyle = p.accent;
+              ctx.fill();
+
+              ctx.font = "500 11px Consolas, monospace";
+              ctx.fillStyle = p.amber;
+              ctx.fillText("D1", cx + Math.sin(deg30) * dLen + 10, cy + Math.cos(deg30) * dLen + 14);
+              ctx.fillStyle = p.danger;
+              ctx.fillText("D2", cx - Math.sin(deg30) * dLen - 24, cy + Math.cos(deg30) * dLen + 14);
+              ctx.fillStyle = p.accent;
+              ctx.fillText("L (AP)", cx + 8, cy - ry * 1.12);
+              ctx.fillText("W (ML)", cx + rx * 0.96, cy - 6);
+            } else {
+              const se = { x: cx, y: cy - ry * 1.05, c: p.danger, lbl: "Se (Sellion)" };
+              const trR = { x: cx - rx * 0.93, y: cy + ry * 0.08, c: p.blue, lbl: "TrR" };
+              const trL = { x: cx + rx * 0.93, y: cy + ry * 0.08, c: p.accent, lbl: "TrL" };
+
+              ctx.strokeStyle = p.accent;
+              ctx.lineWidth = 1.5;
+              ctx.setLineDash([4, 3]);
+              ctx.beginPath();
+              ctx.moveTo(se.x, se.y);
+              ctx.lineTo(trR.x, trR.y);
+              ctx.lineTo(trL.x, trL.y);
+              ctx.closePath();
+              ctx.stroke();
+              ctx.setLineDash([]);
+
+              [se, trR, trL].forEach((pt) => {
+                ctx.beginPath();
+                ctx.arc(pt.x, pt.y, 7, 0, Math.PI * 2);
+                ctx.strokeStyle = pt.c;
+                ctx.lineWidth = 1.4;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(pt.x, pt.y, 3.8, 0, Math.PI * 2);
+                ctx.fillStyle = pt.c;
+                ctx.fill();
+
+                ctx.font = "500 11.5px Consolas, monospace";
+                ctx.fillStyle = p.ink;
+                const ox = pt === trR ? -36 : pt === trL ? 14 : -38;
+                const oy = pt === se ? -14 : 4;
+                ctx.fillText(pt.lbl, pt.x + ox, pt.y + oy);
+              });
+            }
+          }
+          ctx.restore();
+        }
+
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const obs = new IntersectionObserver(
+          (entries) => {
+            inView = entries[0].isIntersecting;
+          },
+          { threshold: 0.08 }
+        );
+        obs.observe(canvas);
+
+        function tick(ts) {
+          if (inView && ts - lastFrame >= 125) {
+            lastFrame = ts;
+            if (!reducedMotion) phase += 0.14;
+            drawBlueprint(ts);
+          }
+          requestAnimationFrame(tick);
+        }
+        drawBlueprint(0);
+        if (!reducedMotion) requestAnimationFrame(tick);
+        window.addEventListener("resize", () => drawBlueprint(performance.now()));
+
+        // 3. Cohort Switcher (Validation Matrix)
+        const COHORTS = {
+          test: {
+            heading: "Закрытый тест · 25 зарезервированных STL (scan_081..scan_105, нулевая утечка)",
+            m1: [
+              "Средняя ошибка индекса CI (MAE)",
+              "0.43 п.п.",
+              "<strong>−47% к базовой модели</strong> (Baseline 0.82 п.п., порог ≤ 1.00)",
+              "95-й перцентиль (P95): <strong>1.38 п.п.</strong> · Max error: <strong>3.37 п.п.</strong>",
+            ],
+            m2: [
+              "Средняя ошибка асимметрии CVAI (MAE)",
+              "0.56 п.п.",
+              "<strong>−54% к базовой модели</strong> (Baseline 1.21 п.п., порог ≤ 1.00)",
+              "95-й перцентиль (P95): <strong>1.55 п.п.</strong> · Max error: <strong>2.45 п.п.</strong>",
+            ],
+            m3: [
+              "Диагональная разница CVA (MAE)",
+              "0.69 мм",
+              "<strong>−54% к базовой модели</strong> (Baseline 1.52 мм, порог ≤ 1.00)",
+              "95-й перцентиль (P95): <strong>1.98 мм</strong> · Max error: <strong>2.75 мм</strong>",
+            ],
+            m4: [
+              "3D-ошибка ориентиров Se–TrR–TrL (MAE)",
+              "4.75 мм",
+              "<strong>−62% к базовой модели</strong> (Baseline 12.39 мм · 100% на поверхности)",
+              "95-й перцентиль (P95): <strong>8.13 мм</strong> · Max error: <strong>13.68 мм</strong>",
+            ],
+          },
+          artec: {
+            heading: "Реальная клиника · 100 сканов Artec 3D (77 Train / 19 Hold-out / 4 отбраковано)",
+            m1: [
+              "Успех автовыравнивания (Hold-out)",
+              "100.0%",
+              "<strong>19 / 19</strong> произвольно повёрнутых сканов Artec 3D",
+              "Углы наклона до <strong>175°</strong> исправлены без ручной правки",
+            ],
+            m2: [
+              "Среднее время на Artec STL",
+              "0.21 с",
+              "<strong>SE(3) ICP + ML + Level 3</strong> (лимит ≤ 120 с)",
+              "Повторный запуск: расхождение <strong>Δ = 0.0000</strong>",
+            ],
+            m3: [
+              "Средние индексы когорты Artec",
+              "CI 90.3%",
+              "Средний <strong>CVAI 6.63%</strong> (умеренная асимметрия)",
+              "Профили: <strong>BP 54 · P 17 · B 16 · SP 6 · N 3</strong>",
+            ],
+            m4: [
+              "Точность классификатора на Artec",
+              "68.4%",
+              "6 классов формы черепа (N, B, P, S, BP, SP)",
+              "Проверка на отложенной выборке реальных сканов",
+            ],
+          },
+          deform: {
+            heading: "Библиотека деформаций · 335 3D-моделей + 77 Artec 3D (N = 412)",
+            m1: [
+              "Точность классификатора форм (6 кл.)",
+              "74.6%",
+              "<strong>+3.0 п.п.</strong> после дообучения на реальных Artec 3D",
+              "Классы: <strong>N · P · B · S · BP · SP</strong>",
+            ],
+            m2: [
+              "Точная сумма профилей библиотеки",
+              "335 STL",
+              "<strong>68 + 74 + 59 + 82 + 52 = 335</strong>",
+              "Все 5 групп выведены прозрачно в таблице ниже",
+            ],
+            m3: [
+              "Устойчивость к повороту и шуму",
+              "0.00 п.п.",
+              "ΔCVAI при 3D-повороте +15° = <strong>0.0000 п.п.</strong>",
+              "При шуме σ = 0.25 мм: сдвиг CVAI <strong>0.15 п.п.</strong>",
+            ],
+            m4: [
+              "Детерминированный ансамбль",
+              "seed=42",
+              "250 деревьев классификатора + ансамбль ориентиров",
+              "Контроль целостности по SHA-256 при каждом запуске",
+            ],
+          },
+          train: {
+            heading: "Обучающая выборка v1.3 · 80 эталонных STL + 65 Artec 3D (670 аугментаций)",
+            m1: [
+              "Первичные размеченные сканы",
+              "80 STL",
+              "Экспертная разметка ориентиров Se–TrR–TrL",
+              "Полная изоляция от 25 закрытых тестовых STL",
+            ],
+            m2: [
+              "Дообучение на Artec 3D (Train)",
+              "65 STL",
+              "Отобраны по строгому контролю замкнутости свода",
+              "Проекция ориентиров строго на поверхность черепа",
+            ],
+            m3: [
+              "Итоговая обучающая матрица",
+              "670",
+              "Аугментации по шуму строго внутри Train-сплита",
+              "Время полного переобучения на CPU: <strong>3.87 с</strong>",
+            ],
+            m4: [
+              "Валидация воспроизводимости",
+              "26 / 26",
+              "Все QA, приёмочные и DevSecOps-проверки пройдены",
+              "100% локальное исполнение без сетевых вызовов",
+            ],
+          },
+        };
+
+        document.querySelectorAll(".cohort-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const key = btn.dataset.cohort;
+            const c = COHORTS[key];
+            if (!c) return;
+            document.querySelectorAll(".cohort-btn").forEach((b) => {
+              const on = b === btn;
+              b.classList.toggle("is-active", on);
+              b.setAttribute("aria-selected", on ? "true" : "false");
+            });
+            document.getElementById("cohortHeading").textContent = c.heading;
+            ["m1", "m2", "m3", "m4"].forEach((id) => {
+              document.getElementById(id + "Label").textContent = c[id][0];
+              document.getElementById(id + "Val").textContent = c[id][1];
+              document.getElementById(id + "Sub").innerHTML = c[id][2];
+              document.getElementById(id + "Worst").innerHTML = c[id][3];
+            });
+          });
+        });
+
+        // 4. Interactive Scan Case Inspector
+        const rows = Array.from(document.querySelectorAll("#inspectorBody tr"));
+        function selectRow(tr) {
+          rows.forEach((r) => r.classList.toggle("is-selected", r === tr));
+          document.getElementById("proofCode").textContent = tr.dataset.code;
+          document.getElementById("proofGroup").textContent = tr.dataset.group;
+          document.getElementById("proofIndices").textContent =
+            "CI " + tr.dataset.ci + " · CVA " + tr.dataset.cva + " · CVAI " + tr.dataset.cvai;
+          document.getElementById("proofOrient").textContent = tr.dataset.orient;
+          document.getElementById("proofSlice").textContent = tr.dataset.slice;
+          document.getElementById("proofLog").textContent = tr.dataset.log;
+          document.getElementById("proofOpenCockpit").href = "/cockpit?scan=" + tr.dataset.scan;
+          document.getElementById("proofOpenPdf").href = tr.dataset.pdf;
+        }
+
+        rows.forEach((tr, idx) => {
+          tr.addEventListener("click", () => selectRow(tr));
+          tr.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              selectRow(tr);
+            } else if (e.key === "ArrowDown" && idx < rows.length - 1) {
+              e.preventDefault();
+              rows[idx + 1].focus();
+              selectRow(rows[idx + 1]);
+            } else if (e.key === "ArrowUp" && idx > 0) {
+              e.preventDefault();
+              rows[idx - 1].focus();
+              selectRow(rows[idx - 1]);
+            }
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

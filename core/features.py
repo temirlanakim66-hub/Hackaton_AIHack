@@ -92,7 +92,18 @@ class HybridLandmarkPredictor:
         pred_rel = 0.40 * self.ridge.predict(X_inv) + 0.60 * self.trees.predict(X_inv)
         return vmin_tile + pred_rel * ext_tile
 
-    def predict_mesh_landmarks(self, mesh: MeshData) -> dict:
+    def predict_mesh_landmarks(self, mesh: MeshData, auto_canonicalize: bool = False) -> dict:
+        if auto_canonicalize:
+            from core.pose_align import canonicalize_mesh_pose, map_landmarks_canonical_to_world
+            pose = canonicalize_mesh_pose(mesh)
+            mesh_use = pose["mesh_canonical"]
+            feat = extract_morphological_features(mesh_use).reshape(1, -1)
+            y_pred = self.predict(feat).flatten()
+            raw_lms = {}
+            for i, name in enumerate(LANDMARK_NAMES):
+                raw_lms[name] = [round(float(x), 3) for x in y_pred[i * 3:(i + 1) * 3]]
+            return map_landmarks_canonical_to_world(raw_lms, pose)
+
         feat = extract_morphological_features(mesh).reshape(1, -1)
         y_pred = self.predict(feat).flatten()
         raw_lms = {}

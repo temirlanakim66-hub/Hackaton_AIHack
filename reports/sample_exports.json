@@ -1,7 +1,7 @@
 [
   {
     "scan_id": "scan_081",
-    "timestamp": "2026-11-20T21:44:35.730401",
+    "timestamp": "2026-11-20T22:21:27.984540",
     "patient_age_months": 5.5,
     "model_version": "Saigak-ML-ExtraTrees-v1.2 (seed=42)",
     "methodology_version": "STARBAND-GRAHAM-2020-V1.2",
@@ -56,69 +56,69 @@
     },
     "landmarks_mm": {
       "Sellion": [
-        70.278,
-        1.378,
-        541.589
+        70.782,
+        1.39,
+        541.725
       ],
       "RightTragion": [
-        9.473,
-        -53.492,
-        532.48
+        9.123,
+        -53.555,
+        534.031
       ],
       "LeftTragion": [
-        11.757,
-        53.931,
-        533.536
+        12.272,
+        53.669,
+        533.936
       ],
       "Subnasal": [
-        77.146,
-        1.73,
-        523.009
+        77.38,
+        1.588,
+        522.922
       ]
     },
     "landmark_confidence": null,
     "craniometry": {
       "indices": {
-        "CI": 74.6,
-        "CI_unrounded": 74.59507326040764,
-        "CVA_mm": 1.43,
-        "CVA_unrounded": 1.4309596825328867,
-        "CVAI": 1.08,
-        "CVAI_unrounded": 1.0798332769968342,
-        "CVAI_min_ref": 1.09
+        "CI": 74.47,
+        "CI_unrounded": 74.4663561201882,
+        "CVA_mm": 1.27,
+        "CVA_unrounded": 1.2711421659745952,
+        "CVAI": 0.96,
+        "CVAI_unrounded": 0.9570436054397479,
+        "CVAI_min_ref": 0.97
       },
       "linear_measurements_mm": {
-        "L_length_ap": 138.13,
-        "W_width_ml": 103.03,
-        "D1_diagonal_plus30": 131.09,
-        "D2_diagonal_minus30": 132.52,
-        "perimeter_slice": 392.28,
+        "L_length_ap": 138.42,
+        "W_width_ml": 103.07,
+        "D1_diagonal_plus30": 131.55,
+        "D2_diagonal_minus30": 132.82,
+        "perimeter_slice": 393.0,
         "perimeter_label": "Периметр измерительного сечения (Level 3)",
-        "vault_height": 78.16,
-        "slice_height_z": 23.45,
+        "vault_height": 76.95,
+        "slice_height_z": 23.08,
         "slice_level_ratio": 0.3,
         "diagonal_angle_deg": 30.0
       },
       "regional_asymmetry": {
-        "frontal_diff_mm": 1.02,
-        "frontal_asymmetry_pct": 1.58,
-        "occipital_diff_mm": 0.41,
-        "occipital_asymmetry_pct": 0.6,
-        "r_d1_front_mm": 63.54,
-        "r_d2_front_mm": 64.56,
-        "r_d1_back_mm": 67.55,
-        "r_d2_back_mm": 67.96,
+        "frontal_diff_mm": 1.22,
+        "frontal_asymmetry_pct": 1.88,
+        "occipital_diff_mm": 0.06,
+        "occipital_asymmetry_pct": 0.08,
+        "r_d1_front_mm": 63.6,
+        "r_d2_front_mm": 64.82,
+        "r_d1_back_mm": 67.94,
+        "r_d2_back_mm": 68.0,
         "dominant_asymmetry_zone": "Лобно-височная область"
       },
       "quadrant_volumes": {
-        "Q1_front_left_cm3": 160.9,
-        "Q2_front_right_cm3": 165.0,
-        "Q3_back_left_cm3": 196.8,
-        "Q4_back_right_cm3": 195.2,
-        "total_vault_volume_cm3": 718.0,
-        "anterior_symmetry_ratio": 0.975,
-        "posterior_symmetry_ratio": 0.992,
-        "ap_volume_ratio": 0.831,
+        "Q1_front_left_cm3": 159.0,
+        "Q2_front_right_cm3": 164.5,
+        "Q3_back_left_cm3": 192.9,
+        "Q4_back_right_cm3": 192.5,
+        "total_vault_volume_cm3": 708.9,
+        "anterior_symmetry_ratio": 0.967,
+        "posterior_symmetry_ratio": 0.998,
+        "ap_volume_ratio": 0.84,
         "flattened_quadrant_code": "Q1",
         "flattened_quadrant_label": "Q1: Левый лобный"
       },
@@ -126,35 +126,35 @@
         {
           "level_ratio": 0.2,
           "label": "Level 2 (20%)",
-          "z_mm": 15.6,
-          "CI": 79.0,
-          "CVA_mm": 1.31,
-          "CVAI": 1.01,
-          "L_mm": 133.2,
-          "W_mm": 105.2,
-          "perimeter_mm": 388.7
+          "z_mm": 15.4,
+          "CI": 78.97,
+          "CVA_mm": 1.39,
+          "CVAI": 1.07,
+          "L_mm": 133.7,
+          "W_mm": 105.6,
+          "perimeter_mm": 388.3
         },
         {
           "level_ratio": 0.3,
           "label": "Level 3 (30%, стандарт)",
-          "z_mm": 23.4,
-          "CI": 74.6,
-          "CVA_mm": 1.43,
-          "CVAI": 1.08,
-          "L_mm": 138.1,
-          "W_mm": 103.0,
-          "perimeter_mm": 392.3
+          "z_mm": 23.1,
+          "CI": 74.47,
+          "CVA_mm": 1.27,
+          "CVAI": 0.96,
+          "L_mm": 138.4,
+          "W_mm": 103.1,
+          "perimeter_mm": 393.0
         },
         {
           "level_ratio": 0.5,
           "label": "Level 5 (50%)",
-          "z_mm": 39.1,
-          "CI": 71.72,
-          "CVA_mm": 0.7,
-          "CVAI": 0.53,
-          "L_mm": 137.3,
-          "W_mm": 98.5,
-          "perimeter_mm": 389.9
+          "z_mm": 38.5,
+          "CI": 71.51,
+          "CVA_mm": 0.71,
+          "CVAI": 0.54,
+          "L_mm": 137.5,
+          "W_mm": 98.3,
+          "perimeter_mm": 389.7
         }
       ],
       "classification": {
@@ -170,19 +170,19 @@
           "is_borderline": false,
           "margin_pp": 0.6,
           "nearest_threshold_pct": 3.5,
-          "distance_to_threshold_pp": 2.42,
+          "distance_to_threshold_pp": 2.543,
           "adjacent_grade_code": "MILD",
           "adjacent_grade_label": "Лёгкая асимметрия (3,5% – 6,25%)",
-          "warning_message": "Устойчивая категория: расстояние до ближайшего порога (3.50%) составляет 2.42 п.п. (> ±0.60 п.п.)."
+          "warning_message": "Устойчивая категория: расстояние до ближайшего порога (3.50%) составляет 2.54 п.п. (> ±0.60 п.п.)."
         },
-        "ci_interpretation": "CI = 74.60% (выводится численно без автоматической степени тяжести до утверждения возрастного профиля экспертом)",
+        "ci_interpretation": "CI = 74.47% (выводится численно без автоматической степени тяжести до утверждения возрастного профиля экспертом)",
         "expert_ci_profile_approved": false
       }
     }
   },
   {
     "scan_id": "DEMO-SEVERE-PLAGIO-P03",
-    "timestamp": "2026-11-20T21:44:36.204505",
+    "timestamp": "2026-11-20T22:21:28.466273",
     "patient_age_months": 6.0,
     "model_version": "Saigak-ML-ExtraTrees-v1.2 (seed=42)",
     "methodology_version": "STARBAND-GRAHAM-2020-V1.2",
@@ -237,69 +237,69 @@
     },
     "landmarks_mm": {
       "Sellion": [
-        70.968,
-        -0.417,
-        526.364
+        70.936,
+        -0.413,
+        526.461
       ],
       "RightTragion": [
-        11.135,
-        -51.365,
-        521.874
+        11.105,
+        -51.382,
+        522.078
       ],
       "LeftTragion": [
-        15.533,
-        47.439,
-        519.116
+        15.404,
+        47.483,
+        519.258
       ],
       "Subnasal": [
-        76.627,
-        -0.033,
-        506.831
+        76.659,
+        -0.057,
+        506.978
       ]
     },
     "landmark_confidence": null,
     "craniometry": {
       "indices": {
-        "CI": 80.61,
-        "CI_unrounded": 80.61324612162318,
-        "CVA_mm": 9.28,
-        "CVA_unrounded": 9.275322244323831,
-        "CVAI": 8.4,
-        "CVAI_unrounded": 8.396054515296747,
-        "CVAI_min_ref": 9.17
+        "CI": 80.63,
+        "CI_unrounded": 80.62747184220406,
+        "CVA_mm": 9.3,
+        "CVA_unrounded": 9.297980485694254,
+        "CVAI": 8.42,
+        "CVAI_unrounded": 8.416522185347198,
+        "CVAI_min_ref": 9.19
       },
       "linear_measurements_mm": {
-        "L_length_ap": 110.67,
+        "L_length_ap": 110.66,
         "W_width_ml": 89.22,
         "D1_diagonal_plus30": 110.47,
-        "D2_diagonal_minus30": 101.2,
-        "perimeter_slice": 322.09,
+        "D2_diagonal_minus30": 101.17,
+        "perimeter_slice": 322.02,
         "perimeter_label": "Периметр измерительного сечения (Level 3)",
-        "vault_height": 79.6,
-        "slice_height_z": 23.88,
+        "vault_height": 79.41,
+        "slice_height_z": 23.82,
         "slice_level_ratio": 0.3,
         "diagonal_angle_deg": 30.0
       },
       "regional_asymmetry": {
-        "frontal_diff_mm": 3.87,
-        "frontal_asymmetry_pct": 7.28,
-        "occipital_diff_mm": 5.4,
-        "occipital_asymmetry_pct": 9.43,
-        "r_d1_front_mm": 53.19,
-        "r_d2_front_mm": 49.32,
+        "frontal_diff_mm": 3.94,
+        "frontal_asymmetry_pct": 7.41,
+        "occipital_diff_mm": 5.35,
+        "occipital_asymmetry_pct": 9.35,
+        "r_d1_front_mm": 53.2,
+        "r_d2_front_mm": 49.25,
         "r_d1_back_mm": 57.28,
-        "r_d2_back_mm": 51.88,
+        "r_d2_back_mm": 51.92,
         "dominant_asymmetry_zone": "Затылочная область"
       },
       "quadrant_volumes": {
-        "Q1_front_left_cm3": 115.4,
-        "Q2_front_right_cm3": 104.1,
-        "Q3_back_left_cm3": 118.4,
-        "Q4_back_right_cm3": 127.1,
-        "total_vault_volume_cm3": 465.0,
-        "anterior_symmetry_ratio": 0.903,
-        "posterior_symmetry_ratio": 0.931,
-        "ap_volume_ratio": 0.894,
+        "Q1_front_left_cm3": 115.3,
+        "Q2_front_right_cm3": 103.8,
+        "Q3_back_left_cm3": 118.0,
+        "Q4_back_right_cm3": 126.5,
+        "total_vault_volume_cm3": 463.6,
+        "anterior_symmetry_ratio": 0.9,
+        "posterior_symmetry_ratio": 0.933,
+        "ap_volume_ratio": 0.897,
         "flattened_quadrant_code": "Q2",
         "flattened_quadrant_label": "Q2: Правый лобный"
       },
@@ -309,33 +309,33 @@
           "label": "Level 2 (20%)",
           "z_mm": 15.9,
           "CI": 81.4,
-          "CVA_mm": 10.49,
-          "CVAI": 10.41,
+          "CVA_mm": 9.47,
+          "CVAI": 9.44,
           "L_mm": 109.5,
           "W_mm": 89.2,
-          "perimeter_mm": 384.0
+          "perimeter_mm": 374.7
         },
         {
           "level_ratio": 0.3,
           "label": "Level 3 (30%, стандарт)",
-          "z_mm": 23.9,
-          "CI": 80.61,
-          "CVA_mm": 9.28,
-          "CVAI": 8.4,
+          "z_mm": 23.8,
+          "CI": 80.63,
+          "CVA_mm": 9.3,
+          "CVAI": 8.42,
           "L_mm": 110.7,
           "W_mm": 89.2,
-          "perimeter_mm": 322.1
+          "perimeter_mm": 322.0
         },
         {
           "level_ratio": 0.5,
           "label": "Level 5 (50%)",
-          "z_mm": 39.8,
-          "CI": 83.69,
-          "CVA_mm": 13.74,
-          "CVAI": 12.61,
-          "L_mm": 104.7,
+          "z_mm": 39.7,
+          "CI": 83.73,
+          "CVA_mm": 13.79,
+          "CVAI": 12.66,
+          "L_mm": 104.6,
           "W_mm": 87.6,
-          "perimeter_mm": 316.3
+          "perimeter_mm": 316.7
         }
       ],
       "classification": {
@@ -351,19 +351,19 @@
           "is_borderline": true,
           "margin_pp": 0.6,
           "nearest_threshold_pct": 8.75,
-          "distance_to_threshold_pp": 0.354,
+          "distance_to_threshold_pp": 0.333,
           "adjacent_grade_code": "SEVERE",
           "adjacent_grade_label": "Тяжёлая асимметрия (8,75% – 11,0%)",
-          "warning_message": "Пограничное значение (±0.60 п.п. у порога 8.75%): CVAI = 8.40% отстоит на 0.35 п.п. от границы с категорией «Тяжёлая асимметрия (8,75% – 11,0%)». Требуется визуальная проверка ориентиров Se–TrR–TrL врачом."
+          "warning_message": "Пограничное значение (±0.60 п.п. у порога 8.75%): CVAI = 8.42% отстоит на 0.33 п.п. от границы с категорией «Тяжёлая асимметрия (8,75% – 11,0%)». Требуется визуальная проверка ориентиров Se–TrR–TrL врачом."
         },
-        "ci_interpretation": "CI = 80.61% (выводится численно без автоматической степени тяжести до утверждения возрастного профиля экспертом)",
+        "ci_interpretation": "CI = 80.63% (выводится численно без автоматической степени тяжести до утверждения возрастного профиля экспертом)",
         "expert_ci_profile_approved": false
       }
     }
   },
   {
     "scan_id": "DEMO-VERY-SEVERE-P04",
-    "timestamp": "2026-11-20T21:44:36.774269",
+    "timestamp": "2026-11-20T22:21:28.910292",
     "patient_age_months": 7.5,
     "model_version": "Saigak-ML-ExtraTrees-v1.2 (seed=42)",
     "methodology_version": "STARBAND-GRAHAM-2020-V1.2",
@@ -418,68 +418,68 @@
     },
     "landmarks_mm": {
       "Sellion": [
-        70.983,
-        -0.455,
-        526.464
+        71.005,
+        -0.474,
+        526.462
       ],
       "RightTragion": [
-        11.067,
-        -51.215,
-        521.883
+        11.124,
+        -51.211,
+        521.943
       ],
       "LeftTragion": [
-        15.482,
-        47.197,
-        519.205
+        15.637,
+        47.166,
+        519.242
       ],
       "Subnasal": [
-        76.63,
-        -0.094,
-        506.851
+        76.653,
+        -0.085,
+        506.876
       ]
     },
     "landmark_confidence": null,
     "craniometry": {
       "indices": {
         "CI": 80.4,
-        "CI_unrounded": 80.39991783403036,
+        "CI_unrounded": 80.40074926485137,
         "CVA_mm": 11.64,
-        "CVA_unrounded": 11.635250120684503,
+        "CVA_unrounded": 11.637305577270055,
         "CVAI": 10.38,
-        "CVAI_unrounded": 10.382720894066011,
+        "CVAI_unrounded": 10.383970983446783,
         "CVAI_min_ref": 11.59
       },
       "linear_measurements_mm": {
         "L_length_ap": 110.8,
         "W_width_ml": 89.08,
-        "D1_diagonal_plus30": 112.06,
+        "D1_diagonal_plus30": 112.07,
         "D2_diagonal_minus30": 100.43,
         "perimeter_slice": 322.69,
         "perimeter_label": "Периметр измерительного сечения (Level 3)",
-        "vault_height": 79.55,
-        "slice_height_z": 23.86,
+        "vault_height": 79.51,
+        "slice_height_z": 23.85,
         "slice_level_ratio": 0.3,
         "diagonal_angle_deg": 30.0
       },
       "regional_asymmetry": {
         "frontal_diff_mm": 5.26,
-        "frontal_asymmetry_pct": 9.7,
+        "frontal_asymmetry_pct": 9.71,
         "occipital_diff_mm": 6.38,
         "occipital_asymmetry_pct": 11.02,
-        "r_d1_front_mm": 54.17,
+        "r_d1_front_mm": 54.18,
         "r_d2_front_mm": 48.92,
         "r_d1_back_mm": 57.89,
-        "r_d2_back_mm": 51.51,
+        "r_d2_back_mm": 51.52,
         "dominant_asymmetry_zone": "Затылочная область"
       },
       "quadrant_volumes": {
-        "Q1_front_left_cm3": 118.4,
-        "Q2_front_right_cm3": 102.2,
-        "Q3_back_left_cm3": 117.8,
-        "Q4_back_right_cm3": 128.9,
-        "total_vault_volume_cm3": 467.3,
+        "Q1_front_left_cm3": 118.2,
+        "Q2_front_right_cm3": 102.1,
+        "Q3_back_left_cm3": 117.7,
+        "Q4_back_right_cm3": 128.6,
+        "total_vault_volume_cm3": 466.6,
         "anterior_symmetry_ratio": 0.863,
-        "posterior_symmetry_ratio": 0.914,
+        "posterior_symmetry_ratio": 0.915,
         "ap_volume_ratio": 0.894,
         "flattened_quadrant_code": "Q2",
         "flattened_quadrant_label": "Q2: Правый лобный"
@@ -489,12 +489,12 @@
           "level_ratio": 0.2,
           "label": "Level 2 (20%)",
           "z_mm": 15.9,
-          "CI": 81.13,
-          "CVA_mm": 12.53,
-          "CVAI": 12.42,
+          "CI": 81.14,
+          "CVA_mm": 12.45,
+          "CVAI": 12.35,
           "L_mm": 109.6,
           "W_mm": 88.9,
-          "perimeter_mm": 380.3
+          "perimeter_mm": 380.0
         },
         {
           "level_ratio": 0.3,
@@ -511,12 +511,12 @@
           "level_ratio": 0.5,
           "label": "Level 5 (50%)",
           "z_mm": 39.8,
-          "CI": 82.19,
+          "CI": 82.15,
           "CVA_mm": 19.4,
-          "CVAI": 17.28,
+          "CVAI": 17.27,
           "L_mm": 104.8,
           "W_mm": 86.1,
-          "perimeter_mm": 317.2
+          "perimeter_mm": 317.6
         }
       ],
       "classification": {
@@ -532,7 +532,7 @@
           "is_borderline": false,
           "margin_pp": 0.6,
           "nearest_threshold_pct": 11.0,
-          "distance_to_threshold_pp": 0.617,
+          "distance_to_threshold_pp": 0.616,
           "adjacent_grade_code": "VERY_SEVERE",
           "adjacent_grade_label": "Очень тяжёлая асимметрия (≥ 11,0%)",
           "warning_message": "Устойчивая категория: расстояние до ближайшего порога (11.00%) составляет 0.62 п.п. (> ±0.60 п.п.)."
@@ -544,7 +544,7 @@
   },
   {
     "scan_id": "DEMO-DEFECT-INCOMPLETE-01",
-    "timestamp": "2026-11-20T21:44:37.385416",
+    "timestamp": "2026-11-20T22:21:29.371613",
     "patient_age_months": 4.0,
     "model_version": "Saigak-ML-ExtraTrees-v1.2 (seed=42)",
     "methodology_version": "STARBAND-GRAHAM-2020-V1.2",

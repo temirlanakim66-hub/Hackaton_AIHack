@@ -152,7 +152,7 @@
   themeToggleBtn.addEventListener("click", () => {
     APP_STATE.isLightTheme = !APP_STATE.isLightTheme;
     document.body.classList.toggle("theme-light", APP_STATE.isLightTheme);
-    themeToggleBtn.textContent = APP_STATE.isLightTheme ? "Тема: светлая" : "Тема: тёмная";
+    themeToggleBtn.textContent = APP_STATE.isLightTheme ? "Светлая" : "Тёмная";
     render3DScene();
     if (APP_STATE.lastResponse) {
       render2DBlueprint(APP_STATE.lastResponse);
@@ -291,11 +291,21 @@
     const cran = data.craniometry;
 
     document.getElementById("scanIdTag").textContent = data.scan_id;
-    document.getElementById("meshStatsBadge").innerHTML =
-      `<strong>${q.triangle_count.toLocaleString()}</strong> тр. · <strong>${q.unique_vertex_count.toLocaleString()}</strong> верш.`;
-    document.getElementById("scaleBadge").innerHTML = `Масштаб <strong>×${q.applied_scale}</strong> (мм)`;
+    document.getElementById("meshStatsBadge").innerHTML = `<strong>${q.triangle_count.toLocaleString()}</strong> тр.`;
+    document.getElementById("scaleBadge").innerHTML = `<strong>×${q.applied_scale}</strong> мм`;
     document.getElementById("scaleActiveLabel").textContent = `×${q.applied_scale} (мм)`;
-    document.getElementById("runtimeBadge").innerHTML = `<strong>${data.processing_time_sec.toFixed(3)} с</strong> · Δ ≤ 0.01`;
+    document.getElementById("runtimeBadge").innerHTML = `<strong>${data.processing_time_sec.toFixed(3)} с</strong>`;
+
+    const poseBadge = document.getElementById("poseAlignBadge");
+    if (poseBadge) {
+      if (data.pose_alignment && data.pose_alignment.auto_aligned) {
+        poseBadge.style.display = "inline";
+        poseBadge.title = `Автоматическое SE(3) выравнивание скана на ${data.pose_alignment.correction_deg}°`;
+        poseBadge.textContent = `Авто ${Math.round(data.pose_alignment.correction_deg)}°`;
+      } else {
+        poseBadge.style.display = "none";
+      }
+    }
 
     // Quiet status chip in sentence case
     const hBadge = document.getElementById("headerStatusBadge");
@@ -736,7 +746,7 @@
       const vny = nz * cosP - rnx * sinP;
       const vnz = nz * sinP + rnx * cosP;
 
-      const light = Math.max(0.22, Math.min(1.0, 0.28 + 0.56 * Math.abs(vnz) + 0.22 * Math.max(0, vny) + 0.14 * vnx));
+      const light = Math.max(0.24, Math.min(1.0, 0.30 + 0.50 * Math.abs(vnz) + 0.16 * Math.max(0, vny) + 0.10 * Math.max(0, vnx)));
       const depth = (p1[2] + p2[2] + p3[2]) / 3.0;
       const asymVal = asym ? (asym[t * 3] + asym[t * 3 + 1] + asym[t * 3 + 2]) / 3.0 : 0.0;
 
@@ -2158,6 +2168,189 @@
     const sid = APP_STATE.currentFilename.replace(".stl", "");
     downloadFileFromEndpoint("/api/report/export", buildExportPayload("json"), `saigak_orto_${sid}.json`);
   });
+
+  // ==================== COLLAPSIBLE WINDOWS, DOCK HIDING & 3D FOCUS MODE ====================
+  (function initWindowManager() {
+    const STORAGE_KEY = "saigak_cockpit_layout_v1";
+    const layoutEl = document.getElementById("cockpitLayout");
+    const focusBtn = document.getElementById("focus3dBtn");
+    const resetLayoutBtn = document.getElementById("resetLayoutBtn");
+    if (!layoutEl) return;
+
+    let saved = { hideLeft: false, hideRight: false, hideBottom: false, collapsedCards: [] };
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) saved = Object.assign(saved, JSON.parse(raw));
+    } catch (_) {}
+
+    let prevBeforeFocus = null;
+    const cardUpdaters = [];
+
+    function persist() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+      } catch (_) {}
+    }
+
+    function syncResetVisibility() {
+      if (!resetLayoutBtn) return;
+      const anyModified = !!(
+        saved.hideLeft ||
+        saved.hideRight ||
+        saved.hideBottom ||
+        (Array.isArray(saved.collapsedCards) && saved.collapsedCards.length > 0)
+      );
+      resetLayoutBtn.style.display = anyModified ? "inline-flex" : "none";
+    }
+
+    function syncDockUI() {
+      layoutEl.classList.toggle("hide-left", !!saved.hideLeft);
+      layoutEl.classList.toggle("hide-right", !!saved.hideRight);
+      layoutEl.classList.toggle("hide-bottom", !!saved.hideBottom);
+
+      document.querySelectorAll("[data-dock-toggle]").forEach((btn) => {
+        const d = btn.getAttribute("data-dock-toggle");
+        const isVisible = d === "left" ? !saved.hideLeft : d === "right" ? !saved.hideRight : !saved.hideBottom;
+        btn.classList.toggle("is-on", isVisible);
+        btn.setAttribute("aria-pressed", String(isVisible));
+      });
+
+      const allHidden = !!(saved.hideLeft && saved.hideRight && saved.hideBottom);
+      if (focusBtn) {
+        focusBtn.classList.toggle("is-focus", allHidden);
+        focusBtn.setAttribute("aria-pressed", String(allHidden));
+      }
+
+      syncResetVisibility();
+      persist();
+      requestAnimationFrame(() => {
+        render3DScene();
+        if (APP_STATE.lastResponse) {
+          render2DBlueprint(APP_STATE.lastResponse);
+          renderAsymmetryChart(APP_STATE.lastResponse);
+        }
+      });
+    }
+
+    function toggleDock(dockName, forceShow = null) {
+      const key = dockName === "left" ? "hideLeft" : dockName === "right" ? "hideRight" : "hideBottom";
+      saved[key] = forceShow === null ? !saved[key] : !forceShow;
+      prevBeforeFocus = null;
+      syncDockUI();
+    }
+
+    function toggleFocus3D() {
+      const allHidden = !!(saved.hideLeft && saved.hideRight && saved.hideBottom);
+      if (!allHidden) {
+        prevBeforeFocus = { hideLeft: saved.hideLeft, hideRight: saved.hideRight, hideBottom: saved.hideBottom };
+        saved.hideLeft = true;
+        saved.hideRight = true;
+        saved.hideBottom = true;
+      } else if (prevBeforeFocus) {
+        saved.hideLeft = prevBeforeFocus.hideLeft;
+        saved.hideRight = prevBeforeFocus.hideRight;
+        saved.hideBottom = prevBeforeFocus.hideBottom;
+        prevBeforeFocus = null;
+      } else {
+        saved.hideLeft = false;
+        saved.hideRight = false;
+        saved.hideBottom = false;
+      }
+      syncDockUI();
+    }
+
+    document.querySelectorAll("[data-dock-toggle]").forEach((btn) => {
+      btn.addEventListener("click", () => toggleDock(btn.getAttribute("data-dock-toggle")));
+    });
+
+    document.querySelectorAll("[data-dock-restore]").forEach((btn) => {
+      btn.addEventListener("click", () => toggleDock(btn.getAttribute("data-dock-restore"), true));
+    });
+
+    if (focusBtn) {
+      focusBtn.addEventListener("click", toggleFocus3D);
+    }
+
+    if (resetLayoutBtn) {
+      resetLayoutBtn.addEventListener("click", () => {
+        saved.hideLeft = false;
+        saved.hideRight = false;
+        saved.hideBottom = false;
+        saved.collapsedCards = [];
+        prevBeforeFocus = null;
+        cardUpdaters.forEach((fn) => fn(false));
+        syncDockUI();
+      });
+    }
+
+    // Add minimize/expand button to every individual .hud-panel window
+    const panels = document.querySelectorAll(".cockpit-layout .hud-panel");
+    panels.forEach((panel, idx) => {
+      const hdr = panel.querySelector(":scope > .sec-hdr");
+      if (!hdr) return;
+      const cardId = `panel_${idx}`;
+      const titleEl = hdr.querySelector(".sec-title");
+      const titleText = titleEl ? titleEl.textContent.trim() : "панель";
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "panel-collapse-btn";
+      btn.title = "Свернуть или развернуть это окно";
+
+      const existingMeta = hdr.querySelector(".sec-meta");
+      const rightWrap = document.createElement("span");
+      rightWrap.className = "sec-hdr-right";
+      if (existingMeta) {
+        rightWrap.appendChild(existingMeta);
+      }
+      rightWrap.appendChild(btn);
+      hdr.appendChild(rightWrap);
+
+      const applyCardState = (collapsed) => {
+        panel.classList.toggle("is-collapsed", collapsed);
+        btn.textContent = collapsed ? "+" : "−";
+        btn.setAttribute("aria-expanded", String(!collapsed));
+        btn.setAttribute("aria-label", `${collapsed ? "Развернуть" : "Свернуть"} панель «${titleText}»`);
+      };
+      cardUpdaters.push(applyCardState);
+
+      const isInitCollapsed = Array.isArray(saved.collapsedCards) && saved.collapsedCards.includes(cardId);
+      applyCardState(isInitCollapsed);
+
+      btn.addEventListener("click", () => {
+        const nextCollapsed = !panel.classList.contains("is-collapsed");
+        applyCardState(nextCollapsed);
+        const set = new Set(saved.collapsedCards || []);
+        if (nextCollapsed) set.add(cardId);
+        else set.delete(cardId);
+        saved.collapsedCards = Array.from(set);
+        syncResetVisibility();
+        persist();
+      });
+    });
+
+    // Keyboard shortcuts: Escape (close modal), 1 (left), 2 (bottom), 3 (right), F (3D focus mode)
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modalBackdrop && modalBackdrop.style.display === "flex") {
+        modalBackdrop.style.display = "none";
+        return;
+      }
+      const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : "";
+      if (tag === "input" || tag === "textarea" || tag === "select" || e.ctrlKey || e.altKey || e.metaKey) return;
+      if (modalBackdrop && modalBackdrop.style.display === "flex") return;
+      if (e.key === "1") toggleDock("left");
+      else if (e.key === "2") toggleDock("bottom");
+      else if (e.key === "3") toggleDock("right");
+      else if (e.key === "f" || e.key === "F" || e.key === "а" || e.key === "А") toggleFocus3D();
+    });
+
+    // ResizeObserver keeps 3D viewport crisp whenever panels hide/show
+    const stageEl = document.querySelector(".hud-center-stage");
+    if (stageEl && "ResizeObserver" in window) {
+      new ResizeObserver(() => render3DScene()).observe(stageEl);
+    }
+
+    syncDockUI();
+  })();
 
   initCatalog();
 })();
