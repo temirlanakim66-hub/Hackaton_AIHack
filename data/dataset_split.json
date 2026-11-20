@@ -1,0 +1,610 @@
+{
+  "dataset_name": "Saigak-Orto Anonymized Infant 3D Head Scans & Deformity Benchmark",
+  "total_primary_stl_scans": 105,
+  "one_scan_per_child": true,
+  "augmentations_policy": "Аугментации (3D-повороты, сдвиги, масштабирование, шум) выполняются строго внутри обучающей выборки (train). Тестовая выборка изолирована.",
+  "train_split": {
+    "count": 80,
+    "scan_ids": [
+      "scan_001",
+      "scan_002",
+      "scan_003",
+      "scan_004",
+      "scan_005",
+      "scan_006",
+      "scan_007",
+      "scan_008",
+      "scan_009",
+      "scan_010",
+      "scan_011",
+      "scan_012",
+      "scan_013",
+      "scan_014",
+      "scan_015",
+      "scan_016",
+      "scan_017",
+      "scan_018",
+      "scan_019",
+      "scan_020",
+      "scan_021",
+      "scan_022",
+      "scan_023",
+      "scan_024",
+      "scan_025",
+      "scan_026",
+      "scan_027",
+      "scan_028",
+      "scan_029",
+      "scan_030",
+      "scan_031",
+      "scan_032",
+      "scan_033",
+      "scan_034",
+      "scan_035",
+      "scan_036",
+      "scan_037",
+      "scan_038",
+      "scan_039",
+      "scan_040",
+      "scan_041",
+      "scan_042",
+      "scan_043",
+      "scan_044",
+      "scan_045",
+      "scan_046",
+      "scan_047",
+      "scan_048",
+      "scan_049",
+      "scan_050",
+      "scan_051",
+      "scan_052",
+      "scan_053",
+      "scan_054",
+      "scan_055",
+      "scan_056",
+      "scan_057",
+      "scan_058",
+      "scan_059",
+      "scan_060",
+      "scan_061",
+      "scan_062",
+      "scan_063",
+      "scan_064",
+      "scan_065",
+      "scan_066",
+      "scan_067",
+      "scan_068",
+      "scan_069",
+      "scan_070",
+      "scan_071",
+      "scan_072",
+      "scan_073",
+      "scan_074",
+      "scan_075",
+      "scan_076",
+      "scan_077",
+      "scan_078",
+      "scan_079",
+      "scan_080"
+    ]
+  },
+  "reserved_test_split": {
+    "count": 25,
+    "scan_ids": [
+      "scan_081",
+      "scan_082",
+      "scan_083",
+      "scan_084",
+      "scan_085",
+      "scan_086",
+      "scan_087",
+      "scan_088",
+      "scan_089",
+      "scan_090",
+      "scan_091",
+      "scan_092",
+      "scan_093",
+      "scan_094",
+      "scan_095",
+      "scan_096",
+      "scan_097",
+      "scan_098",
+      "scan_099",
+      "scan_100",
+      "scan_101",
+      "scan_102",
+      "scan_103",
+      "scan_104",
+      "scan_105"
+    ]
+  },
+  "clinical_and_defect_demos": [
+    {
+      "scan_id": "clinical_normal_N01",
+      "filename": "clinical_normal_N01.stl",
+      "description": "Нормальная форма головы (CVAI < 3.5%)",
+      "category": "clinical_deformity_demo",
+      "reference_landmarks_mm": {
+        "Sellion": [
+          70.0478,
+          -2.1045,
+          539.7198
+        ],
+        "RightTragion": [
+          17.7052,
+          -54.5035,
+          533.0731
+        ],
+        "LeftTragion": [
+          18.8348,
+          51.9437,
+          533.6886
+        ],
+        "Subnasal": [
+          79.6081,
+          -1.0547,
+          520.3855
+        ],
+        "RightExo": [
+          57.1215,
+          -33.1055,
+          536.995
+        ],
+        "RightEndo": [
+          63.0426,
+          -14.3511,
+          537.9746
+        ],
+        "LeftEndo": [
+          63.3638,
+          10.3907,
+          537.1474
+        ],
+        "LeftExo": [
+          57.7584,
+          28.4702,
+          536.5401
+        ]
+      },
+      "reference_indices": {
+        "CI": 82.97,
+        "CI_unrounded": 82.97261768210653,
+        "CVA_mm": 1.44,
+        "CVA_unrounded": 1.436888588861109,
+        "CVAI": 1.29,
+        "CVAI_unrounded": 1.2922286522869109,
+        "CVAI_min_ref": 1.31
+      }
+    },
+    {
+      "scan_id": "clinical_mild_plagio_P01",
+      "filename": "clinical_mild_plagio_P01.stl",
+      "description": "Лёгкая плагиоцефалия (3.5% ≤ CVAI < 6.25%)",
+      "category": "clinical_deformity_demo",
+      "reference_landmarks_mm": {
+        "Sellion": [
+          70.0478,
+          -2.1045,
+          539.7198
+        ],
+        "RightTragion": [
+          17.7052,
+          -54.5035,
+          533.0731
+        ],
+        "LeftTragion": [
+          18.8348,
+          51.9437,
+          533.6886
+        ],
+        "Subnasal": [
+          79.6081,
+          -1.0547,
+          520.3855
+        ],
+        "RightExo": [
+          57.1215,
+          -33.1055,
+          536.995
+        ],
+        "RightEndo": [
+          63.0426,
+          -14.3511,
+          537.9746
+        ],
+        "LeftEndo": [
+          63.3638,
+          10.3907,
+          537.1474
+        ],
+        "LeftExo": [
+          57.7584,
+          28.4702,
+          536.5401
+        ]
+      },
+      "reference_indices": {
+        "CI": 87.52,
+        "CI_unrounded": 87.51848081095456,
+        "CVA_mm": 5.77,
+        "CVA_unrounded": 5.765073864378422,
+        "CVAI": 5.14,
+        "CVAI_unrounded": 5.140088469544661,
+        "CVAI_min_ref": 5.42
+      }
+    },
+    {
+      "scan_id": "clinical_moderate_bp_BP05",
+      "filename": "clinical_moderate_bp_BP05.stl",
+      "description": "Умеренная брахи-плагиоцефалия (6.25% ≤ CVAI < 8.75%)",
+      "category": "clinical_deformity_demo",
+      "reference_landmarks_mm": {
+        "Sellion": [
+          77.6584,
+          -4.8731,
+          537.9823
+        ],
+        "RightTragion": [
+          16.7354,
+          -59.4422,
+          528.2093
+        ],
+        "LeftTragion": [
+          19.1553,
+          48.3133,
+          529.5633
+        ],
+        "Subnasal": [
+          83.3085,
+          -6.6357,
+          516.6216
+        ],
+        "RightExo": [
+          66.1607,
+          -37.1808,
+          540.0814
+        ],
+        "RightEndo": [
+          72.9592,
+          -15.9312,
+          540.2943
+        ],
+        "LeftEndo": [
+          72.5203,
+          5.4921,
+          539.1217
+        ],
+        "LeftExo": [
+          67.523,
+          25.4526,
+          539.6793
+        ]
+      },
+      "reference_indices": {
+        "CI": 92.35,
+        "CI_unrounded": 92.35020403077715,
+        "CVA_mm": 7.54,
+        "CVA_unrounded": 7.541280048956509,
+        "CVAI": 6.93,
+        "CVAI_unrounded": 6.9290835913917075,
+        "CVAI_min_ref": 7.44
+      }
+    },
+    {
+      "scan_id": "clinical_severe_plagio_P03",
+      "filename": "clinical_severe_plagio_P03.stl",
+      "description": "Тяжёлая плагиоцефалия (8.75% ≤ CVAI < 11.0%)",
+      "category": "clinical_deformity_demo",
+      "reference_landmarks_mm": {
+        "Sellion": [
+          71.0337,
+          -0.3812,
+          526.2203
+        ],
+        "RightTragion": [
+          11.1504,
+          -51.2658,
+          521.5832
+        ],
+        "LeftTragion": [
+          15.565,
+          47.2581,
+          519.0007
+        ],
+        "Subnasal": [
+          76.6345,
+          -0.0251,
+          506.7191
+        ],
+        "RightExo": [
+          60.4061,
+          -29.2326,
+          527.2321
+        ],
+        "RightEndo": [
+          64.2528,
+          -11.199,
+          527.2611
+        ],
+        "LeftEndo": [
+          64.7729,
+          10.3696,
+          527.5822
+        ],
+        "LeftExo": [
+          62.966,
+          25.5499,
+          527.0425
+        ]
+      },
+      "reference_indices": {
+        "CI": 80.56,
+        "CI_unrounded": 80.56003165570128,
+        "CVA_mm": 10.3,
+        "CVA_unrounded": 10.298015200401181,
+        "CVAI": 9.32,
+        "CVAI_unrounded": 9.323588545980916,
+        "CVAI_min_ref": 10.28
+      }
+    },
+    {
+      "scan_id": "clinical_brachycephaly_B01",
+      "filename": "clinical_brachycephaly_B01.stl",
+      "description": "Симметричная брахицефалия (высокий CI > 90%)",
+      "category": "clinical_deformity_demo",
+      "reference_landmarks_mm": {
+        "Sellion": [
+          70.0478,
+          -2.1045,
+          539.7198
+        ],
+        "RightTragion": [
+          17.7052,
+          -54.5035,
+          533.0731
+        ],
+        "LeftTragion": [
+          18.8348,
+          51.9437,
+          533.6886
+        ],
+        "Subnasal": [
+          79.6081,
+          -1.0547,
+          520.3855
+        ],
+        "RightExo": [
+          57.1215,
+          -33.1055,
+          536.995
+        ],
+        "RightEndo": [
+          63.0426,
+          -14.3511,
+          537.9746
+        ],
+        "LeftEndo": [
+          63.3638,
+          10.3907,
+          537.1474
+        ],
+        "LeftExo": [
+          57.7584,
+          28.4702,
+          536.5401
+        ]
+      },
+      "reference_indices": {
+        "CI": 90.67,
+        "CI_unrounded": 90.67000311794044,
+        "CVA_mm": 0.14,
+        "CVA_unrounded": 0.14015460125737889,
+        "CVAI": 0.13,
+        "CVAI_unrounded": 0.13165250702963766,
+        "CVAI_min_ref": 0.13
+      }
+    },
+    {
+      "scan_id": "clinical_scaphocephaly_S01",
+      "filename": "clinical_scaphocephaly_S01.stl",
+      "description": "Скафоцефалия / Долихоцефалия (низкий CI < 75%)",
+      "category": "clinical_deformity_demo",
+      "reference_landmarks_mm": {
+        "Sellion": [
+          70.0478,
+          -2.1045,
+          539.7198
+        ],
+        "RightTragion": [
+          17.7052,
+          -54.5035,
+          533.0731
+        ],
+        "LeftTragion": [
+          18.8348,
+          51.9437,
+          533.6886
+        ],
+        "Subnasal": [
+          79.6081,
+          -1.0547,
+          520.3855
+        ],
+        "RightExo": [
+          57.1215,
+          -33.1055,
+          536.995
+        ],
+        "RightEndo": [
+          63.0426,
+          -14.3511,
+          537.9746
+        ],
+        "LeftEndo": [
+          63.3638,
+          10.3907,
+          537.1474
+        ],
+        "LeftExo": [
+          57.7584,
+          28.4702,
+          536.5401
+        ]
+      },
+      "reference_indices": {
+        "CI": 73.49,
+        "CI_unrounded": 73.48969040416264,
+        "CVA_mm": 0.74,
+        "CVA_unrounded": 0.7446949229065041,
+        "CVAI": 0.67,
+        "CVAI_unrounded": 0.6671468000301147,
+        "CVAI_min_ref": 0.67
+      }
+    },
+    {
+      "scan_id": "clinical_very_severe_plagio_P04",
+      "filename": "clinical_very_severe_plagio_P04.stl",
+      "description": "Очень тяжёлая плагиоцефалия (CVAI ≥ 11.0%)",
+      "category": "clinical_deformity_demo",
+      "reference_landmarks_mm": {
+        "Sellion": [
+          71.0337,
+          -0.3812,
+          526.2203
+        ],
+        "RightTragion": [
+          11.1504,
+          -51.2658,
+          521.5832
+        ],
+        "LeftTragion": [
+          15.565,
+          47.2581,
+          519.0007
+        ],
+        "Subnasal": [
+          76.6345,
+          -0.0251,
+          506.7191
+        ],
+        "RightExo": [
+          60.4061,
+          -29.2326,
+          527.2321
+        ],
+        "RightEndo": [
+          64.2528,
+          -11.199,
+          527.2611
+        ],
+        "LeftEndo": [
+          64.7729,
+          10.3696,
+          527.5822
+        ],
+        "LeftExo": [
+          62.966,
+          25.5499,
+          527.0425
+        ]
+      },
+      "reference_indices": {
+        "CI": 80.38,
+        "CI_unrounded": 80.38440885535405,
+        "CVA_mm": 11.26,
+        "CVA_unrounded": 11.26060585664979,
+        "CVAI": 10.05,
+        "CVAI_unrounded": 10.050340640981755,
+        "CVAI_min_ref": 11.17
+      }
+    },
+    {
+      "scan_id": "defect_incomplete_occipital",
+      "filename": "defect_incomplete_occipital.stl",
+      "description": "Дефектный неполный скан (отсутствует затылочно-теменной сектор — тест отказа)",
+      "category": "defect_validation_demo"
+    },
+    {
+      "scan_id": "scale_test_meters_scan082",
+      "filename": "scale_test_meters_scan082.stl",
+      "description": "Скан в метрах (требует настройки масштаба ×1000 мм/м — п. 5.1 и 8.1 ТЗ)",
+      "category": "scale_calibration_demo"
+    }
+  ],
+  "artec_clinic_dataset": {
+    "source_archive": "drive-download-20261120T164210Z-1-001.zip",
+    "total_raw_scans": 100,
+    "valid_canonicalized_scans": 96,
+    "train_split_count": 77,
+    "holdout_val_count": 19,
+    "selected_train_high_conf": 65,
+    "representative_demos": [
+      {
+        "scan_id": "artec_clinic_001",
+        "filename": "artec_clinic_001.stl",
+        "description": "Реальный Artec 3D скан · Плагиоцефалия (P) (CI 82.3%, CVAI 7.7%, автовыравнивание 108°)",
+        "category": "artec_clinic_real",
+        "shape_code": "P",
+        "CI": 82.3,
+        "CVAI": 7.73,
+        "CVA_mm": 11.18,
+        "rotation_deg": 108.5
+      },
+      {
+        "scan_id": "artec_clinic_002",
+        "filename": "artec_clinic_002.stl",
+        "description": "Реальный Artec 3D скан · Комбинированная (BP) (CI 98.8%, CVAI 5.2%, автовыравнивание 133°)",
+        "category": "artec_clinic_real",
+        "shape_code": "BP",
+        "CI": 98.85,
+        "CVAI": 5.15,
+        "CVA_mm": 7.61,
+        "rotation_deg": 133.4
+      },
+      {
+        "scan_id": "artec_clinic_003",
+        "filename": "artec_clinic_003.stl",
+        "description": "Реальный Artec 3D скан · Брахицефалия (B) (CI 96.7%, CVAI 1.6%, автовыравнивание 109°)",
+        "category": "artec_clinic_real",
+        "shape_code": "B",
+        "CI": 96.65,
+        "CVAI": 1.59,
+        "CVA_mm": 2.26,
+        "rotation_deg": 109.3
+      },
+      {
+        "scan_id": "artec_clinic_004",
+        "filename": "artec_clinic_004.stl",
+        "description": "Реальный Artec 3D скан · Норма (N) (CI 84.6%, CVAI 2.5%, автовыравнивание 148°)",
+        "category": "artec_clinic_real",
+        "shape_code": "N",
+        "CI": 84.56,
+        "CVAI": 2.48,
+        "CVA_mm": 4.19,
+        "rotation_deg": 148.4
+      },
+      {
+        "scan_id": "artec_clinic_005",
+        "filename": "artec_clinic_005.stl",
+        "description": "Реальный Artec 3D скан · Профиль BP (CI 96.84%, CVAI 8.42%) (CI 96.8%, CVAI 8.4%, автовыравнивание 137°)",
+        "category": "artec_clinic_real",
+        "shape_code": "BP",
+        "CI": 96.84,
+        "CVAI": 8.42,
+        "CVA_mm": 12.13,
+        "rotation_deg": 137.4
+      },
+      {
+        "scan_id": "artec_clinic_006",
+        "filename": "artec_clinic_006.stl",
+        "description": "Реальный Artec 3D скан · Профиль BP (CI 89.12%, CVAI 8.14%) (CI 89.1%, CVAI 8.1%, автовыравнивание 127°)",
+        "category": "artec_clinic_real",
+        "shape_code": "BP",
+        "CI": 89.12,
+        "CVAI": 8.14,
+        "CVA_mm": 11.22,
+        "rotation_deg": 126.7
+      }
+    ]
+  }
+}

@@ -180,19 +180,3 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
-# Данные и тяжелые веса моделей
-data/
-*.csv
-*.parquet
-*.zip
-*.xlsx
-*.nc
-*.pkl
-*.pt
-*.h5
-
-# Служебный мусор Jupyter и Python
-.ipynb_checkpoints/
-__pycache__/
-*.pyc
-.env

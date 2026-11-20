@@ -1,0 +1,7142 @@
+{
+  "scan_001": {
+    "scan_id": "scan_001",
+    "source_file": "SynthMRIPaper/1.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        70.0478,
+        -2.1045,
+        539.7198
+      ],
+      "RightTragion": [
+        17.7052,
+        -54.5035,
+        533.0731
+      ],
+      "LeftTragion": [
+        18.8348,
+        51.9437,
+        533.6886
+      ],
+      "Subnasal": [
+        79.6081,
+        -1.0547,
+        520.3855
+      ],
+      "RightExo": [
+        57.1215,
+        -33.1055,
+        536.995
+      ],
+      "RightEndo": [
+        63.0426,
+        -14.3511,
+        537.9746
+      ],
+      "LeftEndo": [
+        63.3638,
+        10.3907,
+        537.1474
+      ],
+      "LeftExo": [
+        57.7584,
+        28.4702,
+        536.5401
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 92.46,
+      "CI_unrounded": 92.45745438492492,
+      "CVA_mm": 0.45,
+      "CVA_unrounded": 0.45099003980557484,
+      "CVAI": 0.39,
+      "CVAI_unrounded": 0.3873217761697772,
+      "CVAI_min_ref": 0.39
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 117.4,
+      "W_width_ml": 108.54,
+      "D1_diagonal_plus30": 116.44,
+      "D2_diagonal_minus30": 115.99,
+      "perimeter_slice": 362.18,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 70.9,
+      "slice_height_z": 21.27,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_002": {
+    "scan_id": "scan_002",
+    "source_file": "SynthMRIPaper/2.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        71.0939,
+        -1.1559,
+        537.4839
+      ],
+      "RightTragion": [
+        22.0416,
+        -57.2416,
+        536.6696
+      ],
+      "LeftTragion": [
+        18.8088,
+        51.15,
+        535.7607
+      ],
+      "Subnasal": [
+        78.9876,
+        -1.8038,
+        516.9425
+      ],
+      "RightExo": [
+        58.0679,
+        -31.9458,
+        537.1261
+      ],
+      "RightEndo": [
+        64.2436,
+        -12.3733,
+        536.9237
+      ],
+      "LeftEndo": [
+        63.0642,
+        11.2118,
+        537.5558
+      ],
+      "LeftExo": [
+        61.1115,
+        24.1601,
+        537.5545
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 91.77,
+      "CI_unrounded": 91.77106989347905,
+      "CVA_mm": 0.02,
+      "CVA_unrounded": 0.022092168943188994,
+      "CVAI": 0.02,
+      "CVAI_unrounded": 0.01906951427043699,
+      "CVAI_min_ref": 0.02
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 116.58,
+      "W_width_ml": 106.99,
+      "D1_diagonal_plus30": 115.85,
+      "D2_diagonal_minus30": 115.83,
+      "perimeter_slice": 357.49,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 61.78,
+      "slice_height_z": 18.53,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_003": {
+    "scan_id": "scan_003",
+    "source_file": "SynthMRIPaper/3.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        71.0337,
+        -0.3812,
+        526.2203
+      ],
+      "RightTragion": [
+        11.1504,
+        -51.2658,
+        521.5832
+      ],
+      "LeftTragion": [
+        15.565,
+        47.2581,
+        519.0007
+      ],
+      "Subnasal": [
+        76.6345,
+        -0.0251,
+        506.7191
+      ],
+      "RightExo": [
+        60.4061,
+        -29.2326,
+        527.2321
+      ],
+      "RightEndo": [
+        64.2528,
+        -11.199,
+        527.2611
+      ],
+      "LeftEndo": [
+        64.7729,
+        10.3696,
+        527.5822
+      ],
+      "LeftExo": [
+        62.966,
+        25.5499,
+        527.0425
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 75.37,
+      "CI_unrounded": 75.37341008463193,
+      "CVA_mm": 0.73,
+      "CVA_unrounded": 0.7259001994372483,
+      "CVAI": 0.59,
+      "CVAI_unrounded": 0.5868787368870755,
+      "CVAI_min_ref": 0.59
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 128.3,
+      "W_width_ml": 96.7,
+      "D1_diagonal_plus30": 122.96,
+      "D2_diagonal_minus30": 123.69,
+      "perimeter_slice": 368.66,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 78.76,
+      "slice_height_z": 23.63,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_004": {
+    "scan_id": "scan_004",
+    "source_file": "SynthMRIPaper/4.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        81.2194,
+        -1.4258,
+        543.7706
+      ],
+      "RightTragion": [
+        18.342,
+        -50.7489,
+        531.6213
+      ],
+      "LeftTragion": [
+        21.5979,
+        48.3327,
+        531.9062
+      ],
+      "Subnasal": [
+        91.3321,
+        -1.7791,
+        519.6281
+      ],
+      "RightExo": [
+        68.3744,
+        -31.695,
+        544.7058
+      ],
+      "RightEndo": [
+        75.1316,
+        -10.6989,
+        544.5813
+      ],
+      "LeftEndo": [
+        77.03,
+        8.9102,
+        543.6493
+      ],
+      "LeftExo": [
+        68.3923,
+        28.98,
+        541.242
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 76.25,
+      "CI_unrounded": 76.2452666217674,
+      "CVA_mm": 0.06,
+      "CVA_unrounded": 0.05994232486523288,
+      "CVAI": 0.05,
+      "CVAI_unrounded": 0.04819558875282123,
+      "CVAI_min_ref": 0.05
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 129.97,
+      "W_width_ml": 99.09,
+      "D1_diagonal_plus30": 124.31,
+      "D2_diagonal_minus30": 124.37,
+      "perimeter_slice": 371.83,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 82.12,
+      "slice_height_z": 24.63,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_005": {
+    "scan_id": "scan_005",
+    "source_file": "SynthMRIPaper/5.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        77.6584,
+        -4.8731,
+        537.9823
+      ],
+      "RightTragion": [
+        16.7354,
+        -59.4422,
+        528.2093
+      ],
+      "LeftTragion": [
+        19.1553,
+        48.3133,
+        529.5633
+      ],
+      "Subnasal": [
+        83.3085,
+        -6.6357,
+        516.6216
+      ],
+      "RightExo": [
+        66.1607,
+        -37.1808,
+        540.0814
+      ],
+      "RightEndo": [
+        72.9592,
+        -15.9312,
+        540.2943
+      ],
+      "LeftEndo": [
+        72.5203,
+        5.4921,
+        539.1217
+      ],
+      "LeftExo": [
+        67.523,
+        25.4526,
+        539.6793
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 80.43,
+      "CI_unrounded": 80.42545763700672,
+      "CVA_mm": 0.48,
+      "CVA_unrounded": 0.48081689653550086,
+      "CVAI": 0.38,
+      "CVAI_unrounded": 0.37753042152828703,
+      "CVAI_min_ref": 0.38
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 131.06,
+      "W_width_ml": 105.41,
+      "D1_diagonal_plus30": 126.88,
+      "D2_diagonal_minus30": 127.36,
+      "perimeter_slice": 382.41,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 78.13,
+      "slice_height_z": 23.44,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_006": {
+    "scan_id": "scan_006",
+    "source_file": "SynthMRIPaper/6.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        66.8793,
+        -2.3935,
+        523.5086
+      ],
+      "RightTragion": [
+        12.6399,
+        -53.3904,
+        517.4954
+      ],
+      "LeftTragion": [
+        13.1045,
+        47.3132,
+        514.4691
+      ],
+      "Subnasal": [
+        76.8204,
+        -2.2861,
+        507.1796
+      ],
+      "RightExo": [
+        53.6909,
+        -37.1711,
+        521.8881
+      ],
+      "RightEndo": [
+        62.0861,
+        -13.9773,
+        523.1449
+      ],
+      "LeftEndo": [
+        62.7418,
+        8.5316,
+        524.3519
+      ],
+      "LeftExo": [
+        56.1768,
+        28.2887,
+        525.5304
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 76.88,
+      "CI_unrounded": 76.87524928265283,
+      "CVA_mm": 0.07,
+      "CVA_unrounded": 0.07185091781053643,
+      "CVAI": 0.06,
+      "CVAI_unrounded": 0.05597416455810154,
+      "CVAI_min_ref": 0.06
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 132.95,
+      "W_width_ml": 102.21,
+      "D1_diagonal_plus30": 128.29,
+      "D2_diagonal_minus30": 128.36,
+      "perimeter_slice": 381.95,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 85.12,
+      "slice_height_z": 25.54,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_007": {
+    "scan_id": "scan_007",
+    "source_file": "SynthMRIPaper/7.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        66.1229,
+        -0.4301,
+        550.8668
+      ],
+      "RightTragion": [
+        12.0244,
+        -54.3484,
+        538.2511
+      ],
+      "LeftTragion": [
+        11.7321,
+        48.9736,
+        537.447
+      ],
+      "Subnasal": [
+        75.7554,
+        -1.7153,
+        533.6165
+      ],
+      "RightExo": [
+        55.5279,
+        -30.581,
+        550.2165
+      ],
+      "RightEndo": [
+        59.2092,
+        -12.1765,
+        549.9258
+      ],
+      "LeftEndo": [
+        60.266,
+        6.5831,
+        549.4963
+      ],
+      "LeftExo": [
+        56.3597,
+        25.9103,
+        548.2218
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 83.48,
+      "CI_unrounded": 83.48052148613752,
+      "CVA_mm": 0.76,
+      "CVA_unrounded": 0.7567386688434397,
+      "CVAI": 0.6,
+      "CVAI_unrounded": 0.6048628034637851,
+      "CVAI_min_ref": 0.61
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 128.15,
+      "W_width_ml": 106.98,
+      "D1_diagonal_plus30": 124.35,
+      "D2_diagonal_minus30": 125.11,
+      "perimeter_slice": 377.1,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 76.05,
+      "slice_height_z": 22.82,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_008": {
+    "scan_id": "scan_008",
+    "source_file": "SynthMRIPaper/8.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        64.549,
+        -2.3713,
+        552.7467
+      ],
+      "RightTragion": [
+        9.2125,
+        -56.8921,
+        548.7368
+      ],
+      "LeftTragion": [
+        9.2577,
+        50.5222,
+        552.3966
+      ],
+      "Subnasal": [
+        70.1781,
+        -4.4573,
+        524.7353
+      ],
+      "RightExo": [
+        54.7541,
+        -32.1147,
+        555.2423
+      ],
+      "RightEndo": [
+        60.8398,
+        -13.9438,
+        553.3638
+      ],
+      "LeftEndo": [
+        59.3242,
+        6.7787,
+        553.6393
+      ],
+      "LeftExo": [
+        54.3845,
+        23.5875,
+        550.5227
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 81.54,
+      "CI_unrounded": 81.54437985856326,
+      "CVA_mm": 1.37,
+      "CVA_unrounded": 1.3692672720125074,
+      "CVAI": 1.11,
+      "CVAI_unrounded": 1.1081329236237243,
+      "CVAI_min_ref": 1.12
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 127.34,
+      "W_width_ml": 103.84,
+      "D1_diagonal_plus30": 122.2,
+      "D2_diagonal_minus30": 123.57,
+      "perimeter_slice": 370.22,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 76.47,
+      "slice_height_z": 22.94,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_009": {
+    "scan_id": "scan_009",
+    "source_file": "SynthMRIPaper/9.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        70.6394,
+        -1.8814,
+        534.1371
+      ],
+      "RightTragion": [
+        7.6455,
+        -52.8814,
+        517.9889
+      ],
+      "LeftTragion": [
+        8.6191,
+        48.3864,
+        517.9663
+      ],
+      "Subnasal": [
+        76.7712,
+        -2.3299,
+        506.0167
+      ],
+      "RightExo": [
+        55.112,
+        -38.4345,
+        532.4074
+      ],
+      "RightEndo": [
+        65.1779,
+        -13.789,
+        533.9239
+      ],
+      "LeftEndo": [
+        65.1073,
+        7.8327,
+        532.5243
+      ],
+      "LeftExo": [
+        58.2772,
+        28.6879,
+        530.9661
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 69.77,
+      "CI_unrounded": 69.7683940008612,
+      "CVA_mm": 0.35,
+      "CVA_unrounded": 0.35090876682642147,
+      "CVAI": 0.26,
+      "CVAI_unrounded": 0.2571878658079738,
+      "CVAI_min_ref": 0.26
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 147.1,
+      "W_width_ml": 102.63,
+      "D1_diagonal_plus30": 136.09,
+      "D2_diagonal_minus30": 136.44,
+      "perimeter_slice": 406.81,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 90.91,
+      "slice_height_z": 27.27,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_010": {
+    "scan_id": "scan_010",
+    "source_file": "SynthMRIPaper/10.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        77.5207,
+        -3.3907,
+        527.9691
+      ],
+      "RightTragion": [
+        16.4808,
+        -51.6047,
+        523.6389
+      ],
+      "LeftTragion": [
+        17.5487,
+        42.6271,
+        522.5237
+      ],
+      "Subnasal": [
+        83.1938,
+        -3.9323,
+        507.3786
+      ],
+      "RightExo": [
+        64.4272,
+        -33.2803,
+        526.7237
+      ],
+      "RightEndo": [
+        71.2682,
+        -13.7692,
+        528.9488
+      ],
+      "LeftEndo": [
+        71.2016,
+        6.1752,
+        529.0077
+      ],
+      "LeftExo": [
+        65.9808,
+        22.8732,
+        525.4102
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 67.86,
+      "CI_unrounded": 67.85514744314028,
+      "CVA_mm": 0.61,
+      "CVA_unrounded": 0.6062721974382157,
+      "CVAI": 0.48,
+      "CVAI_unrounded": 0.47807470479047115,
+      "CVAI_min_ref": 0.48
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 136.57,
+      "W_width_ml": 92.67,
+      "D1_diagonal_plus30": 126.21,
+      "D2_diagonal_minus30": 126.82,
+      "perimeter_slice": 376.54,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 68.52,
+      "slice_height_z": 20.55,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_011": {
+    "scan_id": "scan_011",
+    "source_file": "SynthMRIPaper/11.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        64.2806,
+        -4.5143,
+        538.7912
+      ],
+      "RightTragion": [
+        2.1719,
+        -53.2846,
+        535.8511
+      ],
+      "LeftTragion": [
+        4.6034,
+        43.9467,
+        533.6516
+      ],
+      "Subnasal": [
+        69.2369,
+        -4.5588,
+        513.2459
+      ],
+      "RightExo": [
+        49.994,
+        -37.0057,
+        537.9307
+      ],
+      "RightEndo": [
+        57.7573,
+        -15.433,
+        537.0592
+      ],
+      "LeftEndo": [
+        59.6985,
+        5.45,
+        538.6504
+      ],
+      "LeftExo": [
+        52.2111,
+        25.3214,
+        537.4796
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 73.59,
+      "CI_unrounded": 73.58774886849926,
+      "CVA_mm": 0.22,
+      "CVA_unrounded": 0.21966672346586336,
+      "CVAI": 0.17,
+      "CVAI_unrounded": 0.17367822878695113,
+      "CVAI_min_ref": 0.17
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 133.12,
+      "W_width_ml": 97.96,
+      "D1_diagonal_plus30": 126.48,
+      "D2_diagonal_minus30": 126.26,
+      "perimeter_slice": 376.41,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 74.38,
+      "slice_height_z": 22.31,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_012": {
+    "scan_id": "scan_012",
+    "source_file": "SynthMRIPaper/12.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        67.8579,
+        1.3235,
+        532.2806
+      ],
+      "RightTragion": [
+        7.8999,
+        -59.5519,
+        522.2404
+      ],
+      "LeftTragion": [
+        14.3379,
+        56.2442,
+        521.8156
+      ],
+      "Subnasal": [
+        76.4289,
+        0.2293,
+        505.9695
+      ],
+      "RightExo": [
+        54.4615,
+        -32.8764,
+        531.0488
+      ],
+      "RightEndo": [
+        62.6323,
+        -11.8763,
+        531.0865
+      ],
+      "LeftEndo": [
+        63.4864,
+        11.1162,
+        532.5447
+      ],
+      "LeftExo": [
+        55.5211,
+        31.2861,
+        529.6789
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 84.55,
+      "CI_unrounded": 84.54887155301465,
+      "CVA_mm": 1.56,
+      "CVA_unrounded": 1.561456967996989,
+      "CVAI": 1.23,
+      "CVAI_unrounded": 1.2296168188367367,
+      "CVAI_min_ref": 1.24
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 128.45,
+      "W_width_ml": 108.6,
+      "D1_diagonal_plus30": 125.43,
+      "D2_diagonal_minus30": 126.99,
+      "perimeter_slice": 385.19,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 88.67,
+      "slice_height_z": 26.6,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_013": {
+    "scan_id": "scan_013",
+    "source_file": "SynthMRIPaper/13.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        69.0476,
+        1.3618,
+        532.9844
+      ],
+      "RightTragion": [
+        12.4958,
+        -45.4998,
+        521.3389
+      ],
+      "LeftTragion": [
+        12.8732,
+        46.3535,
+        521.0143
+      ],
+      "Subnasal": [
+        79.3163,
+        2.1679,
+        510.8668
+      ],
+      "RightExo": [
+        59.1836,
+        -28.2035,
+        537.996
+      ],
+      "RightEndo": [
+        66.8824,
+        -8.7443,
+        538.2708
+      ],
+      "LeftEndo": [
+        65.3305,
+        9.2328,
+        535.8839
+      ],
+      "LeftExo": [
+        57.3101,
+        28.9471,
+        534.2191
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 76.84,
+      "CI_unrounded": 76.83768940652358,
+      "CVA_mm": 0.8,
+      "CVA_unrounded": 0.7961715811013903,
+      "CVAI": 0.69,
+      "CVAI_unrounded": 0.6886314787366666,
+      "CVAI_min_ref": 0.69
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 121.5,
+      "W_width_ml": 93.36,
+      "D1_diagonal_plus30": 114.82,
+      "D2_diagonal_minus30": 115.62,
+      "perimeter_slice": 347.1,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 87.94,
+      "slice_height_z": 26.38,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_014": {
+    "scan_id": "scan_014",
+    "source_file": "SynthMRIPaper/14.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        69.1365,
+        0.5596,
+        534.0736
+      ],
+      "RightTragion": [
+        8.2845,
+        -47.0341,
+        523.2028
+      ],
+      "LeftTragion": [
+        9.3058,
+        47.8117,
+        524.4238
+      ],
+      "Subnasal": [
+        79.4289,
+        -1.0422,
+        510.0075
+      ],
+      "RightExo": [
+        58.2743,
+        -29.7954,
+        536.399
+      ],
+      "RightEndo": [
+        64.3774,
+        -11.1961,
+        535.6314
+      ],
+      "LeftEndo": [
+        64.6999,
+        9.5099,
+        535.5173
+      ],
+      "LeftExo": [
+        57.2555,
+        27.8433,
+        531.7949
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 78.61,
+      "CI_unrounded": 78.61313631617271,
+      "CVA_mm": 0.34,
+      "CVA_unrounded": 0.338387807110081,
+      "CVAI": 0.3,
+      "CVAI_unrounded": 0.295716413448805,
+      "CVAI_min_ref": 0.3
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 120.96,
+      "W_width_ml": 95.09,
+      "D1_diagonal_plus30": 114.09,
+      "D2_diagonal_minus30": 114.43,
+      "perimeter_slice": 346.73,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 73.61,
+      "slice_height_z": 22.08,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_015": {
+    "scan_id": "scan_015",
+    "source_file": "SynthMRIPaper/15.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        74.3515,
+        -0.2719,
+        528.3514
+      ],
+      "RightTragion": [
+        14.2585,
+        -53.3615,
+        518.2717
+      ],
+      "LeftTragion": [
+        15.6378,
+        48.8971,
+        517.4988
+      ],
+      "Subnasal": [
+        79.6949,
+        -2.9691,
+        504.5675
+      ],
+      "RightExo": [
+        59.7474,
+        -34.4883,
+        528.5654
+      ],
+      "RightEndo": [
+        69.0571,
+        -13.075,
+        530.276
+      ],
+      "LeftEndo": [
+        68.2519,
+        12.8736,
+        530.7419
+      ],
+      "LeftExo": [
+        61.9081,
+        29.8357,
+        530.2283
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 80.88,
+      "CI_unrounded": 80.87799506584766,
+      "CVA_mm": 1.34,
+      "CVA_unrounded": 1.3379093589358462,
+      "CVAI": 1.09,
+      "CVAI_unrounded": 1.085593052214096,
+      "CVAI_min_ref": 1.1
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 126.98,
+      "W_width_ml": 102.7,
+      "D1_diagonal_plus30": 121.9,
+      "D2_diagonal_minus30": 123.24,
+      "perimeter_slice": 371.08,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 88.69,
+      "slice_height_z": 26.61,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_016": {
+    "scan_id": "scan_016",
+    "source_file": "SynthMRIPaper/16.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        74.3515,
+        -0.2719,
+        528.3514
+      ],
+      "RightTragion": [
+        14.2585,
+        -53.3615,
+        518.2717
+      ],
+      "LeftTragion": [
+        15.6378,
+        48.8971,
+        517.4988
+      ],
+      "Subnasal": [
+        79.6949,
+        -2.9691,
+        504.5675
+      ],
+      "RightExo": [
+        59.7474,
+        -34.4883,
+        528.5654
+      ],
+      "RightEndo": [
+        69.0571,
+        -13.075,
+        530.276
+      ],
+      "LeftEndo": [
+        68.2519,
+        12.8736,
+        530.7419
+      ],
+      "LeftExo": [
+        61.9081,
+        29.8357,
+        530.2283
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 78.21,
+      "CI_unrounded": 78.20894490377053,
+      "CVA_mm": 1.74,
+      "CVA_unrounded": 1.7438871271370147,
+      "CVAI": 1.38,
+      "CVAI_unrounded": 1.3804118933001377,
+      "CVAI_min_ref": 1.4
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 130.4,
+      "W_width_ml": 101.98,
+      "D1_diagonal_plus30": 124.59,
+      "D2_diagonal_minus30": 126.33,
+      "perimeter_slice": 376.8,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 81.06,
+      "slice_height_z": 24.32,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_017": {
+    "scan_id": "scan_017",
+    "source_file": "SynthMRIPaper/17.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        78.4158,
+        -0.2613,
+        534.1667
+      ],
+      "RightTragion": [
+        13.4904,
+        -56.1125,
+        524.8482
+      ],
+      "LeftTragion": [
+        19.3431,
+        52.0157,
+        528.9123
+      ],
+      "Subnasal": [
+        85.848,
+        0.4454,
+        510.7001
+      ],
+      "RightExo": [
+        63.0744,
+        -33.1032,
+        534.8132
+      ],
+      "RightEndo": [
+        70.5592,
+        -12.7844,
+        536.4216
+      ],
+      "LeftEndo": [
+        70.6375,
+        11.3206,
+        534.384
+      ],
+      "LeftExo": [
+        65.3699,
+        29.817,
+        532.5056
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 81.89,
+      "CI_unrounded": 81.89430149171294,
+      "CVA_mm": 2.28,
+      "CVA_unrounded": 2.275481211840301,
+      "CVAI": 1.81,
+      "CVAI_unrounded": 1.8134654047436942,
+      "CVAI_min_ref": 1.85
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 127.56,
+      "W_width_ml": 104.47,
+      "D1_diagonal_plus30": 123.2,
+      "D2_diagonal_minus30": 125.48,
+      "perimeter_slice": 376.16,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 80.53,
+      "slice_height_z": 24.16,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_018": {
+    "scan_id": "scan_018",
+    "source_file": "SynthMRIPaper/18.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        72.6414,
+        6.1339,
+        536.8747
+      ],
+      "RightTragion": [
+        9.0428,
+        -45.9616,
+        527.7683
+      ],
+      "LeftTragion": [
+        9.2182,
+        58.0404,
+        532.8502
+      ],
+      "Subnasal": [
+        77.8172,
+        6.7964,
+        511.3731
+      ],
+      "RightExo": [
+        61.0972,
+        -24.7674,
+        538.4038
+      ],
+      "RightEndo": [
+        65.7434,
+        -4.6667,
+        537.3559
+      ],
+      "LeftEndo": [
+        64.4722,
+        17.3019,
+        536.5657
+      ],
+      "LeftExo": [
+        58.2676,
+        37.5234,
+        537.1287
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 81.94,
+      "CI_unrounded": 81.93985387897159,
+      "CVA_mm": 0.24,
+      "CVA_unrounded": 0.23880340987986415,
+      "CVAI": 0.19,
+      "CVAI_unrounded": 0.19456429419272078,
+      "CVAI_min_ref": 0.19
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 124.12,
+      "W_width_ml": 101.7,
+      "D1_diagonal_plus30": 122.74,
+      "D2_diagonal_minus30": 122.5,
+      "perimeter_slice": 371.85,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 73.29,
+      "slice_height_z": 21.99,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_019": {
+    "scan_id": "scan_019",
+    "source_file": "SynthMRIPaper/19.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        69.1936,
+        4.9941,
+        529.2608
+      ],
+      "RightTragion": [
+        14.3801,
+        -46.7866,
+        521.485
+      ],
+      "LeftTragion": [
+        18.1089,
+        53.6845,
+        522.3883
+      ],
+      "Subnasal": [
+        78.0326,
+        4.9248,
+        509.2465
+      ],
+      "RightExo": [
+        54.0048,
+        -29.0025,
+        528.7998
+      ],
+      "RightEndo": [
+        62.3022,
+        -7.97,
+        528.8521
+      ],
+      "LeftEndo": [
+        61.3754,
+        16.8788,
+        527.8378
+      ],
+      "LeftExo": [
+        54.932,
+        35.0826,
+        527.1793
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 82.51,
+      "CI_unrounded": 82.5058069378757,
+      "CVA_mm": 1.51,
+      "CVA_unrounded": 1.5131289583486875,
+      "CVAI": 1.27,
+      "CVAI_unrounded": 1.2691609304876637,
+      "CVAI_min_ref": 1.29
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 123.23,
+      "W_width_ml": 101.67,
+      "D1_diagonal_plus30": 117.71,
+      "D2_diagonal_minus30": 119.22,
+      "perimeter_slice": 360.27,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 81.56,
+      "slice_height_z": 24.47,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_020": {
+    "scan_id": "scan_020",
+    "source_file": "SynthMRIPaper/20.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        68.4449,
+        3.7402,
+        539.9105
+      ],
+      "RightTragion": [
+        11.3084,
+        -50.902,
+        531.0611
+      ],
+      "LeftTragion": [
+        16.7682,
+        57.2526,
+        531.348
+      ],
+      "Subnasal": [
+        78.9401,
+        3.8515,
+        515.573
+      ],
+      "RightExo": [
+        53.8042,
+        -29.6051,
+        536.0014
+      ],
+      "RightEndo": [
+        63.2264,
+        -8.8873,
+        539.515
+      ],
+      "LeftEndo": [
+        64.5409,
+        13.1484,
+        538.5413
+      ],
+      "LeftExo": [
+        58.7598,
+        30.8287,
+        535.2046
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 87.22,
+      "CI_unrounded": 87.2186830343598,
+      "CVA_mm": 1.39,
+      "CVA_unrounded": 1.3874483994035387,
+      "CVAI": 1.18,
+      "CVAI_unrounded": 1.1809576795888648,
+      "CVAI_min_ref": 1.2
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 119.74,
+      "W_width_ml": 104.43,
+      "D1_diagonal_plus30": 116.1,
+      "D2_diagonal_minus30": 117.49,
+      "perimeter_slice": 359.97,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 74.11,
+      "slice_height_z": 22.23,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_021": {
+    "scan_id": "scan_021",
+    "source_file": "SynthMRIPaper/21.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        69.056,
+        7.2752,
+        534.1623
+      ],
+      "RightTragion": [
+        8.7275,
+        -51.5938,
+        526.1281
+      ],
+      "LeftTragion": [
+        8.9183,
+        61.8943,
+        528.266
+      ],
+      "Subnasal": [
+        78.0418,
+        5.9044,
+        514.3171
+      ],
+      "RightExo": [
+        58.2843,
+        -27.9657,
+        535.6591
+      ],
+      "RightEndo": [
+        64.1213,
+        -6.9415,
+        536.0278
+      ],
+      "LeftEndo": [
+        63.8109,
+        17.2216,
+        535.4712
+      ],
+      "LeftExo": [
+        58.3274,
+        37.7643,
+        533.9983
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 90.13,
+      "CI_unrounded": 90.12679845274334,
+      "CVA_mm": 0.09,
+      "CVA_unrounded": 0.08689205975446157,
+      "CVAI": 0.07,
+      "CVAI_unrounded": 0.07125439463388732,
+      "CVAI_min_ref": 0.07
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 120.12,
+      "W_width_ml": 108.26,
+      "D1_diagonal_plus30": 121.95,
+      "D2_diagonal_minus30": 121.86,
+      "perimeter_slice": 372.61,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 66.79,
+      "slice_height_z": 20.04,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_022": {
+    "scan_id": "scan_022",
+    "source_file": "SynthMRIPaper/22.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        68.5591,
+        4.0084,
+        536.3237
+      ],
+      "RightTragion": [
+        9.1694,
+        -55.3966,
+        526.322
+      ],
+      "LeftTragion": [
+        5.5771,
+        64.0463,
+        524.5195
+      ],
+      "Subnasal": [
+        72.1944,
+        4.8483,
+        507.3931
+      ],
+      "RightExo": [
+        52.1643,
+        -36.0509,
+        537.1725
+      ],
+      "RightEndo": [
+        61.0007,
+        -14.4405,
+        537.3255
+      ],
+      "LeftEndo": [
+        62.1899,
+        15.1691,
+        536.1329
+      ],
+      "LeftExo": [
+        56.9588,
+        34.7043,
+        535.8817
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 96.09,
+      "CI_unrounded": 96.08545544455448,
+      "CVA_mm": 0.01,
+      "CVA_unrounded": 0.010181733003776117,
+      "CVAI": 0.01,
+      "CVAI_unrounded": 0.008629897485707303,
+      "CVAI_min_ref": 0.01
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 116.62,
+      "W_width_ml": 112.05,
+      "D1_diagonal_plus30": 117.97,
+      "D2_diagonal_minus30": 117.98,
+      "perimeter_slice": 371.91,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 80.59,
+      "slice_height_z": 24.18,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_023": {
+    "scan_id": "scan_023",
+    "source_file": "SynthMRIPaper/23.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        74.1219,
+        3.188,
+        534.983
+      ],
+      "RightTragion": [
+        17.574,
+        -52.238,
+        535.7704
+      ],
+      "LeftTragion": [
+        20.2607,
+        54.1651,
+        527.856
+      ],
+      "Subnasal": [
+        81.9243,
+        2.3209,
+        512.6734
+      ],
+      "RightExo": [
+        66.6527,
+        -27.4267,
+        533.3112
+      ],
+      "RightEndo": [
+        72.6965,
+        -9.5572,
+        535.2617
+      ],
+      "LeftEndo": [
+        71.6616,
+        14.596,
+        535.495
+      ],
+      "LeftExo": [
+        64.6362,
+        35.0358,
+        534.42
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 78.53,
+      "CI_unrounded": 78.52688543571483,
+      "CVA_mm": 1.22,
+      "CVA_unrounded": 1.2233330222200323,
+      "CVAI": 0.95,
+      "CVAI_unrounded": 0.9540891168760931,
+      "CVAI_min_ref": 0.96
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 133.0,
+      "W_width_ml": 104.44,
+      "D1_diagonal_plus30": 127.0,
+      "D2_diagonal_minus30": 128.22,
+      "perimeter_slice": 384.68,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 78.22,
+      "slice_height_z": 23.47,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_024": {
+    "scan_id": "scan_024",
+    "source_file": "SynthMRIPaper/24.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        74.8243,
+        2.8846,
+        536.644
+      ],
+      "RightTragion": [
+        20.2878,
+        -51.8979,
+        535.7001
+      ],
+      "LeftTragion": [
+        18.9968,
+        56.9872,
+        529.7247
+      ],
+      "Subnasal": [
+        82.7581,
+        2.2888,
+        513.8511
+      ],
+      "RightExo": [
+        64.5083,
+        -30.2891,
+        533.197
+      ],
+      "RightEndo": [
+        72.3755,
+        -8.4554,
+        534.6664
+      ],
+      "LeftEndo": [
+        72.3768,
+        13.0622,
+        535.5923
+      ],
+      "LeftExo": [
+        66.9667,
+        31.4112,
+        533.4602
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 77.84,
+      "CI_unrounded": 77.84080283167725,
+      "CVA_mm": 1.27,
+      "CVA_unrounded": 1.2678515865272288,
+      "CVAI": 0.98,
+      "CVAI_unrounded": 0.9840274351805623,
+      "CVAI_min_ref": 0.99
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 134.09,
+      "W_width_ml": 104.38,
+      "D1_diagonal_plus30": 127.58,
+      "D2_diagonal_minus30": 128.84,
+      "perimeter_slice": 387.41,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 76.34,
+      "slice_height_z": 22.9,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_025": {
+    "scan_id": "scan_025",
+    "source_file": "SynthMRIPaper/25.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        73.6725,
+        -0.2774,
+        520.011
+      ],
+      "RightTragion": [
+        13.4931,
+        -51.9714,
+        516.92
+      ],
+      "LeftTragion": [
+        17.4505,
+        50.1324,
+        514.5356
+      ],
+      "Subnasal": [
+        78.7444,
+        -0.3276,
+        498.5276
+      ],
+      "RightExo": [
+        63.0326,
+        -31.788,
+        522.5883
+      ],
+      "RightEndo": [
+        69.0772,
+        -13.0591,
+        522.9336
+      ],
+      "LeftEndo": [
+        69.4556,
+        13.0634,
+        522.444
+      ],
+      "LeftExo": [
+        63.6156,
+        32.1153,
+        522.8119
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 76.14,
+      "CI_unrounded": 76.13525044352654,
+      "CVA_mm": 0.12,
+      "CVA_unrounded": 0.11797777701755763,
+      "CVAI": 0.09,
+      "CVAI_unrounded": 0.09362932634281791,
+      "CVAI_min_ref": 0.09
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 129.07,
+      "W_width_ml": 98.27,
+      "D1_diagonal_plus30": 125.89,
+      "D2_diagonal_minus30": 126.01,
+      "perimeter_slice": 374.17,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 68.31,
+      "slice_height_z": 20.49,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_026": {
+    "scan_id": "scan_026",
+    "source_file": "SynthMRIPaper/26.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        70.0621,
+        5.5622,
+        529.4994
+      ],
+      "RightTragion": [
+        13.4938,
+        -51.3216,
+        523.4548
+      ],
+      "LeftTragion": [
+        11.5167,
+        60.982,
+        520.5269
+      ],
+      "Subnasal": [
+        77.7296,
+        4.8054,
+        504.1824
+      ],
+      "RightExo": [
+        58.9029,
+        -28.5455,
+        530.7812
+      ],
+      "RightEndo": [
+        65.8546,
+        -6.8925,
+        531.2562
+      ],
+      "LeftEndo": [
+        66.5343,
+        16.2341,
+        530.2732
+      ],
+      "LeftExo": [
+        60.1253,
+        35.7451,
+        529.1288
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 85.18,
+      "CI_unrounded": 85.17775349140265,
+      "CVA_mm": 0.64,
+      "CVA_unrounded": 0.6380935245778687,
+      "CVAI": 0.51,
+      "CVAI_unrounded": 0.5107157028793066,
+      "CVAI_min_ref": 0.51
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 127.8,
+      "W_width_ml": 108.85,
+      "D1_diagonal_plus30": 124.3,
+      "D2_diagonal_minus30": 124.94,
+      "perimeter_slice": 380.85,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 84.46,
+      "slice_height_z": 25.34,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_027": {
+    "scan_id": "scan_027",
+    "source_file": "SynthMRIPaper/27.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        70.5268,
+        -2.9854,
+        546.6703
+      ],
+      "RightTragion": [
+        24.2023,
+        -61.5481,
+        540.3204
+      ],
+      "LeftTragion": [
+        31.5751,
+        50.2149,
+        539.2197
+      ],
+      "Subnasal": [
+        77.1933,
+        -3.9484,
+        521.3495
+      ],
+      "RightExo": [
+        59.37,
+        -36.2353,
+        548.551
+      ],
+      "RightEndo": [
+        66.5596,
+        -15.1281,
+        548.0934
+      ],
+      "LeftEndo": [
+        66.6811,
+        5.9165,
+        546.2702
+      ],
+      "LeftExo": [
+        62.1706,
+        24.0476,
+        548.4672
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 86.93,
+      "CI_unrounded": 86.9328648991271,
+      "CVA_mm": 1.47,
+      "CVA_unrounded": 1.4736669876055544,
+      "CVAI": 1.2,
+      "CVAI_unrounded": 1.2034995092877692,
+      "CVAI_min_ref": 1.22
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 126.21,
+      "W_width_ml": 109.72,
+      "D1_diagonal_plus30": 120.97,
+      "D2_diagonal_minus30": 122.45,
+      "perimeter_slice": 376.53,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 73.29,
+      "slice_height_z": 21.99,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_028": {
+    "scan_id": "scan_028",
+    "source_file": "SynthMRIPaper/28.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        65.5467,
+        1.914,
+        541.7874
+      ],
+      "RightTragion": [
+        9.6085,
+        -45.9757,
+        532.1988
+      ],
+      "LeftTragion": [
+        6.9024,
+        48.5079,
+        531.0223
+      ],
+      "Subnasal": [
+        71.3923,
+        2.492,
+        520.3651
+      ],
+      "RightExo": [
+        54.6498,
+        -24.3117,
+        538.9269
+      ],
+      "RightEndo": [
+        58.873,
+        -7.0073,
+        540.1688
+      ],
+      "LeftEndo": [
+        59.1519,
+        9.0185,
+        540.9315
+      ],
+      "LeftExo": [
+        56.2315,
+        24.9597,
+        540.7524
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 68.97,
+      "CI_unrounded": 68.96956543619903,
+      "CVA_mm": 0.41,
+      "CVA_unrounded": 0.41498071207054466,
+      "CVAI": 0.33,
+      "CVAI_unrounded": 0.3324514601206698,
+      "CVAI_min_ref": 0.33
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 135.07,
+      "W_width_ml": 93.16,
+      "D1_diagonal_plus30": 124.41,
+      "D2_diagonal_minus30": 124.82,
+      "perimeter_slice": 371.66,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 89.7,
+      "slice_height_z": 26.91,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_029": {
+    "scan_id": "scan_029",
+    "source_file": "SynthMRIPaper/29.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        75.405,
+        -1.2304,
+        533.3491
+      ],
+      "RightTragion": [
+        11.9038,
+        -62.7876,
+        522.8298
+      ],
+      "LeftTragion": [
+        14.1542,
+        57.9416,
+        521.6499
+      ],
+      "Subnasal": [
+        83.6265,
+        -1.2991,
+        516.1605
+      ],
+      "RightExo": [
+        64.7052,
+        -37.3643,
+        529.9476
+      ],
+      "RightEndo": [
+        71.4223,
+        -15.0876,
+        530.1777
+      ],
+      "LeftEndo": [
+        71.3091,
+        11.2031,
+        530.9868
+      ],
+      "LeftExo": [
+        62.0076,
+        37.3346,
+        531.1016
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 87.48,
+      "CI_unrounded": 87.48149197493542,
+      "CVA_mm": 0.18,
+      "CVA_unrounded": 0.1783024222253573,
+      "CVAI": 0.13,
+      "CVAI_unrounded": 0.1307285410571797,
+      "CVAI_min_ref": 0.13
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 135.99,
+      "W_width_ml": 118.97,
+      "D1_diagonal_plus30": 136.21,
+      "D2_diagonal_minus30": 136.39,
+      "perimeter_slice": 413.96,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 74.78,
+      "slice_height_z": 22.43,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_030": {
+    "scan_id": "scan_030",
+    "source_file": "SynthMRIPaper/30.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        65.8727,
+        -0.5915,
+        546.9832
+      ],
+      "RightTragion": [
+        13.4544,
+        -54.6998,
+        538.6017
+      ],
+      "LeftTragion": [
+        12.5359,
+        53.9824,
+        541.7831
+      ],
+      "Subnasal": [
+        74.381,
+        -0.9447,
+        523.2206
+      ],
+      "RightExo": [
+        52.4465,
+        -35.1793,
+        543.2353
+      ],
+      "RightEndo": [
+        61.622,
+        -15.242,
+        544.064
+      ],
+      "LeftEndo": [
+        61.154,
+        13.618,
+        545.8466
+      ],
+      "LeftExo": [
+        50.0534,
+        36.1928,
+        544.6386
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 84.61,
+      "CI_unrounded": 84.60511912721103,
+      "CVA_mm": 0.23,
+      "CVA_unrounded": 0.22817973747524434,
+      "CVAI": 0.18,
+      "CVAI_unrounded": 0.1809326594161319,
+      "CVAI_min_ref": 0.18
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 128.84,
+      "W_width_ml": 109.01,
+      "D1_diagonal_plus30": 126.11,
+      "D2_diagonal_minus30": 125.88,
+      "perimeter_slice": 382.41,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 78.71,
+      "slice_height_z": 23.61,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_031": {
+    "scan_id": "scan_031",
+    "source_file": "SynthMRIPaper/31.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        73.494,
+        4.703,
+        545.1141
+      ],
+      "RightTragion": [
+        13.8055,
+        -44.511,
+        537.7159
+      ],
+      "LeftTragion": [
+        14.5764,
+        54.9239,
+        540.1511
+      ],
+      "Subnasal": [
+        77.1986,
+        4.7986,
+        521.0952
+      ],
+      "RightExo": [
+        59.2028,
+        -25.8856,
+        540.6582
+      ],
+      "RightEndo": [
+        66.6561,
+        -4.7121,
+        543.0275
+      ],
+      "LeftEndo": [
+        67.2272,
+        14.45,
+        543.2889
+      ],
+      "LeftExo": [
+        59.7258,
+        34.9933,
+        541.6508
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 73.65,
+      "CI_unrounded": 73.64835832921392,
+      "CVA_mm": 0.56,
+      "CVA_unrounded": 0.5599609144917679,
+      "CVAI": 0.44,
+      "CVAI_unrounded": 0.4433976755431406,
+      "CVAI_min_ref": 0.45
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 133.29,
+      "W_width_ml": 98.17,
+      "D1_diagonal_plus30": 126.29,
+      "D2_diagonal_minus30": 125.73,
+      "perimeter_slice": 376.97,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 76.3,
+      "slice_height_z": 22.89,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_032": {
+    "scan_id": "scan_032",
+    "source_file": "SynthMRIPaper/32.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        79.6129,
+        2.3101,
+        537.8613
+      ],
+      "RightTragion": [
+        19.7616,
+        -52.0863,
+        537.0124
+      ],
+      "LeftTragion": [
+        22.3789,
+        55.0619,
+        535.8027
+      ],
+      "Subnasal": [
+        82.9529,
+        2.3763,
+        517.0918
+      ],
+      "RightExo": [
+        64.5927,
+        -34.1487,
+        538.2184
+      ],
+      "RightEndo": [
+        72.4259,
+        -11.6231,
+        536.2667
+      ],
+      "LeftEndo": [
+        73.4044,
+        15.1541,
+        537.3752
+      ],
+      "LeftExo": [
+        68.3359,
+        32.3065,
+        533.2281
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 84.34,
+      "CI_unrounded": 84.34354657032182,
+      "CVA_mm": 0.48,
+      "CVA_unrounded": 0.4758096674442527,
+      "CVAI": 0.38,
+      "CVAI_unrounded": 0.37888733569153893,
+      "CVAI_min_ref": 0.38
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 127.5,
+      "W_width_ml": 107.54,
+      "D1_diagonal_plus30": 125.1,
+      "D2_diagonal_minus30": 125.58,
+      "perimeter_slice": 380.64,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 75.72,
+      "slice_height_z": 22.72,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_033": {
+    "scan_id": "scan_033",
+    "source_file": "SynthMRIPaper/33.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        79.0245,
+        1.9877,
+        539.1821
+      ],
+      "RightTragion": [
+        20.2088,
+        -51.5593,
+        536.3749
+      ],
+      "LeftTragion": [
+        20.719,
+        56.2501,
+        535.6305
+      ],
+      "Subnasal": [
+        82.6956,
+        2.6884,
+        516.3554
+      ],
+      "RightExo": [
+        66.9908,
+        -30.7268,
+        538.845
+      ],
+      "RightEndo": [
+        71.7393,
+        -11.7526,
+        537.7418
+      ],
+      "LeftEndo": [
+        75.5874,
+        12.6523,
+        539.2352
+      ],
+      "LeftExo": [
+        67.7733,
+        33.7514,
+        538.4043
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 82.28,
+      "CI_unrounded": 82.279976104382,
+      "CVA_mm": 0.34,
+      "CVA_unrounded": 0.3407032394255083,
+      "CVAI": 0.27,
+      "CVAI_unrounded": 0.27104816012224814,
+      "CVAI_min_ref": 0.27
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 127.31,
+      "W_width_ml": 104.75,
+      "D1_diagonal_plus30": 125.36,
+      "D2_diagonal_minus30": 125.7,
+      "perimeter_slice": 378.86,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 76.04,
+      "slice_height_z": 22.81,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_034": {
+    "scan_id": "scan_034",
+    "source_file": "SynthMRIPaper/34.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        72.5347,
+        -2.821,
+        543.974
+      ],
+      "RightTragion": [
+        13.3546,
+        -55.8589,
+        532.4866
+      ],
+      "LeftTragion": [
+        14.2212,
+        48.8872,
+        532.4424
+      ],
+      "Subnasal": [
+        80.6234,
+        -2.303,
+        522.875
+      ],
+      "RightExo": [
+        61.168,
+        -32.9276,
+        548.9114
+      ],
+      "RightEndo": [
+        65.9501,
+        -15.8484,
+        548.5752
+      ],
+      "LeftEndo": [
+        67.3913,
+        9.0526,
+        546.9048
+      ],
+      "LeftExo": [
+        61.034,
+        28.4906,
+        547.1062
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 80.51,
+      "CI_unrounded": 80.51331656602,
+      "CVA_mm": 0.3,
+      "CVA_unrounded": 0.2987980690259917,
+      "CVAI": 0.24,
+      "CVAI_unrounded": 0.2373356669509772,
+      "CVAI_min_ref": 0.24
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 130.19,
+      "W_width_ml": 104.82,
+      "D1_diagonal_plus30": 125.6,
+      "D2_diagonal_minus30": 125.9,
+      "perimeter_slice": 379.05,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 89.48,
+      "slice_height_z": 26.84,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_035": {
+    "scan_id": "scan_035",
+    "source_file": "SynthMRIPaper/35.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        71.5191,
+        -1.3984,
+        546.9504
+      ],
+      "RightTragion": [
+        12.9653,
+        -55.4766,
+        530.2007
+      ],
+      "LeftTragion": [
+        10.6208,
+        53.3826,
+        533.3038
+      ],
+      "Subnasal": [
+        81.7197,
+        -2.5912,
+        524.2357
+      ],
+      "RightExo": [
+        60.4374,
+        -34.0012,
+        545.9416
+      ],
+      "RightEndo": [
+        67.6593,
+        -13.518,
+        548.1418
+      ],
+      "LeftEndo": [
+        67.4665,
+        8.9384,
+        548.4948
+      ],
+      "LeftExo": [
+        61.6409,
+        28.2776,
+        546.5608
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 81.3,
+      "CI_unrounded": 81.29989596496972,
+      "CVA_mm": 0.57,
+      "CVA_unrounded": 0.5710787164641999,
+      "CVAI": 0.44,
+      "CVAI_unrounded": 0.4413426911390382,
+      "CVAI_min_ref": 0.44
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 132.34,
+      "W_width_ml": 107.59,
+      "D1_diagonal_plus30": 128.82,
+      "D2_diagonal_minus30": 129.4,
+      "perimeter_slice": 388.15,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 89.49,
+      "slice_height_z": 26.85,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_036": {
+    "scan_id": "scan_036",
+    "source_file": "SynthMRIPaper/36.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        75.818,
+        -4.5028,
+        528.4658
+      ],
+      "RightTragion": [
+        17.1328,
+        -53.2125,
+        515.2412
+      ],
+      "LeftTragion": [
+        20.019,
+        46.6648,
+        513.0841
+      ],
+      "Subnasal": [
+        80.418,
+        -0.6368,
+        499.2401
+      ],
+      "RightExo": [
+        66.2187,
+        -33.845,
+        527.761
+      ],
+      "RightEndo": [
+        70.9951,
+        -15.0813,
+        529.3702
+      ],
+      "LeftEndo": [
+        72.5721,
+        6.4292,
+        530.258
+      ],
+      "LeftExo": [
+        68.2422,
+        25.0984,
+        529.9101
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 70.03,
+      "CI_unrounded": 70.03177830771112,
+      "CVA_mm": 2.39,
+      "CVA_unrounded": 2.3869536116453105,
+      "CVAI": 1.7,
+      "CVAI_unrounded": 1.6987273199250674,
+      "CVAI_min_ref": 1.73
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 147.25,
+      "W_width_ml": 103.12,
+      "D1_diagonal_plus30": 140.51,
+      "D2_diagonal_minus30": 138.13,
+      "perimeter_slice": 412.36,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 96.7,
+      "slice_height_z": 29.01,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_037": {
+    "scan_id": "scan_037",
+    "source_file": "SynthMRIPaper/37.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        72.9786,
+        0.8537,
+        532.1967
+      ],
+      "RightTragion": [
+        7.4996,
+        -49.9187,
+        519.4651
+      ],
+      "LeftTragion": [
+        8.5985,
+        52.2983,
+        523.5137
+      ],
+      "Subnasal": [
+        74.9201,
+        1.1316,
+        507.9299
+      ],
+      "RightExo": [
+        58.5917,
+        -30.2653,
+        531.632
+      ],
+      "RightEndo": [
+        65.4555,
+        -10.277,
+        533.9977
+      ],
+      "LeftEndo": [
+        66.8031,
+        11.5567,
+        535.1329
+      ],
+      "LeftExo": [
+        61.3937,
+        30.0794,
+        530.7319
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 73.7,
+      "CI_unrounded": 73.7002652099989,
+      "CVA_mm": 0.24,
+      "CVA_unrounded": 0.23762167076708351,
+      "CVAI": 0.19,
+      "CVAI_unrounded": 0.18645679042922927,
+      "CVAI_min_ref": 0.19
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 133.44,
+      "W_width_ml": 98.34,
+      "D1_diagonal_plus30": 127.2,
+      "D2_diagonal_minus30": 127.44,
+      "perimeter_slice": 380.4,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 77.61,
+      "slice_height_z": 23.28,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_038": {
+    "scan_id": "scan_038",
+    "source_file": "SynthMRIPaper/38.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        79.4166,
+        6.2276,
+        528.7662
+      ],
+      "RightTragion": [
+        23.0254,
+        -44.8022,
+        523.0124
+      ],
+      "LeftTragion": [
+        25.0306,
+        55.3753,
+        524.9747
+      ],
+      "Subnasal": [
+        87.0904,
+        5.4544,
+        508.1948
+      ],
+      "RightExo": [
+        69.9729,
+        -24.0162,
+        529.5783
+      ],
+      "RightEndo": [
+        75.8343,
+        -2.7076,
+        528.9715
+      ],
+      "LeftEndo": [
+        73.3489,
+        17.9869,
+        529.8732
+      ],
+      "LeftExo": [
+        68.1897,
+        38.6309,
+        530.2611
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 73.32,
+      "CI_unrounded": 73.31677119100925,
+      "CVA_mm": 0.67,
+      "CVA_unrounded": 0.6744770390325243,
+      "CVAI": 0.52,
+      "CVAI_unrounded": 0.52457281208149,
+      "CVAI_min_ref": 0.53
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 135.24,
+      "W_width_ml": 99.15,
+      "D1_diagonal_plus30": 127.9,
+      "D2_diagonal_minus30": 128.58,
+      "perimeter_slice": 382.72,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 88.74,
+      "slice_height_z": 26.62,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_039": {
+    "scan_id": "scan_039",
+    "source_file": "SynthMRIPaper/39.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        68.7815,
+        3.8358,
+        524.3018
+      ],
+      "RightTragion": [
+        6.5336,
+        -51.751,
+        507.5851
+      ],
+      "LeftTragion": [
+        6.8354,
+        56.979,
+        511.05
+      ],
+      "Subnasal": [
+        75.2249,
+        2.9405,
+        502.2547
+      ],
+      "RightExo": [
+        52.0333,
+        -31.7968,
+        520.0729
+      ],
+      "RightEndo": [
+        60.5478,
+        -10.9507,
+        521.9964
+      ],
+      "LeftEndo": [
+        62.3676,
+        13.3397,
+        522.3718
+      ],
+      "LeftExo": [
+        52.0505,
+        37.2181,
+        518.4758
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 79.57,
+      "CI_unrounded": 79.5688561458636,
+      "CVA_mm": 1.95,
+      "CVA_unrounded": 1.950011395512817,
+      "CVAI": 1.53,
+      "CVAI_unrounded": 1.5317380171310981,
+      "CVAI_min_ref": 1.56
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 131.18,
+      "W_width_ml": 104.37,
+      "D1_diagonal_plus30": 125.36,
+      "D2_diagonal_minus30": 127.31,
+      "perimeter_slice": 381.4,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 71.02,
+      "slice_height_z": 21.3,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_040": {
+    "scan_id": "scan_040",
+    "source_file": "SynthMRIPaper/40.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        72.1996,
+        -1.3779,
+        518.774
+      ],
+      "RightTragion": [
+        17.4554,
+        -46.0982,
+        506.441
+      ],
+      "LeftTragion": [
+        18.3386,
+        39.9782,
+        506.8434
+      ],
+      "Subnasal": [
+        80.8862,
+        -2.2945,
+        502.8437
+      ],
+      "RightExo": [
+        61.5303,
+        -30.1328,
+        519.1897
+      ],
+      "RightEndo": [
+        70.0973,
+        -11.0742,
+        519.179
+      ],
+      "LeftEndo": [
+        70.4194,
+        6.3582,
+        517.2069
+      ],
+      "LeftExo": [
+        61.3959,
+        25.2053,
+        518.6607
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 69.72,
+      "CI_unrounded": 69.72046269043307,
+      "CVA_mm": 1.84,
+      "CVA_unrounded": 1.8365561609804644,
+      "CVAI": 1.56,
+      "CVAI_unrounded": 1.5594759882997336,
+      "CVAI_min_ref": 1.58
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 125.89,
+      "W_width_ml": 87.77,
+      "D1_diagonal_plus30": 115.93,
+      "D2_diagonal_minus30": 117.77,
+      "perimeter_slice": 348.01,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 87.7,
+      "slice_height_z": 26.31,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_041": {
+    "scan_id": "scan_041",
+    "source_file": "SynthMRIPaper/41.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        70.0749,
+        1.3225,
+        528.0032
+      ],
+      "RightTragion": [
+        17.5859,
+        -50.7342,
+        518.2375
+      ],
+      "LeftTragion": [
+        16.9888,
+        52.5941,
+        519.5331
+      ],
+      "Subnasal": [
+        80.5415,
+        1.1087,
+        507.7574
+      ],
+      "RightExo": [
+        55.8697,
+        -33.2002,
+        527.3297
+      ],
+      "RightEndo": [
+        63.2121,
+        -11.5762,
+        527.6154
+      ],
+      "LeftEndo": [
+        64.431,
+        11.9582,
+        527.8127
+      ],
+      "LeftExo": [
+        60.1723,
+        29.5718,
+        527.5882
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 87.75,
+      "CI_unrounded": 87.74584397319785,
+      "CVA_mm": 0.29,
+      "CVA_unrounded": 0.2904058232075357,
+      "CVAI": 0.25,
+      "CVAI_unrounded": 0.2494996708142756,
+      "CVAI_min_ref": 0.25
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 118.46,
+      "W_width_ml": 103.94,
+      "D1_diagonal_plus30": 116.1,
+      "D2_diagonal_minus30": 116.4,
+      "perimeter_slice": 355.13,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 83.07,
+      "slice_height_z": 24.92,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_042": {
+    "scan_id": "scan_042",
+    "source_file": "SynthMRIPaper/42.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        69.6622,
+        1.5798,
+        528.7991
+      ],
+      "RightTragion": [
+        17.5859,
+        -50.7342,
+        518.2375
+      ],
+      "LeftTragion": [
+        16.3225,
+        52.8584,
+        517.4095
+      ],
+      "Subnasal": [
+        80.5415,
+        1.1087,
+        507.7574
+      ],
+      "RightExo": [
+        55.8697,
+        -33.2002,
+        527.3297
+      ],
+      "RightEndo": [
+        63.2121,
+        -11.5762,
+        527.6154
+      ],
+      "LeftEndo": [
+        64.431,
+        11.9582,
+        527.8127
+      ],
+      "LeftExo": [
+        60.1723,
+        29.5718,
+        527.5882
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 77.0,
+      "CI_unrounded": 77.00089053884669,
+      "CVA_mm": 0.16,
+      "CVA_unrounded": 0.1565258898472024,
+      "CVAI": 0.12,
+      "CVAI_unrounded": 0.12331032463480374,
+      "CVAI_min_ref": 0.12
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 132.22,
+      "W_width_ml": 101.81,
+      "D1_diagonal_plus30": 126.78,
+      "D2_diagonal_minus30": 126.94,
+      "perimeter_slice": 379.99,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 93.98,
+      "slice_height_z": 28.2,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_043": {
+    "scan_id": "scan_043",
+    "source_file": "SynthMRIPaper/43.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        66.444,
+        2.6172,
+        531.712
+      ],
+      "RightTragion": [
+        8.3891,
+        -47.4268,
+        522.7587
+      ],
+      "LeftTragion": [
+        11.736,
+        48.0029,
+        520.2254
+      ],
+      "Subnasal": [
+        68.7516,
+        4.0712,
+        505.8572
+      ],
+      "RightExo": [
+        54.5838,
+        -27.5341,
+        532.2138
+      ],
+      "RightEndo": [
+        61.0467,
+        -8.7867,
+        532.9597
+      ],
+      "LeftEndo": [
+        61.3846,
+        11.5889,
+        532.8925
+      ],
+      "LeftExo": [
+        55.4025,
+        28.5481,
+        531.4854
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 70.4,
+      "CI_unrounded": 70.39924618422376,
+      "CVA_mm": 2.18,
+      "CVA_unrounded": 2.1780881513981285,
+      "CVAI": 1.73,
+      "CVAI_unrounded": 1.734514568361383,
+      "CVAI_min_ref": 1.77
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 134.26,
+      "W_width_ml": 94.52,
+      "D1_diagonal_plus30": 123.4,
+      "D2_diagonal_minus30": 125.57,
+      "perimeter_slice": 372.04,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 77.48,
+      "slice_height_z": 23.24,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_044": {
+    "scan_id": "scan_044",
+    "source_file": "SynthMRIPaper/44.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        76.1571,
+        6.1868,
+        510.6212
+      ],
+      "RightTragion": [
+        18.9763,
+        -53.9035,
+        506.4135
+      ],
+      "LeftTragion": [
+        18.3224,
+        59.1033,
+        504.4646
+      ],
+      "Subnasal": [
+        81.0419,
+        4.7138,
+        488.1567
+      ],
+      "RightExo": [
+        66.8471,
+        -30.2166,
+        512.8166
+      ],
+      "RightEndo": [
+        73.7897,
+        -7.1009,
+        513.6436
+      ],
+      "LeftEndo": [
+        72.9171,
+        14.0316,
+        512.8728
+      ],
+      "LeftExo": [
+        69.6136,
+        30.9118,
+        511.7055
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 92.45,
+      "CI_unrounded": 92.44705418387065,
+      "CVA_mm": 0.15,
+      "CVA_unrounded": 0.14685524134893058,
+      "CVAI": 0.12,
+      "CVAI_unrounded": 0.12042256796323901,
+      "CVAI_min_ref": 0.12
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 121.92,
+      "W_width_ml": 112.71,
+      "D1_diagonal_plus30": 121.8,
+      "D2_diagonal_minus30": 121.95,
+      "perimeter_slice": 378.05,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 56.78,
+      "slice_height_z": 17.03,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_045": {
+    "scan_id": "scan_045",
+    "source_file": "SynthMRIPaper/45.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        76.4771,
+        3.6996,
+        526.6536
+      ],
+      "RightTragion": [
+        16.5896,
+        -52.2519,
+        514.3331
+      ],
+      "LeftTragion": [
+        18.7921,
+        58.6578,
+        517.6694
+      ],
+      "Subnasal": [
+        80.3634,
+        5.0764,
+        496.3455
+      ],
+      "RightExo": [
+        65.6409,
+        -27.207,
+        522.9749
+      ],
+      "RightEndo": [
+        71.2107,
+        -6.7146,
+        525.1866
+      ],
+      "LeftEndo": [
+        70.577,
+        14.0538,
+        523.7455
+      ],
+      "LeftExo": [
+        64.7519,
+        35.4494,
+        522.9195
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 89.02,
+      "CI_unrounded": 89.02180791026302,
+      "CVA_mm": 0.12,
+      "CVA_unrounded": 0.12082487778525319,
+      "CVAI": 0.1,
+      "CVAI_unrounded": 0.10159549566847469,
+      "CVAI_min_ref": 0.1
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 118.79,
+      "W_width_ml": 105.75,
+      "D1_diagonal_plus30": 118.93,
+      "D2_diagonal_minus30": 118.81,
+      "perimeter_slice": 364.92,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 84.21,
+      "slice_height_z": 25.26,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_046": {
+    "scan_id": "scan_046",
+    "source_file": "SynthMRIPaper/46.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        67.2455,
+        4.9325,
+        543.0627
+      ],
+      "RightTragion": [
+        12.9047,
+        -44.4455,
+        527.2867
+      ],
+      "LeftTragion": [
+        13.3408,
+        51.81,
+        529.8268
+      ],
+      "Subnasal": [
+        70.5963,
+        2.6478,
+        514.8895
+      ],
+      "RightExo": [
+        51.6282,
+        -29.0482,
+        541.9903
+      ],
+      "RightEndo": [
+        59.8084,
+        -8.9027,
+        542.7716
+      ],
+      "LeftEndo": [
+        60.7208,
+        14.2009,
+        543.6182
+      ],
+      "LeftExo": [
+        54.4305,
+        33.6724,
+        543.8002
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 71.3,
+      "CI_unrounded": 71.29671350882059,
+      "CVA_mm": 0.8,
+      "CVA_unrounded": 0.796117902980555,
+      "CVAI": 0.65,
+      "CVAI_unrounded": 0.6545421441261065,
+      "CVAI_min_ref": 0.66
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 129.6,
+      "W_width_ml": 92.4,
+      "D1_diagonal_plus30": 120.83,
+      "D2_diagonal_minus30": 121.63,
+      "perimeter_slice": 363.2,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 96.56,
+      "slice_height_z": 28.97,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_047": {
+    "scan_id": "scan_047",
+    "source_file": "SynthMRIPaper/47.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        73.6855,
+        2.5273,
+        539.5743
+      ],
+      "RightTragion": [
+        15.1854,
+        -55.4236,
+        533.0081
+      ],
+      "LeftTragion": [
+        18.3384,
+        60.7416,
+        530.3001
+      ],
+      "Subnasal": [
+        78.45,
+        2.9147,
+        518.897
+      ],
+      "RightExo": [
+        58.2216,
+        -34.8204,
+        540.6423
+      ],
+      "RightEndo": [
+        65.0028,
+        -13.7173,
+        537.4441
+      ],
+      "LeftEndo": [
+        68.8295,
+        17.1294,
+        540.4394
+      ],
+      "LeftExo": [
+        61.2303,
+        36.0896,
+        538.1267
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 89.21,
+      "CI_unrounded": 89.21150632432239,
+      "CVA_mm": 0.51,
+      "CVA_unrounded": 0.5062704762023742,
+      "CVAI": 0.4,
+      "CVAI_unrounded": 0.3958883684626069,
+      "CVAI_min_ref": 0.4
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 127.52,
+      "W_width_ml": 113.76,
+      "D1_diagonal_plus30": 127.38,
+      "D2_diagonal_minus30": 127.88,
+      "perimeter_slice": 390.95,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 77.48,
+      "slice_height_z": 23.24,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_048": {
+    "scan_id": "scan_048",
+    "source_file": "SynthMRIPaper/48.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        71.1822,
+        5.6215,
+        519.6718
+      ],
+      "RightTragion": [
+        8.5934,
+        -48.2232,
+        513.6364
+      ],
+      "LeftTragion": [
+        10.0653,
+        55.5385,
+        516.3855
+      ],
+      "Subnasal": [
+        77.2287,
+        5.6721,
+        502.1279
+      ],
+      "RightExo": [
+        59.0221,
+        -23.2443,
+        521.1328
+      ],
+      "RightEndo": [
+        61.8223,
+        -6.116,
+        522.4882
+      ],
+      "LeftEndo": [
+        62.877,
+        14.9753,
+        521.1049
+      ],
+      "LeftExo": [
+        57.7565,
+        34.6454,
+        519.6571
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 84.6,
+      "CI_unrounded": 84.60048147220753,
+      "CVA_mm": 0.46,
+      "CVA_unrounded": 0.46456485568094763,
+      "CVAI": 0.38,
+      "CVAI_unrounded": 0.38099240002663115,
+      "CVAI_min_ref": 0.38
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 122.6,
+      "W_width_ml": 103.72,
+      "D1_diagonal_plus30": 121.94,
+      "D2_diagonal_minus30": 121.47,
+      "perimeter_slice": 368.59,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 86.22,
+      "slice_height_z": 25.87,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_049": {
+    "scan_id": "scan_049",
+    "source_file": "SynthMRIPaper/49.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        69.5508,
+        4.7291,
+        523.2846
+      ],
+      "RightTragion": [
+        6.9811,
+        -54.2641,
+        512.5068
+      ],
+      "LeftTragion": [
+        8.4294,
+        62.4404,
+        513.4387
+      ],
+      "Subnasal": [
+        77.4222,
+        4.8345,
+        502.5264
+      ],
+      "RightExo": [
+        56.0914,
+        -28.5833,
+        523.3543
+      ],
+      "RightEndo": [
+        62.7936,
+        -8.4988,
+        525.2594
+      ],
+      "LeftEndo": [
+        64.1245,
+        14.6545,
+        525.2423
+      ],
+      "LeftExo": [
+        57.9,
+        34.9986,
+        524.01
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 91.43,
+      "CI_unrounded": 91.43455084202284,
+      "CVA_mm": 0.1,
+      "CVA_unrounded": 0.10414439595412261,
+      "CVAI": 0.08,
+      "CVAI_unrounded": 0.08407732709947487,
+      "CVAI_min_ref": 0.08
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 124.03,
+      "W_width_ml": 113.4,
+      "D1_diagonal_plus30": 123.87,
+      "D2_diagonal_minus30": 123.76,
+      "perimeter_slice": 384.31,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 86.7,
+      "slice_height_z": 26.01,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_050": {
+    "scan_id": "scan_050",
+    "source_file": "SynthMRIPaper/50.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        73.713,
+        0.2885,
+        529.5211
+      ],
+      "RightTragion": [
+        9.6819,
+        -49.3396,
+        518.7773
+      ],
+      "LeftTragion": [
+        12.5132,
+        51.3596,
+        515.818
+      ],
+      "Subnasal": [
+        78.5183,
+        0.7808,
+        503.3627
+      ],
+      "RightExo": [
+        62.19,
+        -29.7809,
+        531.1757
+      ],
+      "RightEndo": [
+        67.0926,
+        -7.5489,
+        530.6882
+      ],
+      "LeftEndo": [
+        67.7059,
+        9.4447,
+        531.931
+      ],
+      "LeftExo": [
+        64.185,
+        26.3544,
+        530.0118
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 74.0,
+      "CI_unrounded": 74.00388648148123,
+      "CVA_mm": 0.52,
+      "CVA_unrounded": 0.5185238791166,
+      "CVAI": 0.4,
+      "CVAI_unrounded": 0.402447858126886,
+      "CVAI_min_ref": 0.4
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 135.48,
+      "W_width_ml": 100.26,
+      "D1_diagonal_plus30": 128.84,
+      "D2_diagonal_minus30": 128.32,
+      "perimeter_slice": 385.41,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 79.97,
+      "slice_height_z": 23.99,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_051": {
+    "scan_id": "scan_051",
+    "source_file": "SynthMRIPaper/51.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        65.9105,
+        -3.4023,
+        533.4575
+      ],
+      "RightTragion": [
+        10.0165,
+        -59.153,
+        520.1747
+      ],
+      "LeftTragion": [
+        9.5061,
+        50.8054,
+        523.0495
+      ],
+      "Subnasal": [
+        73.0417,
+        -2.5729,
+        513.0418
+      ],
+      "RightExo": [
+        54.1755,
+        -38.1634,
+        532.4614
+      ],
+      "RightEndo": [
+        64.6677,
+        -14.7232,
+        535.6646
+      ],
+      "LeftEndo": [
+        60.9838,
+        7.5685,
+        532.1733
+      ],
+      "LeftExo": [
+        55.0259,
+        28.3845,
+        531.6219
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 83.65,
+      "CI_unrounded": 83.6481829477307,
+      "CVA_mm": 0.83,
+      "CVA_unrounded": 0.8348400118911314,
+      "CVAI": 0.65,
+      "CVAI_unrounded": 0.6515106989790965,
+      "CVAI_min_ref": 0.66
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 129.73,
+      "W_width_ml": 108.52,
+      "D1_diagonal_plus30": 127.3,
+      "D2_diagonal_minus30": 128.14,
+      "perimeter_slice": 384.83,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 78.1,
+      "slice_height_z": 23.43,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_052": {
+    "scan_id": "scan_052",
+    "source_file": "SynthMRIPaper/52.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        70.8716,
+        -1.7135,
+        527.6043
+      ],
+      "RightTragion": [
+        10.8468,
+        -53.8634,
+        525.1018
+      ],
+      "LeftTragion": [
+        12.6734,
+        48.9523,
+        521.6454
+      ],
+      "Subnasal": [
+        75.1007,
+        -1.0447,
+        507.4969
+      ],
+      "RightExo": [
+        56.7018,
+        -34.5078,
+        529.1675
+      ],
+      "RightEndo": [
+        63.981,
+        -13.1762,
+        529.4631
+      ],
+      "LeftEndo": [
+        63.2122,
+        8.8938,
+        529.401
+      ],
+      "LeftExo": [
+        58.1617,
+        28.1545,
+        530.8228
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 84.04,
+      "CI_unrounded": 84.04393997094513,
+      "CVA_mm": 0.31,
+      "CVA_unrounded": 0.3127406927070808,
+      "CVAI": 0.27,
+      "CVAI_unrounded": 0.2697848260555562,
+      "CVAI_min_ref": 0.27
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 118.69,
+      "W_width_ml": 99.75,
+      "D1_diagonal_plus30": 115.61,
+      "D2_diagonal_minus30": 115.92,
+      "perimeter_slice": 351.79,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 70.21,
+      "slice_height_z": 21.06,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_053": {
+    "scan_id": "scan_053",
+    "source_file": "SynthMRIPaper/53.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        69.7881,
+        0.994,
+        532.9903
+      ],
+      "RightTragion": [
+        21.9947,
+        -49.8595,
+        528.8504
+      ],
+      "LeftTragion": [
+        21.8538,
+        50.7173,
+        522.7827
+      ],
+      "Subnasal": [
+        77.1701,
+        2.2771,
+        510.066
+      ],
+      "RightExo": [
+        57.6963,
+        -29.9451,
+        528.5852
+      ],
+      "RightEndo": [
+        65.2552,
+        -8.5672,
+        530.8544
+      ],
+      "LeftEndo": [
+        64.5481,
+        9.3566,
+        531.0091
+      ],
+      "LeftExo": [
+        60.6298,
+        27.6592,
+        530.0569
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 84.52,
+      "CI_unrounded": 84.52074528260475,
+      "CVA_mm": 0.11,
+      "CVA_unrounded": 0.10748251286696586,
+      "CVAI": 0.09,
+      "CVAI_unrounded": 0.0924043542658717,
+      "CVAI_min_ref": 0.09
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 119.57,
+      "W_width_ml": 101.06,
+      "D1_diagonal_plus30": 116.21,
+      "D2_diagonal_minus30": 116.32,
+      "perimeter_slice": 352.69,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 64.83,
+      "slice_height_z": 19.45,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_054": {
+    "scan_id": "scan_054",
+    "source_file": "SynthMRIPaper/54.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        69.3928,
+        0.2874,
+        531.5181
+      ],
+      "RightTragion": [
+        19.7365,
+        -53.6313,
+        526.7926
+      ],
+      "LeftTragion": [
+        19.0245,
+        54.3489,
+        524.998
+      ],
+      "Subnasal": [
+        77.2393,
+        1.2538,
+        509.1665
+      ],
+      "RightExo": [
+        56.447,
+        -32.3161,
+        530.2265
+      ],
+      "RightEndo": [
+        63.5829,
+        -10.8681,
+        529.8744
+      ],
+      "LeftEndo": [
+        64.7586,
+        9.6936,
+        532.5253
+      ],
+      "LeftExo": [
+        58.7569,
+        30.0658,
+        530.1812
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 87.67,
+      "CI_unrounded": 87.6741050716113,
+      "CVA_mm": 0.76,
+      "CVA_unrounded": 0.7560756647739453,
+      "CVAI": 0.64,
+      "CVAI_unrounded": 0.6420349893000797,
+      "CVAI_min_ref": 0.65
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 119.92,
+      "W_width_ml": 105.14,
+      "D1_diagonal_plus30": 117.76,
+      "D2_diagonal_minus30": 117.01,
+      "perimeter_slice": 359.01,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 63.11,
+      "slice_height_z": 18.93,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_055": {
+    "scan_id": "scan_055",
+    "source_file": "SynthMRIPaper/55.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        66.1733,
+        2.9203,
+        531.2696
+      ],
+      "RightTragion": [
+        11.9793,
+        -45.2613,
+        530.1465
+      ],
+      "LeftTragion": [
+        14.7152,
+        50.5969,
+        528.9676
+      ],
+      "Subnasal": [
+        76.6919,
+        4.2519,
+        511.7602
+      ],
+      "RightExo": [
+        59.4028,
+        -21.5828,
+        531.447
+      ],
+      "RightEndo": [
+        61.6514,
+        -7.1677,
+        531.7996
+      ],
+      "LeftEndo": [
+        62.2659,
+        11.7597,
+        531.8428
+      ],
+      "LeftExo": [
+        57.5907,
+        30.5441,
+        530.4619
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 77.42,
+      "CI_unrounded": 77.41914860945855,
+      "CVA_mm": 0.47,
+      "CVA_unrounded": 0.4679391792718661,
+      "CVAI": 0.39,
+      "CVAI_unrounded": 0.3863931608033571,
+      "CVAI_min_ref": 0.39
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 124.6,
+      "W_width_ml": 96.46,
+      "D1_diagonal_plus30": 120.64,
+      "D2_diagonal_minus30": 121.1,
+      "perimeter_slice": 359.86,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 68.66,
+      "slice_height_z": 20.6,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_056": {
+    "scan_id": "scan_056",
+    "source_file": "SynthMRIPaper/56.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        66.5536,
+        -6.006,
+        540.6177
+      ],
+      "RightTragion": [
+        13.7411,
+        -55.2821,
+        535.4196
+      ],
+      "LeftTragion": [
+        13.6944,
+        43.7595,
+        537.1396
+      ],
+      "Subnasal": [
+        73.8229,
+        -6.9918,
+        516.564
+      ],
+      "RightExo": [
+        54.513,
+        -37.2799,
+        540.222
+      ],
+      "RightEndo": [
+        61.0532,
+        -19.0257,
+        541.3284
+      ],
+      "LeftEndo": [
+        62.2649,
+        5.621,
+        541.9721
+      ],
+      "LeftExo": [
+        56.7687,
+        22.4966,
+        540.3386
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 76.76,
+      "CI_unrounded": 76.75926890779394,
+      "CVA_mm": 0.37,
+      "CVA_unrounded": 0.36665853761255107,
+      "CVAI": 0.3,
+      "CVAI_unrounded": 0.29951819822042514,
+      "CVAI_min_ref": 0.3
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 126.41,
+      "W_width_ml": 97.03,
+      "D1_diagonal_plus30": 122.42,
+      "D2_diagonal_minus30": 122.05,
+      "perimeter_slice": 364.82,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 81.05,
+      "slice_height_z": 24.31,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_057": {
+    "scan_id": "scan_057",
+    "source_file": "SynthMRIPaper/57.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        67.1632,
+        -5.6318,
+        537.8675
+      ],
+      "RightTragion": [
+        11.1854,
+        -64.4709,
+        536.8065
+      ],
+      "LeftTragion": [
+        14.7952,
+        49.1461,
+        534.292
+      ],
+      "Subnasal": [
+        74.6513,
+        -6.4764,
+        517.8575
+      ],
+      "RightExo": [
+        53.8065,
+        -38.0585,
+        539.251
+      ],
+      "RightEndo": [
+        60.1043,
+        -19.8264,
+        540.0105
+      ],
+      "LeftEndo": [
+        60.6119,
+        6.3463,
+        537.736
+      ],
+      "LeftExo": [
+        53.2254,
+        26.1277,
+        537.4803
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 85.48,
+      "CI_unrounded": 85.48274517254539,
+      "CVA_mm": 1.81,
+      "CVA_unrounded": 1.8122796094675948,
+      "CVAI": 1.46,
+      "CVAI_unrounded": 1.4629473422846238,
+      "CVAI_min_ref": 1.48
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 125.7,
+      "W_width_ml": 107.45,
+      "D1_diagonal_plus30": 122.07,
+      "D2_diagonal_minus30": 123.88,
+      "perimeter_slice": 376.4,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 77.9,
+      "slice_height_z": 23.37,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_058": {
+    "scan_id": "scan_058",
+    "source_file": "SynthMRIPaper/58.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        66.5088,
+        1.875,
+        534.1818
+      ],
+      "RightTragion": [
+        10.9507,
+        -50.6811,
+        528.4048
+      ],
+      "LeftTragion": [
+        12.1992,
+        50.9478,
+        530.4444
+      ],
+      "Subnasal": [
+        71.5808,
+        0.3546,
+        514.5348
+      ],
+      "RightExo": [
+        55.3056,
+        -32.607,
+        534.7534
+      ],
+      "RightEndo": [
+        61.688,
+        -10.7086,
+        538.1516
+      ],
+      "LeftEndo": [
+        61.7563,
+        9.2504,
+        537.2101
+      ],
+      "LeftExo": [
+        58.5932,
+        29.0982,
+        537.1981
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 85.88,
+      "CI_unrounded": 85.87959992059422,
+      "CVA_mm": 0.07,
+      "CVA_unrounded": 0.07006522097788093,
+      "CVAI": 0.06,
+      "CVAI_unrounded": 0.05885957082567153,
+      "CVAI_min_ref": 0.06
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 121.13,
+      "W_width_ml": 104.03,
+      "D1_diagonal_plus30": 119.04,
+      "D2_diagonal_minus30": 118.97,
+      "perimeter_slice": 362.38,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 75.32,
+      "slice_height_z": 22.6,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_059": {
+    "scan_id": "scan_059",
+    "source_file": "SynthMRIPaper/59.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        66.7791,
+        -3.7646,
+        543.9456
+      ],
+      "RightTragion": [
+        6.6716,
+        -51.3911,
+        531.5071
+      ],
+      "LeftTragion": [
+        6.5193,
+        45.098,
+        530.3396
+      ],
+      "Subnasal": [
+        78.1301,
+        -4.1737,
+        525.0034
+      ],
+      "RightExo": [
+        53.2835,
+        -35.1496,
+        543.5355
+      ],
+      "RightEndo": [
+        61.0038,
+        -13.5721,
+        545.4731
+      ],
+      "LeftEndo": [
+        62.2941,
+        5.874,
+        547.0756
+      ],
+      "LeftExo": [
+        55.7095,
+        26.3797,
+        545.7393
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 76.54,
+      "CI_unrounded": 76.53799562070309,
+      "CVA_mm": 1.35,
+      "CVA_unrounded": 1.3532543057746835,
+      "CVAI": 1.09,
+      "CVAI_unrounded": 1.0857869510331357,
+      "CVAI_min_ref": 1.1
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 130.41,
+      "W_width_ml": 99.81,
+      "D1_diagonal_plus30": 124.63,
+      "D2_diagonal_minus30": 123.28,
+      "perimeter_slice": 372.87,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 73.03,
+      "slice_height_z": 21.91,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_060": {
+    "scan_id": "scan_060",
+    "source_file": "SynthMRIPaper/60.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        73.0704,
+        4.7938,
+        527.4692
+      ],
+      "RightTragion": [
+        10.6749,
+        -44.4698,
+        524.5544
+      ],
+      "LeftTragion": [
+        9.6011,
+        53.1699,
+        523.8169
+      ],
+      "Subnasal": [
+        76.763,
+        6.0278,
+        505.8788
+      ],
+      "RightExo": [
+        59.7622,
+        -26.7418,
+        527.5951
+      ],
+      "RightEndo": [
+        68.4473,
+        -4.9391,
+        528.1721
+      ],
+      "LeftEndo": [
+        68.6885,
+        14.9043,
+        529.1148
+      ],
+      "LeftExo": [
+        61.6353,
+        34.8145,
+        528.4243
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 67.4,
+      "CI_unrounded": 67.39726198885413,
+      "CVA_mm": 0.35,
+      "CVA_unrounded": 0.35439163965142484,
+      "CVAI": 0.27,
+      "CVAI_unrounded": 0.2707940410796491,
+      "CVAI_min_ref": 0.27
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 140.49,
+      "W_width_ml": 94.69,
+      "D1_diagonal_plus30": 130.52,
+      "D2_diagonal_minus30": 130.87,
+      "perimeter_slice": 388.44,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 61.48,
+      "slice_height_z": 18.44,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_061": {
+    "scan_id": "scan_061",
+    "source_file": "SynthMRIPaper/61.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        67.4625,
+        -3.5786,
+        543.2139
+      ],
+      "RightTragion": [
+        4.1106,
+        -58.2508,
+        526.8549
+      ],
+      "LeftTragion": [
+        8.1337,
+        46.078,
+        528.877
+      ],
+      "Subnasal": [
+        74.3201,
+        -4.3896,
+        520.6205
+      ],
+      "RightExo": [
+        56.2213,
+        -34.3539,
+        540.8861
+      ],
+      "RightEndo": [
+        59.0492,
+        -15.6763,
+        541.3861
+      ],
+      "LeftEndo": [
+        59.0725,
+        6.5166,
+        541.7319
+      ],
+      "LeftExo": [
+        53.8168,
+        28.0239,
+        542.3438
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 78.34,
+      "CI_unrounded": 78.3376877366813,
+      "CVA_mm": 1.29,
+      "CVA_unrounded": 1.294703867447339,
+      "CVAI": 1.0,
+      "CVAI_unrounded": 0.9984410615314877,
+      "CVAI_min_ref": 1.01
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 134.36,
+      "W_width_ml": 105.25,
+      "D1_diagonal_plus30": 128.38,
+      "D2_diagonal_minus30": 129.67,
+      "perimeter_slice": 387.78,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 85.09,
+      "slice_height_z": 25.53,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_062": {
+    "scan_id": "scan_062",
+    "source_file": "SynthMRIPaper/62.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        63.7857,
+        7.0876,
+        536.7715
+      ],
+      "RightTragion": [
+        3.3613,
+        -51.6392,
+        532.7155
+      ],
+      "LeftTragion": [
+        2.6635,
+        64.3444,
+        527.9066
+      ],
+      "Subnasal": [
+        72.9887,
+        5.9765,
+        515.0281
+      ],
+      "RightExo": [
+        55.1354,
+        -24.6919,
+        539.15
+      ],
+      "RightEndo": [
+        59.8153,
+        -3.5081,
+        540.7213
+      ],
+      "LeftEndo": [
+        59.5875,
+        16.6961,
+        539.0696
+      ],
+      "LeftExo": [
+        53.3972,
+        38.3599,
+        536.8826
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 84.67,
+      "CI_unrounded": 84.6686210013782,
+      "CVA_mm": 0.37,
+      "CVA_unrounded": 0.36611599224625024,
+      "CVAI": 0.28,
+      "CVAI_unrounded": 0.28382253897631515,
+      "CVAI_min_ref": 0.28
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 129.85,
+      "W_width_ml": 109.94,
+      "D1_diagonal_plus30": 128.99,
+      "D2_diagonal_minus30": 128.63,
+      "perimeter_slice": 391.12,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 82.42,
+      "slice_height_z": 24.73,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_063": {
+    "scan_id": "scan_063",
+    "source_file": "SynthMRIPaper/63.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        61.2093,
+        -0.3097,
+        533.9268
+      ],
+      "RightTragion": [
+        2.3848,
+        -48.7655,
+        525.7794
+      ],
+      "LeftTragion": [
+        2.9446,
+        49.3528,
+        522.3982
+      ],
+      "Subnasal": [
+        70.9177,
+        -1.4302,
+        514.2049
+      ],
+      "RightExo": [
+        50.2498,
+        -30.21,
+        533.3871
+      ],
+      "RightEndo": [
+        56.1647,
+        -8.8458,
+        535.4715
+      ],
+      "LeftEndo": [
+        56.1251,
+        9.8565,
+        534.8015
+      ],
+      "LeftExo": [
+        50.6179,
+        28.6832,
+        532.3482
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 78.92,
+      "CI_unrounded": 78.91637304831164,
+      "CVA_mm": 1.64,
+      "CVA_unrounded": 1.6364417131117506,
+      "CVAI": 1.36,
+      "CVAI_unrounded": 1.359058300907789,
+      "CVAI_min_ref": 1.38
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 124.94,
+      "W_width_ml": 98.6,
+      "D1_diagonal_plus30": 120.41,
+      "D2_diagonal_minus30": 118.77,
+      "perimeter_slice": 360.58,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 71.17,
+      "slice_height_z": 21.35,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_064": {
+    "scan_id": "scan_064",
+    "source_file": "SynthMRIPaper/64.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        77.9793,
+        5.3734,
+        536.1556
+      ],
+      "RightTragion": [
+        13.7985,
+        -46.4501,
+        534.8451
+      ],
+      "LeftTragion": [
+        11.3245,
+        59.7273,
+        532.7075
+      ],
+      "Subnasal": [
+        86.0943,
+        5.1601,
+        513.4254
+      ],
+      "RightExo": [
+        63.5623,
+        -27.3225,
+        532.1348
+      ],
+      "RightEndo": [
+        70.7333,
+        -5.7284,
+        534.373
+      ],
+      "LeftEndo": [
+        72.504,
+        15.8235,
+        533.0989
+      ],
+      "LeftExo": [
+        65.7773,
+        38.2488,
+        528.8868
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 78.56,
+      "CI_unrounded": 78.55769134982152,
+      "CVA_mm": 0.65,
+      "CVA_unrounded": 0.6459643166546414,
+      "CVAI": 0.5,
+      "CVAI_unrounded": 0.5028572098758839,
+      "CVAI_min_ref": 0.51
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 131.39,
+      "W_width_ml": 103.22,
+      "D1_diagonal_plus30": 128.46,
+      "D2_diagonal_minus30": 127.81,
+      "perimeter_slice": 382.77,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 72.45,
+      "slice_height_z": 21.74,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_065": {
+    "scan_id": "scan_065",
+    "source_file": "SynthMRIPaper/65.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        76.4621,
+        -3.9247,
+        534.8289
+      ],
+      "RightTragion": [
+        20.014,
+        -52.6863,
+        532.9529
+      ],
+      "LeftTragion": [
+        15.8662,
+        47.767,
+        529.8626
+      ],
+      "Subnasal": [
+        80.2657,
+        -3.0263,
+        514.039
+      ],
+      "RightExo": [
+        62.353,
+        -38.0817,
+        536.8261
+      ],
+      "RightEndo": [
+        70.0715,
+        -18.7936,
+        535.6049
+      ],
+      "LeftEndo": [
+        70.0767,
+        9.1044,
+        534.0809
+      ],
+      "LeftExo": [
+        63.5332,
+        29.6511,
+        535.35
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 70.66,
+      "CI_unrounded": 70.65682462465193,
+      "CVA_mm": 1.91,
+      "CVA_unrounded": 1.9132954030379494,
+      "CVAI": 1.4,
+      "CVAI_unrounded": 1.398106985975111,
+      "CVAI_min_ref": 1.42
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 143.19,
+      "W_width_ml": 101.17,
+      "D1_diagonal_plus30": 136.85,
+      "D2_diagonal_minus30": 134.94,
+      "perimeter_slice": 402.72,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 78.61,
+      "slice_height_z": 23.58,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_066": {
+    "scan_id": "scan_066",
+    "source_file": "SynthMRIPaper/66.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        70.9213,
+        0.0618,
+        526.5232
+      ],
+      "RightTragion": [
+        13.8413,
+        -48.8205,
+        519.3427
+      ],
+      "LeftTragion": [
+        14.8841,
+        48.0935,
+        519.7053
+      ],
+      "Subnasal": [
+        76.4006,
+        0.6996,
+        504.043
+      ],
+      "RightExo": [
+        61.3251,
+        -28.041,
+        527.7029
+      ],
+      "RightEndo": [
+        64.4647,
+        -12.0735,
+        527.411
+      ],
+      "LeftEndo": [
+        64.2349,
+        12.8549,
+        527.4081
+      ],
+      "LeftExo": [
+        64.1854,
+        23.3571,
+        529.0482
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 76.59,
+      "CI_unrounded": 76.59114958438566,
+      "CVA_mm": 0.14,
+      "CVA_unrounded": 0.1444760725592431,
+      "CVAI": 0.12,
+      "CVAI_unrounded": 0.11812075071643234,
+      "CVAI_min_ref": 0.12
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 128.02,
+      "W_width_ml": 98.06,
+      "D1_diagonal_plus30": 122.17,
+      "D2_diagonal_minus30": 122.31,
+      "perimeter_slice": 367.27,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 81.13,
+      "slice_height_z": 24.34,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_067": {
+    "scan_id": "scan_067",
+    "source_file": "SynthMRIPaper/67.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        60.0776,
+        -0.6232,
+        373.5769
+      ],
+      "RightTragion": [
+        -4.7927,
+        -45.2693,
+        396.6446
+      ],
+      "LeftTragion": [
+        10.2558,
+        46.0367,
+        364.044
+      ],
+      "Subnasal": [
+        65.2662,
+        -0.4345,
+        351.9293
+      ],
+      "RightExo": [
+        46.9142,
+        -30.4935,
+        371.0199
+      ],
+      "RightEndo": [
+        54.0421,
+        -11.0165,
+        370.4469
+      ],
+      "LeftEndo": [
+        54.4054,
+        9.4907,
+        368.9671
+      ],
+      "LeftExo": [
+        48.7579,
+        26.7917,
+        369.3895
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 81.37,
+      "CI_unrounded": 81.36959201602653,
+      "CVA_mm": 3.66,
+      "CVA_unrounded": 3.6581145387286824,
+      "CVAI": 3.35,
+      "CVAI_unrounded": 3.3469738925701704,
+      "CVAI_min_ref": 3.46
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 111.6,
+      "W_width_ml": 90.81,
+      "D1_diagonal_plus30": 105.64,
+      "D2_diagonal_minus30": 109.3,
+      "perimeter_slice": 326.23,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 54.5,
+      "slice_height_z": 16.35,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_068": {
+    "scan_id": "scan_068",
+    "source_file": "SynthMRIPaper/68.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        59.4276,
+        1.2685,
+        369.1482
+      ],
+      "RightTragion": [
+        5.2654,
+        -51.4442,
+        365.7282
+      ],
+      "LeftTragion": [
+        9.165,
+        49.9006,
+        365.0683
+      ],
+      "Subnasal": [
+        64.2891,
+        -0.3058,
+        347.5972
+      ],
+      "RightExo": [
+        49.5191,
+        28.2822,
+        372.6496
+      ],
+      "RightEndo": [
+        53.7993,
+        -10.5821,
+        369.1454
+      ],
+      "LeftEndo": [
+        53.4866,
+        11.5651,
+        370.0496
+      ],
+      "LeftExo": [
+        44.2574,
+        -33.787,
+        370.367
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 84.09,
+      "CI_unrounded": 84.09345716479218,
+      "CVA_mm": 0.68,
+      "CVA_unrounded": 0.6820876471606994,
+      "CVAI": 0.61,
+      "CVAI_unrounded": 0.6052792723974879,
+      "CVAI_min_ref": 0.61
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 115.34,
+      "W_width_ml": 97.0,
+      "D1_diagonal_plus30": 112.01,
+      "D2_diagonal_minus30": 112.69,
+      "perimeter_slice": 344.55,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 70.4,
+      "slice_height_z": 21.12,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_069": {
+    "scan_id": "scan_069",
+    "source_file": "SynthMRIPaper/69.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        70.3737,
+        -3.1723,
+        352.633
+      ],
+      "RightTragion": [
+        20.6558,
+        -50.6679,
+        349.0846
+      ],
+      "LeftTragion": [
+        22.5096,
+        41.6033,
+        347.978
+      ],
+      "Subnasal": [
+        75.4252,
+        -3.3876,
+        336.673
+      ],
+      "RightExo": [
+        59.761,
+        -32.4409,
+        354.8196
+      ],
+      "RightEndo": [
+        66.4383,
+        -14.3503,
+        355.2088
+      ],
+      "LeftEndo": [
+        66.1371,
+        5.858,
+        354.5172
+      ],
+      "LeftExo": [
+        61.2212,
+        24.5435,
+        356.0144
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 79.82,
+      "CI_unrounded": 79.82366397337016,
+      "CVA_mm": 0.5,
+      "CVA_unrounded": 0.4974729087765013,
+      "CVAI": 0.45,
+      "CVAI_unrounded": 0.44632310547586307,
+      "CVAI_min_ref": 0.45
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 114.43,
+      "W_width_ml": 91.35,
+      "D1_diagonal_plus30": 110.96,
+      "D2_diagonal_minus30": 111.46,
+      "perimeter_slice": 337.12,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 71.76,
+      "slice_height_z": 21.53,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_070": {
+    "scan_id": "scan_070",
+    "source_file": "SynthMRIPaper/70.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        57.4984,
+        -2.7895,
+        369.771
+      ],
+      "RightTragion": [
+        6.2484,
+        -51.1324,
+        357.6721
+      ],
+      "LeftTragion": [
+        8.4119,
+        44.8503,
+        355.8226
+      ],
+      "Subnasal": [
+        64.844,
+        -3.6003,
+        350.9368
+      ],
+      "RightExo": [
+        48.065,
+        -31.6101,
+        370.3045
+      ],
+      "RightEndo": [
+        54.0332,
+        -13.192,
+        370.6378
+      ],
+      "LeftEndo": [
+        51.5784,
+        10.2804,
+        369.0405
+      ],
+      "LeftExo": [
+        46.1461,
+        28.0212,
+        369.0724
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 85.06,
+      "CI_unrounded": 85.05646572465105,
+      "CVA_mm": 0.67,
+      "CVA_unrounded": 0.6670981430796559,
+      "CVAI": 0.6,
+      "CVAI_unrounded": 0.601094817122922,
+      "CVAI_min_ref": 0.6
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 112.89,
+      "W_width_ml": 96.02,
+      "D1_diagonal_plus30": 110.98,
+      "D2_diagonal_minus30": 110.31,
+      "perimeter_slice": 337.79,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 73.84,
+      "slice_height_z": 22.15,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_071": {
+    "scan_id": "scan_071",
+    "source_file": "SynthMRIPaper/71.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        56.6004,
+        -1.8487,
+        381.3476
+      ],
+      "RightTragion": [
+        -6.889,
+        -44.6507,
+        406.3745
+      ],
+      "LeftTragion": [
+        12.1181,
+        41.107,
+        368.7702
+      ],
+      "Subnasal": [
+        65.8597,
+        -1.8098,
+        361.4862
+      ],
+      "RightExo": [
+        47.0001,
+        -27.6098,
+        382.1855
+      ],
+      "RightEndo": [
+        52.4069,
+        -10.2738,
+        382.1864
+      ],
+      "LeftEndo": [
+        53.8407,
+        6.7434,
+        378.1723
+      ],
+      "LeftExo": [
+        46.4904,
+        24.2968,
+        380.584
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 82.3,
+      "CI_unrounded": 82.30305780876479,
+      "CVA_mm": 2.25,
+      "CVA_unrounded": 2.248678014336633,
+      "CVAI": 2.04,
+      "CVAI_unrounded": 2.043498929253734,
+      "CVAI_min_ref": 2.09
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 112.71,
+      "W_width_ml": 92.77,
+      "D1_diagonal_plus30": 107.79,
+      "D2_diagonal_minus30": 110.04,
+      "perimeter_slice": 330.51,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 54.1,
+      "slice_height_z": 16.23,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_072": {
+    "scan_id": "scan_072",
+    "source_file": "SynthMRIPaper/72.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        70.6285,
+        -1.3875,
+        529.0201
+      ],
+      "RightTragion": [
+        -1.3779,
+        -52.5416,
+        551.9284
+      ],
+      "LeftTragion": [
+        12.1068,
+        56.3441,
+        521.4141
+      ],
+      "Subnasal": [
+        77.3399,
+        0.3011,
+        503.7199
+      ],
+      "RightExo": [
+        58.6012,
+        -32.3165,
+        527.4759
+      ],
+      "RightEndo": [
+        64.7004,
+        -14.0686,
+        528.1302
+      ],
+      "LeftEndo": [
+        64.5533,
+        12.4877,
+        527.8608
+      ],
+      "LeftExo": [
+        57.9932,
+        32.6575,
+        529.0043
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 84.22,
+      "CI_unrounded": 84.21833695201686,
+      "CVA_mm": 2.23,
+      "CVA_unrounded": 2.2309967493824416,
+      "CVAI": 1.85,
+      "CVAI_unrounded": 1.8470947208934285,
+      "CVAI_min_ref": 1.88
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 124.54,
+      "W_width_ml": 104.88,
+      "D1_diagonal_plus30": 118.55,
+      "D2_diagonal_minus30": 120.78,
+      "perimeter_slice": 366.59,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 60.89,
+      "slice_height_z": 18.27,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_073": {
+    "scan_id": "scan_073",
+    "source_file": "SynthMRIPaper/73.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        71.6946,
+        -6.3373,
+        373.3387
+      ],
+      "RightTragion": [
+        23.8655,
+        -55.7099,
+        370.4314
+      ],
+      "LeftTragion": [
+        24.8182,
+        42.7254,
+        371.5141
+      ],
+      "Subnasal": [
+        81.2899,
+        -6.2547,
+        355.2276
+      ],
+      "RightExo": [
+        58.9836,
+        -35.6788,
+        372.1246
+      ],
+      "RightEndo": [
+        66.2309,
+        -17.4168,
+        373.1597
+      ],
+      "LeftEndo": [
+        66.0012,
+        2.972,
+        372.0625
+      ],
+      "LeftExo": [
+        61.4588,
+        20.1459,
+        373.1086
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 88.59,
+      "CI_unrounded": 88.59205749311386,
+      "CVA_mm": 0.04,
+      "CVA_unrounded": 0.042051841055936734,
+      "CVAI": 0.04,
+      "CVAI_unrounded": 0.039072765587739484,
+      "CVAI_min_ref": 0.04
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 109.37,
+      "W_width_ml": 96.9,
+      "D1_diagonal_plus30": 107.58,
+      "D2_diagonal_minus30": 107.62,
+      "perimeter_slice": 330.45,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 61.49,
+      "slice_height_z": 18.45,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_074": {
+    "scan_id": "scan_074",
+    "source_file": "SynthMRIPaper/74.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        58.2355,
+        -11.9629,
+        362.1224
+      ],
+      "RightTragion": [
+        6.3748,
+        -55.763,
+        358.8445
+      ],
+      "LeftTragion": [
+        7.6342,
+        33.1287,
+        358.9193
+      ],
+      "Subnasal": [
+        64.8045,
+        -11.3074,
+        346.6246
+      ],
+      "RightExo": [
+        46.5187,
+        -38.6173,
+        365.9574
+      ],
+      "RightEndo": [
+        52.5122,
+        -22.4203,
+        365.2188
+      ],
+      "LeftEndo": [
+        52.5531,
+        -0.788,
+        364.046
+      ],
+      "LeftExo": [
+        44.8973,
+        18.776,
+        365.87
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 72.32,
+      "CI_unrounded": 72.32483388233516,
+      "CVA_mm": 0.86,
+      "CVA_unrounded": 0.8580470432382299,
+      "CVAI": 0.77,
+      "CVAI_unrounded": 0.7717567306107139,
+      "CVAI_min_ref": 0.78
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 115.1,
+      "W_width_ml": 83.25,
+      "D1_diagonal_plus30": 111.18,
+      "D2_diagonal_minus30": 110.32,
+      "perimeter_slice": 331.3,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 72.51,
+      "slice_height_z": 21.75,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_075": {
+    "scan_id": "scan_075",
+    "source_file": "SynthMRIPaper/75.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        66.1246,
+        -2.6891,
+        376.8321
+      ],
+      "RightTragion": [
+        3.0782,
+        -55.3882,
+        352.5297
+      ],
+      "LeftTragion": [
+        11.5774,
+        45.1812,
+        358.5332
+      ],
+      "Subnasal": [
+        66.1995,
+        -2.2744,
+        345.8638
+      ],
+      "RightExo": [
+        48.2047,
+        -33.8485,
+        363.5073
+      ],
+      "RightEndo": [
+        56.8148,
+        -15.6654,
+        365.9244
+      ],
+      "LeftEndo": [
+        57.3089,
+        7.7588,
+        365.1578
+      ],
+      "LeftExo": [
+        51.8566,
+        26.5432,
+        367.273
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 81.9,
+      "CI_unrounded": 81.89714775107085,
+      "CVA_mm": 0.64,
+      "CVA_unrounded": 0.6369841956850308,
+      "CVAI": 0.54,
+      "CVAI_unrounded": 0.5448441212783228,
+      "CVAI_min_ref": 0.55
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 119.79,
+      "W_width_ml": 98.11,
+      "D1_diagonal_plus30": 116.27,
+      "D2_diagonal_minus30": 116.91,
+      "perimeter_slice": 354.87,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 68.93,
+      "slice_height_z": 20.68,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_076": {
+    "scan_id": "scan_076",
+    "source_file": "SynthMRIPaper/76.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        52.9543,
+        -2.6477,
+        367.5025
+      ],
+      "RightTragion": [
+        3.5266,
+        -40.6679,
+        356.7482
+      ],
+      "LeftTragion": [
+        5.2737,
+        35.0415,
+        360.1243
+      ],
+      "Subnasal": [
+        55.6989,
+        -2.1518,
+        349.5422
+      ],
+      "RightExo": [
+        45.587,
+        -23.0275,
+        367.5702
+      ],
+      "RightEndo": [
+        51.6368,
+        -10.7865,
+        367.4382
+      ],
+      "LeftEndo": [
+        49.4406,
+        4.7845,
+        364.7896
+      ],
+      "LeftExo": [
+        43.6061,
+        19.3224,
+        367.0415
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 72.07,
+      "CI_unrounded": 72.07082648872003,
+      "CVA_mm": 0.41,
+      "CVA_unrounded": 0.40559563058481274,
+      "CVAI": 0.44,
+      "CVAI_unrounded": 0.43699794331505976,
+      "CVAI_min_ref": 0.44
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 101.92,
+      "W_width_ml": 73.45,
+      "D1_diagonal_plus30": 92.41,
+      "D2_diagonal_minus30": 92.81,
+      "perimeter_slice": 282.25,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 50.77,
+      "slice_height_z": 15.23,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_077": {
+    "scan_id": "scan_077",
+    "source_file": "SynthMRIPaper/77.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        60.2107,
+        9.3433,
+        383.4059
+      ],
+      "RightTragion": [
+        3.961,
+        -37.8267,
+        376.2092
+      ],
+      "LeftTragion": [
+        3.9709,
+        53.8183,
+        374.1608
+      ],
+      "Subnasal": [
+        67.0754,
+        9.2865,
+        364.4635
+      ],
+      "RightExo": [
+        48.9343,
+        -19.9205,
+        385.6018
+      ],
+      "RightEndo": [
+        54.1199,
+        -1.6629,
+        384.9875
+      ],
+      "LeftEndo": [
+        53.1874,
+        20.5877,
+        384.7659
+      ],
+      "LeftExo": [
+        48.4687,
+        38.301,
+        385.1041
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 75.53,
+      "CI_unrounded": 75.5273771577547,
+      "CVA_mm": 0.16,
+      "CVA_unrounded": 0.1605404827036665,
+      "CVAI": 0.14,
+      "CVAI_unrounded": 0.13824147839324136,
+      "CVAI_min_ref": 0.14
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 119.92,
+      "W_width_ml": 90.58,
+      "D1_diagonal_plus30": 115.97,
+      "D2_diagonal_minus30": 116.13,
+      "perimeter_slice": 346.89,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 59.97,
+      "slice_height_z": 17.99,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_078": {
+    "scan_id": "scan_078",
+    "source_file": "SynthMRIPaper/78.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        59.6618,
+        8.1361,
+        383.8583
+      ],
+      "RightTragion": [
+        2.9623,
+        -38.1037,
+        376.6539
+      ],
+      "LeftTragion": [
+        2.081,
+        56.7171,
+        375.385
+      ],
+      "Subnasal": [
+        66.3527,
+        8.8907,
+        364.3549
+      ],
+      "RightExo": [
+        49.0241,
+        -20.2652,
+        385.742
+      ],
+      "RightEndo": [
+        53.6943,
+        -0.7067,
+        384.074
+      ],
+      "LeftEndo": [
+        54.028,
+        18.0662,
+        383.2724
+      ],
+      "LeftExo": [
+        49.4825,
+        37.4695,
+        385.2312
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 78.03,
+      "CI_unrounded": 78.02829048613536,
+      "CVA_mm": 0.97,
+      "CVA_unrounded": 0.972404996074232,
+      "CVAI": 0.83,
+      "CVAI_unrounded": 0.8263600457601485,
+      "CVAI_min_ref": 0.83
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 120.08,
+      "W_width_ml": 93.7,
+      "D1_diagonal_plus30": 117.67,
+      "D2_diagonal_minus30": 116.7,
+      "perimeter_slice": 350.55,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 60.22,
+      "slice_height_z": 18.07,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_079": {
+    "scan_id": "scan_079",
+    "source_file": "SynthMRIPaper/79.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        70.2186,
+        -0.0879,
+        525.7898
+      ],
+      "RightTragion": [
+        11.6817,
+        -60.4871,
+        521.7757
+      ],
+      "LeftTragion": [
+        13.0919,
+        59.828,
+        521.0946
+      ],
+      "Subnasal": [
+        75.2633,
+        -0.9316,
+        505.9867
+      ],
+      "RightExo": [
+        58.5655,
+        -34.1645,
+        531.3669
+      ],
+      "RightEndo": [
+        65.2439,
+        -12.5898,
+        529.2988
+      ],
+      "LeftEndo": [
+        64.7871,
+        12.2573,
+        528.8015
+      ],
+      "LeftExo": [
+        56.8379,
+        34.0923,
+        528.4759
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 88.64,
+      "CI_unrounded": 88.64208088017074,
+      "CVA_mm": 0.15,
+      "CVA_unrounded": 0.146707578919262,
+      "CVAI": 0.12,
+      "CVAI_unrounded": 0.11608016218264378,
+      "CVAI_min_ref": 0.12
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 128.73,
+      "W_width_ml": 114.11,
+      "D1_diagonal_plus30": 126.38,
+      "D2_diagonal_minus30": 126.24,
+      "perimeter_slice": 392.59,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 78.59,
+      "slice_height_z": 23.58,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_080": {
+    "scan_id": "scan_080",
+    "source_file": "SynthMRIPaper/80.stl",
+    "split": "train",
+    "landmarks_mm": {
+      "Sellion": [
+        65.7511,
+        4.858,
+        521.0673
+      ],
+      "RightTragion": [
+        8.0256,
+        -46.2389,
+        513.9318
+      ],
+      "LeftTragion": [
+        17.2338,
+        50.7738,
+        513.002
+      ],
+      "Subnasal": [
+        72.295,
+        5.2356,
+        503.3935
+      ],
+      "RightExo": [
+        56.0513,
+        -24.0531,
+        523.9724
+      ],
+      "RightEndo": [
+        60.6208,
+        -5.1074,
+        521.4185
+      ],
+      "LeftEndo": [
+        58.757,
+        15.0118,
+        521.9562
+      ],
+      "LeftExo": [
+        54.9147,
+        31.4827,
+        522.2538
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 74.02,
+      "CI_unrounded": 74.02016277595216,
+      "CVA_mm": 2.74,
+      "CVA_unrounded": 2.7444109257785527,
+      "CVAI": 2.15,
+      "CVAI_unrounded": 2.148140507595127,
+      "CVAI_min_ref": 2.2
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 133.93,
+      "W_width_ml": 99.14,
+      "D1_diagonal_plus30": 125.01,
+      "D2_diagonal_minus30": 127.76,
+      "perimeter_slice": 378.73,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 69.37,
+      "slice_height_z": 20.81,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_081": {
+    "scan_id": "scan_081",
+    "source_file": "SynthMRIPaper/81.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        71.4034,
+        0.2981,
+        545.1166
+      ],
+      "RightTragion": [
+        9.0234,
+        -52.4681,
+        536.7253
+      ],
+      "LeftTragion": [
+        14.0201,
+        52.1262,
+        533.2357
+      ],
+      "Subnasal": [
+        76.7762,
+        -1.4798,
+        526.436
+      ],
+      "RightExo": [
+        57.6653,
+        -35.7622,
+        546.1164
+      ],
+      "RightEndo": [
+        66.5877,
+        -11.2307,
+        545.4911
+      ],
+      "LeftEndo": [
+        65.2669,
+        13.7953,
+        543.5477
+      ],
+      "LeftExo": [
+        58.6597,
+        33.3831,
+        544.4441
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 74.43,
+      "CI_unrounded": 74.4347664142416,
+      "CVA_mm": 0.07,
+      "CVA_unrounded": 0.07151465610246532,
+      "CVAI": 0.05,
+      "CVAI_unrounded": 0.054255458334268675,
+      "CVAI_min_ref": 0.05
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 138.32,
+      "W_width_ml": 102.95,
+      "D1_diagonal_plus30": 131.74,
+      "D2_diagonal_minus30": 131.81,
+      "perimeter_slice": 393.54,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 76.96,
+      "slice_height_z": 23.09,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_082": {
+    "scan_id": "scan_082",
+    "source_file": "SynthMRIPaper/82.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        72.3248,
+        -1.2978,
+        538.6645
+      ],
+      "RightTragion": [
+        13.8797,
+        -48.7473,
+        516.443
+      ],
+      "LeftTragion": [
+        16.3521,
+        47.6676,
+        518.977
+      ],
+      "Subnasal": [
+        76.6379,
+        -1.1192,
+        504.3784
+      ],
+      "RightExo": [
+        57.7361,
+        -32.2596,
+        527.818
+      ],
+      "RightEndo": [
+        64.064,
+        -13.2808,
+        527.3236
+      ],
+      "LeftEndo": [
+        64.4031,
+        11.8469,
+        528.0608
+      ],
+      "LeftExo": [
+        61.3819,
+        27.4503,
+        528.2107
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 75.45,
+      "CI_unrounded": 75.45491187715646,
+      "CVA_mm": 0.85,
+      "CVA_unrounded": 0.852024838690113,
+      "CVAI": 0.69,
+      "CVAI_unrounded": 0.6905777473725488,
+      "CVAI_min_ref": 0.7
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 129.66,
+      "W_width_ml": 97.84,
+      "D1_diagonal_plus30": 123.38,
+      "D2_diagonal_minus30": 122.53,
+      "perimeter_slice": 369.68,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 82.96,
+      "slice_height_z": 24.89,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_083": {
+    "scan_id": "scan_083",
+    "source_file": "SynthMRIPaper/83.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        70.8426,
+        -0.5839,
+        529.6177
+      ],
+      "RightTragion": [
+        11.117,
+        -49.69,
+        520.5394
+      ],
+      "LeftTragion": [
+        12.896,
+        49.0068,
+        520.1924
+      ],
+      "Subnasal": [
+        77.0823,
+        0.8775,
+        505.6897
+      ],
+      "RightExo": [
+        62.5385,
+        -27.0254,
+        532.0799
+      ],
+      "RightEndo": [
+        65.8575,
+        -10.4701,
+        530.7093
+      ],
+      "LeftEndo": [
+        66.0859,
+        8.7305,
+        526.9422
+      ],
+      "LeftExo": [
+        59.5067,
+        29.6951,
+        528.4613
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 76.22,
+      "CI_unrounded": 76.2195586816096,
+      "CVA_mm": 0.48,
+      "CVA_unrounded": 0.47677927336698644,
+      "CVAI": 0.39,
+      "CVAI_unrounded": 0.38593468924964647,
+      "CVAI_min_ref": 0.39
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 128.79,
+      "W_width_ml": 98.17,
+      "D1_diagonal_plus30": 123.06,
+      "D2_diagonal_minus30": 123.54,
+      "perimeter_slice": 369.08,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 80.04,
+      "slice_height_z": 24.01,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_084": {
+    "scan_id": "scan_084",
+    "source_file": "SynthMRIPaper/84.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        70.8199,
+        0.8645,
+        529.6099
+      ],
+      "RightTragion": [
+        11.3551,
+        -49.2954,
+        519.877
+      ],
+      "LeftTragion": [
+        12.4701,
+        49.4418,
+        521.9905
+      ],
+      "Subnasal": [
+        77.2895,
+        0.0671,
+        505.3173
+      ],
+      "RightExo": [
+        60.2737,
+        -29.7117,
+        530.2657
+      ],
+      "RightEndo": [
+        65.4075,
+        -10.6415,
+        529.834
+      ],
+      "LeftEndo": [
+        64.3652,
+        11.8096,
+        528.225
+      ],
+      "LeftExo": [
+        60.8171,
+        28.147,
+        528.9633
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 75.05,
+      "CI_unrounded": 75.04717451068359,
+      "CVA_mm": 0.98,
+      "CVA_unrounded": 0.9754867470637549,
+      "CVAI": 0.79,
+      "CVAI_unrounded": 0.7858376691237345,
+      "CVAI_min_ref": 0.79
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 129.23,
+      "W_width_ml": 96.98,
+      "D1_diagonal_plus30": 123.16,
+      "D2_diagonal_minus30": 124.13,
+      "perimeter_slice": 369.89,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 70.04,
+      "slice_height_z": 21.01,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_085": {
+    "scan_id": "scan_085",
+    "source_file": "SynthMRIPaper/85.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        78.0404,
+        -4.8762,
+        531.2764
+      ],
+      "RightTragion": [
+        18.7353,
+        -58.2797,
+        517.9405
+      ],
+      "LeftTragion": [
+        19.7715,
+        50.661,
+        521.2043
+      ],
+      "Subnasal": [
+        86.4256,
+        -4.9842,
+        512.9853
+      ],
+      "RightExo": [
+        69.2082,
+        -36.5269,
+        532.0852
+      ],
+      "RightEndo": [
+        72.9674,
+        -19.2756,
+        531.7976
+      ],
+      "LeftEndo": [
+        74.1429,
+        6.1753,
+        531.1238
+      ],
+      "LeftExo": [
+        68.8935,
+        28.9975,
+        529.9793
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 80.91,
+      "CI_unrounded": 80.91409493673285,
+      "CVA_mm": 0.49,
+      "CVA_unrounded": 0.4881853651554877,
+      "CVAI": 0.38,
+      "CVAI_unrounded": 0.3782857904389754,
+      "CVAI_min_ref": 0.38
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 130.43,
+      "W_width_ml": 105.54,
+      "D1_diagonal_plus30": 129.05,
+      "D2_diagonal_minus30": 128.56,
+      "perimeter_slice": 387.47,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 89.56,
+      "slice_height_z": 26.87,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_086": {
+    "scan_id": "scan_086",
+    "source_file": "SynthMRIPaper/86.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        78.9503,
+        -3.8358,
+        536.4675
+      ],
+      "RightTragion": [
+        17.1868,
+        -63.0741,
+        520.9119
+      ],
+      "LeftTragion": [
+        19.6326,
+        54.4331,
+        521.4049
+      ],
+      "Subnasal": [
+        84.3827,
+        -4.3265,
+        510.7137
+      ],
+      "RightExo": [
+        67.582,
+        -38.4298,
+        531.1257
+      ],
+      "RightEndo": [
+        73.9055,
+        -15.2274,
+        533.2704
+      ],
+      "LeftEndo": [
+        72.0568,
+        8.494,
+        529.4304
+      ],
+      "LeftExo": [
+        68.9475,
+        28.8799,
+        529.8393
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 85.15,
+      "CI_unrounded": 85.1522846510918,
+      "CVA_mm": 0.07,
+      "CVA_unrounded": 0.06615823988698821,
+      "CVAI": 0.05,
+      "CVAI_unrounded": 0.05086722192392813,
+      "CVAI_min_ref": 0.05
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 131.49,
+      "W_width_ml": 111.97,
+      "D1_diagonal_plus30": 129.99,
+      "D2_diagonal_minus30": 130.06,
+      "perimeter_slice": 396.99,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 91.32,
+      "slice_height_z": 27.39,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_087": {
+    "scan_id": "scan_087",
+    "source_file": "SynthMRIPaper/87.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        68.9003,
+        6.9772,
+        510.2328
+      ],
+      "RightTragion": [
+        9.4516,
+        -38.8641,
+        495.8953
+      ],
+      "LeftTragion": [
+        14.7884,
+        52.8515,
+        497.7254
+      ],
+      "Subnasal": [
+        75.1268,
+        8.3038,
+        489.8873
+      ],
+      "RightExo": [
+        55.9679,
+        -20.8407,
+        511.3128
+      ],
+      "RightEndo": [
+        62.0946,
+        -1.3116,
+        512.0378
+      ],
+      "LeftEndo": [
+        63.3052,
+        17.364,
+        513.191
+      ],
+      "LeftExo": [
+        57.5397,
+        34.5402,
+        512.119
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 70.77,
+      "CI_unrounded": 70.76797771289554,
+      "CVA_mm": 0.47,
+      "CVA_unrounded": 0.4710191995026918,
+      "CVAI": 0.39,
+      "CVAI_unrounded": 0.3928322272402155,
+      "CVAI_min_ref": 0.39
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 129.82,
+      "W_width_ml": 91.87,
+      "D1_diagonal_plus30": 119.43,
+      "D2_diagonal_minus30": 119.9,
+      "perimeter_slice": 359.66,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 81.8,
+      "slice_height_z": 24.54,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_088": {
+    "scan_id": "scan_088",
+    "source_file": "SynthMRIPaper/88.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        66.8017,
+        5.9484,
+        537.032
+      ],
+      "RightTragion": [
+        11.4007,
+        -42.9896,
+        532.9587
+      ],
+      "LeftTragion": [
+        10.4421,
+        56.5037,
+        531.2703
+      ],
+      "Subnasal": [
+        72.8601,
+        6.1997,
+        515.9027
+      ],
+      "RightExo": [
+        54.7149,
+        -21.0755,
+        536.9982
+      ],
+      "RightEndo": [
+        58.0243,
+        -3.4853,
+        537.2187
+      ],
+      "LeftEndo": [
+        59.903,
+        15.5812,
+        535.9778
+      ],
+      "LeftExo": [
+        53.0374,
+        36.1245,
+        535.1909
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 76.67,
+      "CI_unrounded": 76.66900176211098,
+      "CVA_mm": 0.5,
+      "CVA_unrounded": 0.5031449803558274,
+      "CVAI": 0.41,
+      "CVAI_unrounded": 0.4059649758229016,
+      "CVAI_min_ref": 0.41
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 129.41,
+      "W_width_ml": 99.22,
+      "D1_diagonal_plus30": 123.94,
+      "D2_diagonal_minus30": 123.43,
+      "perimeter_slice": 371.35,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 87.28,
+      "slice_height_z": 26.19,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_089": {
+    "scan_id": "scan_089",
+    "source_file": "SynthMRIPaper/89.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        65.4578,
+        4.9567,
+        539.0616
+      ],
+      "RightTragion": [
+        9.1114,
+        -43.8791,
+        530.3987
+      ],
+      "LeftTragion": [
+        8.9512,
+        57.1788,
+        530.9041
+      ],
+      "Subnasal": [
+        72.495,
+        6.5095,
+        514.7942
+      ],
+      "RightExo": [
+        53.8486,
+        -22.3169,
+        539.8915
+      ],
+      "RightEndo": [
+        58.1092,
+        -3.2384,
+        538.5159
+      ],
+      "LeftEndo": [
+        58.3142,
+        15.9052,
+        536.7959
+      ],
+      "LeftExo": [
+        55.2215,
+        35.2637,
+        541.2904
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 75.88,
+      "CI_unrounded": 75.87889325160347,
+      "CVA_mm": 2.21,
+      "CVA_unrounded": 2.2118298876993236,
+      "CVAI": 1.78,
+      "CVAI_unrounded": 1.7752191999238143,
+      "CVAI_min_ref": 1.81
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 129.8,
+      "W_width_ml": 98.49,
+      "D1_diagonal_plus30": 124.59,
+      "D2_diagonal_minus30": 122.38,
+      "perimeter_slice": 370.99,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 89.2,
+      "slice_height_z": 26.76,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_090": {
+    "scan_id": "scan_090",
+    "source_file": "SynthMRIPaper/90.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        70.5861,
+        -0.9105,
+        525.084
+      ],
+      "RightTragion": [
+        10.0841,
+        -51.2921,
+        523.7279
+      ],
+      "LeftTragion": [
+        15.897,
+        48.9786,
+        522.903
+      ],
+      "Subnasal": [
+        79.5047,
+        0.2623,
+        505.8398
+      ],
+      "RightExo": [
+        63.0041,
+        -29.3453,
+        527.8671
+      ],
+      "RightEndo": [
+        69.852,
+        -8.5002,
+        526.5397
+      ],
+      "LeftEndo": [
+        69.2314,
+        8.1118,
+        525.2271
+      ],
+      "LeftExo": [
+        62.5616,
+        29.0804,
+        526.2766
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 78.48,
+      "CI_unrounded": 78.48039635449183,
+      "CVA_mm": 0.08,
+      "CVA_unrounded": 0.07686602478847249,
+      "CVAI": 0.06,
+      "CVAI_unrounded": 0.06378261732965419,
+      "CVAI_min_ref": 0.06
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 124.72,
+      "W_width_ml": 97.88,
+      "D1_diagonal_plus30": 120.51,
+      "D2_diagonal_minus30": 120.44,
+      "perimeter_slice": 362.52,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 69.8,
+      "slice_height_z": 20.94,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_091": {
+    "scan_id": "scan_091",
+    "source_file": "SynthMRIPaper/91.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        70.6405,
+        -0.0845,
+        525.5423
+      ],
+      "RightTragion": [
+        6.2038,
+        -50.9494,
+        523.9774
+      ],
+      "LeftTragion": [
+        14.0169,
+        49.509,
+        522.9858
+      ],
+      "Subnasal": [
+        78.5275,
+        -0.1148,
+        504.9664
+      ],
+      "RightExo": [
+        59.4146,
+        -32.8234,
+        526.203
+      ],
+      "RightEndo": [
+        66.8747,
+        -12.1532,
+        525.6516
+      ],
+      "LeftEndo": [
+        67.2202,
+        10.8925,
+        524.8446
+      ],
+      "LeftExo": [
+        61.5604,
+        29.1747,
+        524.6587
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 77.28,
+      "CI_unrounded": 77.28425530322609,
+      "CVA_mm": 0.57,
+      "CVA_unrounded": 0.5703117910442899,
+      "CVAI": 0.47,
+      "CVAI_unrounded": 0.4736679993052597,
+      "CVAI_min_ref": 0.48
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 124.62,
+      "W_width_ml": 96.31,
+      "D1_diagonal_plus30": 119.83,
+      "D2_diagonal_minus30": 120.4,
+      "perimeter_slice": 360.32,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 69.79,
+      "slice_height_z": 20.94,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_092": {
+    "scan_id": "scan_092",
+    "source_file": "SynthMRIPaper/92.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        62.7553,
+        -3.6792,
+        531.5434
+      ],
+      "RightTragion": [
+        14.7488,
+        -49.4658,
+        524.6962
+      ],
+      "LeftTragion": [
+        16.6314,
+        44.5613,
+        522.4875
+      ],
+      "Subnasal": [
+        72.288,
+        -1.7639,
+        508.0831
+      ],
+      "RightExo": [
+        53.0393,
+        -32.011,
+        531.5364
+      ],
+      "RightEndo": [
+        60.1305,
+        -16.6554,
+        531.7621
+      ],
+      "LeftEndo": [
+        61.8313,
+        9.6321,
+        529.9899
+      ],
+      "LeftExo": [
+        52.1652,
+        29.0828,
+        530.7738
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 83.05,
+      "CI_unrounded": 83.04613450550961,
+      "CVA_mm": 0.61,
+      "CVA_unrounded": 0.614340010306961,
+      "CVAI": 0.54,
+      "CVAI_unrounded": 0.5365643700698046,
+      "CVAI_min_ref": 0.54
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 116.36,
+      "W_width_ml": 96.63,
+      "D1_diagonal_plus30": 114.5,
+      "D2_diagonal_minus30": 113.88,
+      "perimeter_slice": 346.19,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 74.69,
+      "slice_height_z": 22.41,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_093": {
+    "scan_id": "scan_093",
+    "source_file": "SynthMRIPaper/93.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        63.7554,
+        -2.6412,
+        534.6209
+      ],
+      "RightTragion": [
+        -3.4143,
+        -48.0569,
+        559.1169
+      ],
+      "LeftTragion": [
+        12.7137,
+        45.2944,
+        522.3512
+      ],
+      "Subnasal": [
+        71.9209,
+        -1.2786,
+        508.4438
+      ],
+      "RightExo": [
+        52.5394,
+        -34.2211,
+        534.1031
+      ],
+      "RightEndo": [
+        61.8028,
+        -13.329,
+        534.0747
+      ],
+      "LeftEndo": [
+        61.5714,
+        9.7934,
+        533.3258
+      ],
+      "LeftExo": [
+        55.1902,
+        24.6382,
+        531.4555
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 85.65,
+      "CI_unrounded": 85.65277038389985,
+      "CVA_mm": 2.85,
+      "CVA_unrounded": 2.854227509622717,
+      "CVAI": 2.54,
+      "CVAI_unrounded": 2.5366763109205643,
+      "CVAI_min_ref": 2.6
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 112.1,
+      "W_width_ml": 96.02,
+      "D1_diagonal_plus30": 109.66,
+      "D2_diagonal_minus30": 112.52,
+      "perimeter_slice": 337.05,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 58.09,
+      "slice_height_z": 17.43,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_094": {
+    "scan_id": "scan_094",
+    "source_file": "SynthMRIPaper/94.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        71.0331,
+        -3.1325,
+        535.1734
+      ],
+      "RightTragion": [
+        10.2575,
+        -54.7958,
+        529.9258
+      ],
+      "LeftTragion": [
+        16.8391,
+        42.839,
+        526.9378
+      ],
+      "Subnasal": [
+        78.3198,
+        -4.9283,
+        510.4077
+      ],
+      "RightExo": [
+        57.7609,
+        -37.7489,
+        535.795
+      ],
+      "RightEndo": [
+        68.2083,
+        -15.5294,
+        535.9533
+      ],
+      "LeftEndo": [
+        67.7549,
+        8.8246,
+        539.0465
+      ],
+      "LeftExo": [
+        60.6287,
+        25.5357,
+        536.3789
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 75.22,
+      "CI_unrounded": 75.21877721135047,
+      "CVA_mm": 3.16,
+      "CVA_unrounded": 3.156486440918542,
+      "CVAI": 2.47,
+      "CVAI_unrounded": 2.47345941071175,
+      "CVAI_min_ref": 2.54
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 131.59,
+      "W_width_ml": 98.98,
+      "D1_diagonal_plus30": 124.46,
+      "D2_diagonal_minus30": 127.61,
+      "perimeter_slice": 376.16,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 79.06,
+      "slice_height_z": 23.72,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_095": {
+    "scan_id": "scan_095",
+    "source_file": "SynthMRIPaper/95.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        70.848,
+        -5.4075,
+        530.474
+      ],
+      "RightTragion": [
+        8.1796,
+        -55.2074,
+        530.1624
+      ],
+      "LeftTragion": [
+        10.6535,
+        45.1577,
+        526.7675
+      ],
+      "Subnasal": [
+        79.7876,
+        -4.0007,
+        510.9457
+      ],
+      "RightExo": [
+        59.483,
+        -33.2254,
+        530.7624
+      ],
+      "RightEndo": [
+        64.5788,
+        -17.8084,
+        530.4757
+      ],
+      "LeftEndo": [
+        67.2799,
+        7.7674,
+        532.0531
+      ],
+      "LeftExo": [
+        60.7155,
+        24.9155,
+        534.961
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 74.19,
+      "CI_unrounded": 74.19085767848865,
+      "CVA_mm": 1.14,
+      "CVA_unrounded": 1.1401441012266673,
+      "CVAI": 0.91,
+      "CVAI_unrounded": 0.9092536416558179,
+      "CVAI_min_ref": 0.92
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 131.56,
+      "W_width_ml": 97.61,
+      "D1_diagonal_plus30": 125.39,
+      "D2_diagonal_minus30": 124.25,
+      "perimeter_slice": 373.08,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 78.6,
+      "slice_height_z": 23.58,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_096": {
+    "scan_id": "scan_096",
+    "source_file": "SynthMRIPaper/96.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        72.5702,
+        0.1622,
+        511.5596
+      ],
+      "RightTragion": [
+        4.9791,
+        -55.3666,
+        498.6538
+      ],
+      "LeftTragion": [
+        10.9007,
+        52.0165,
+        501.9044
+      ],
+      "Subnasal": [
+        78.369,
+        -0.0814,
+        492.4385
+      ],
+      "RightExo": [
+        61.9851,
+        -32.1968,
+        514.2993
+      ],
+      "RightEndo": [
+        69.9409,
+        -10.918,
+        513.2564
+      ],
+      "LeftEndo": [
+        67.2577,
+        11.6437,
+        514.0311
+      ],
+      "LeftExo": [
+        62.267,
+        31.3116,
+        514.2246
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 71.38,
+      "CI_unrounded": 71.38006241867252,
+      "CVA_mm": 2.03,
+      "CVA_unrounded": 2.0312981683866838,
+      "CVAI": 1.44,
+      "CVAI_unrounded": 1.442876081281912,
+      "CVAI_min_ref": 1.46
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 148.14,
+      "W_width_ml": 105.74,
+      "D1_diagonal_plus30": 138.75,
+      "D2_diagonal_minus30": 140.78,
+      "perimeter_slice": 416.23,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 87.89,
+      "slice_height_z": 26.37,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_097": {
+    "scan_id": "scan_097",
+    "source_file": "SynthMRIPaper/97.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        74.2215,
+        3.4171,
+        523.9766
+      ],
+      "RightTragion": [
+        15.4946,
+        -50.0492,
+        511.0571
+      ],
+      "LeftTragion": [
+        18.2202,
+        54.2683,
+        509.2195
+      ],
+      "Subnasal": [
+        84.7875,
+        3.1779,
+        502.1897
+      ],
+      "RightExo": [
+        59.7405,
+        -30.9272,
+        523.6507
+      ],
+      "RightEndo": [
+        67.2801,
+        -10.1243,
+        523.3649
+      ],
+      "LeftEndo": [
+        67.2137,
+        15.5592,
+        521.4987
+      ],
+      "LeftExo": [
+        60.8443,
+        35.054,
+        522.7571
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 82.81,
+      "CI_unrounded": 82.80902679240165,
+      "CVA_mm": 0.16,
+      "CVA_unrounded": 0.156379092779531,
+      "CVAI": 0.13,
+      "CVAI_unrounded": 0.12883312958476262,
+      "CVAI_min_ref": 0.13
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 124.82,
+      "W_width_ml": 103.36,
+      "D1_diagonal_plus30": 121.22,
+      "D2_diagonal_minus30": 121.38,
+      "perimeter_slice": 367.34,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 79.96,
+      "slice_height_z": 23.99,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_098": {
+    "scan_id": "scan_098",
+    "source_file": "SynthMRIPaper/98.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        74.2971,
+        2.8971,
+        525.836
+      ],
+      "RightTragion": [
+        12.7565,
+        -49.7125,
+        509.1143
+      ],
+      "LeftTragion": [
+        14.8447,
+        55.5388,
+        508.7535
+      ],
+      "Subnasal": [
+        84.7176,
+        3.238,
+        502.1916
+      ],
+      "RightExo": [
+        61.0045,
+        -29.2957,
+        524.4435
+      ],
+      "RightEndo": [
+        67.4328,
+        -10.113,
+        525.0948
+      ],
+      "LeftEndo": [
+        67.3485,
+        15.1937,
+        523.9743
+      ],
+      "LeftExo": [
+        61.1028,
+        35.0602,
+        524.3642
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 81.51,
+      "CI_unrounded": 81.51472656083217,
+      "CVA_mm": 1.0,
+      "CVA_unrounded": 1.0020803643254226,
+      "CVAI": 0.82,
+      "CVAI_unrounded": 0.8211353541268114,
+      "CVAI_min_ref": 0.83
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 125.06,
+      "W_width_ml": 101.94,
+      "D1_diagonal_plus30": 122.04,
+      "D2_diagonal_minus30": 121.03,
+      "perimeter_slice": 367.01,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 80.05,
+      "slice_height_z": 24.02,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_099": {
+    "scan_id": "scan_099",
+    "source_file": "SynthMRIPaper/99.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        65.4411,
+        -4.5798,
+        531.227
+      ],
+      "RightTragion": [
+        9.1087,
+        -54.78,
+        524.3362
+      ],
+      "LeftTragion": [
+        12.6877,
+        44.3906,
+        524.6068
+      ],
+      "Subnasal": [
+        73.1598,
+        -3.8351,
+        507.014
+      ],
+      "RightExo": [
+        54.6049,
+        -37.4953,
+        533.074
+      ],
+      "RightEndo": [
+        59.5163,
+        -19.3814,
+        530.9564
+      ],
+      "LeftEndo": [
+        59.3134,
+        10.5756,
+        531.0405
+      ],
+      "LeftExo": [
+        52.8936,
+        28.6803,
+        532.1978
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 72.07,
+      "CI_unrounded": 72.06595812996348,
+      "CVA_mm": 0.41,
+      "CVA_unrounded": 0.40857260945972484,
+      "CVAI": 0.31,
+      "CVAI_unrounded": 0.31348385903465104,
+      "CVAI_min_ref": 0.31
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 136.59,
+      "W_width_ml": 98.43,
+      "D1_diagonal_plus30": 129.92,
+      "D2_diagonal_minus30": 130.33,
+      "perimeter_slice": 386.16,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 85.08,
+      "slice_height_z": 25.52,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_100": {
+    "scan_id": "scan_100",
+    "source_file": "SynthMRIPaper/100.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        69.2792,
+        -0.1725,
+        526.0176
+      ],
+      "RightTragion": [
+        11.3023,
+        -48.3448,
+        517.8707
+      ],
+      "LeftTragion": [
+        15.224,
+        47.4897,
+        516.1426
+      ],
+      "Subnasal": [
+        78.1954,
+        -1.1888,
+        502.3287
+      ],
+      "RightExo": [
+        56.0487,
+        -31.9218,
+        525.9765
+      ],
+      "RightEndo": [
+        64.6295,
+        -12.333,
+        525.5914
+      ],
+      "LeftEndo": [
+        61.8661,
+        11.8796,
+        522.7596
+      ],
+      "LeftExo": [
+        57.5692,
+        30.4581,
+        523.7502
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 73.46,
+      "CI_unrounded": 73.45998572079205,
+      "CVA_mm": 1.03,
+      "CVA_unrounded": 1.0297823116775362,
+      "CVAI": 0.84,
+      "CVAI_unrounded": 0.8412051159012381,
+      "CVAI_min_ref": 0.85
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 128.49,
+      "W_width_ml": 94.39,
+      "D1_diagonal_plus30": 121.39,
+      "D2_diagonal_minus30": 122.42,
+      "perimeter_slice": 363.96,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 89.22,
+      "slice_height_z": 26.77,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_101": {
+    "scan_id": "scan_101",
+    "source_file": "SynthMRIPaper/101.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        65.2799,
+        -4.0905,
+        522.1549
+      ],
+      "RightTragion": [
+        3.3335,
+        -55.388,
+        515.8957
+      ],
+      "LeftTragion": [
+        8.1474,
+        45.7226,
+        516.9673
+      ],
+      "Subnasal": [
+        71.4331,
+        -3.8845,
+        503.2932
+      ],
+      "RightExo": [
+        49.6645,
+        -38.2586,
+        523.4082
+      ],
+      "RightEndo": [
+        59.5449,
+        -14.8144,
+        523.2297
+      ],
+      "LeftEndo": [
+        60.2381,
+        5.4744,
+        522.504
+      ],
+      "LeftExo": [
+        54.8475,
+        24.9051,
+        524.6673
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 73.33,
+      "CI_unrounded": 73.32527635509408,
+      "CVA_mm": 0.36,
+      "CVA_unrounded": 0.362667924138691,
+      "CVAI": 0.29,
+      "CVAI_unrounded": 0.2868244429776797,
+      "CVAI_min_ref": 0.29
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 133.61,
+      "W_width_ml": 97.97,
+      "D1_diagonal_plus30": 126.08,
+      "D2_diagonal_minus30": 126.44,
+      "perimeter_slice": 378.16,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 70.68,
+      "slice_height_z": 21.2,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_102": {
+    "scan_id": "scan_102",
+    "source_file": "SynthMRIPaper/102.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        66.1075,
+        5.1932,
+        523.3929
+      ],
+      "RightTragion": [
+        9.5731,
+        -44.8576,
+        518.181
+      ],
+      "LeftTragion": [
+        16.397,
+        53.5322,
+        519.2142
+      ],
+      "Subnasal": [
+        69.9584,
+        6.2589,
+        499.704
+      ],
+      "RightExo": [
+        55.5739,
+        -23.98,
+        527.2929
+      ],
+      "RightEndo": [
+        60.8726,
+        -4.0126,
+        524.1072
+      ],
+      "LeftEndo": [
+        59.7017,
+        16.5934,
+        522.7973
+      ],
+      "LeftExo": [
+        55.5534,
+        33.7263,
+        525.1391
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 70.16,
+      "CI_unrounded": 70.1554375419051,
+      "CVA_mm": 0.7,
+      "CVA_unrounded": 0.6959322691768364,
+      "CVAI": 0.54,
+      "CVAI_unrounded": 0.5399627197986713,
+      "CVAI_min_ref": 0.54
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 136.09,
+      "W_width_ml": 95.47,
+      "D1_diagonal_plus30": 128.19,
+      "D2_diagonal_minus30": 128.89,
+      "perimeter_slice": 381.21,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 83.01,
+      "slice_height_z": 24.9,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_103": {
+    "scan_id": "scan_103",
+    "source_file": "SynthMRIPaper/103.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        65.1728,
+        -0.2182,
+        528.4315
+      ],
+      "RightTragion": [
+        6.5412,
+        -54.2369,
+        521.1561
+      ],
+      "LeftTragion": [
+        8.0746,
+        53.2379,
+        528.3734
+      ],
+      "Subnasal": [
+        72.9851,
+        0.21,
+        505.8003
+      ],
+      "RightExo": [
+        54.1358,
+        -32.8324,
+        530.8749
+      ],
+      "RightEndo": [
+        60.1295,
+        -14.4555,
+        529.8349
+      ],
+      "LeftEndo": [
+        61.2541,
+        13.5434,
+        530.0973
+      ],
+      "LeftExo": [
+        52.2691,
+        35.0131,
+        529.6097
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 79.4,
+      "CI_unrounded": 79.39855243241804,
+      "CVA_mm": 0.79,
+      "CVA_unrounded": 0.7855472650727222,
+      "CVAI": 0.61,
+      "CVAI_unrounded": 0.6073378251212478,
+      "CVAI_min_ref": 0.61
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 132.45,
+      "W_width_ml": 105.17,
+      "D1_diagonal_plus30": 128.56,
+      "D2_diagonal_minus30": 129.34,
+      "perimeter_slice": 385.87,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 65.87,
+      "slice_height_z": 19.76,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_104": {
+    "scan_id": "scan_104",
+    "source_file": "SynthMRIPaper/104.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        67.4287,
+        -1.1077,
+        530.7001
+      ],
+      "RightTragion": [
+        9.6386,
+        -54.4144,
+        517.9976
+      ],
+      "LeftTragion": [
+        16.4832,
+        53.1203,
+        516.7738
+      ],
+      "Subnasal": [
+        76.1124,
+        0.0237,
+        509.3674
+      ],
+      "RightExo": [
+        57.781,
+        -32.1771,
+        532.2981
+      ],
+      "RightEndo": [
+        64.8702,
+        -9.5291,
+        532.8095
+      ],
+      "LeftEndo": [
+        64.3547,
+        9.7642,
+        531.432
+      ],
+      "LeftExo": [
+        59.6688,
+        29.0909,
+        531.3084
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 82.09,
+      "CI_unrounded": 82.08570492106038,
+      "CVA_mm": 0.27,
+      "CVA_unrounded": 0.27469564077998143,
+      "CVAI": 0.22,
+      "CVAI_unrounded": 0.22119222416514742,
+      "CVAI_min_ref": 0.22
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 128.77,
+      "W_width_ml": 105.7,
+      "D1_diagonal_plus30": 124.19,
+      "D2_diagonal_minus30": 123.91,
+      "perimeter_slice": 376.89,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 78.97,
+      "slice_height_z": 23.69,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  },
+  "scan_105": {
+    "scan_id": "scan_105",
+    "source_file": "SynthMRIPaper/105.stl",
+    "split": "test",
+    "landmarks_mm": {
+      "Sellion": [
+        71.6455,
+        6.3533,
+        538.8538
+      ],
+      "RightTragion": [
+        6.8797,
+        -43.202,
+        530.0035
+      ],
+      "LeftTragion": [
+        15.7886,
+        54.3928,
+        532.3171
+      ],
+      "Subnasal": [
+        82.54,
+        3.5158,
+        515.9784
+      ],
+      "RightExo": [
+        57.5725,
+        -25.9435,
+        539.1693
+      ],
+      "RightEndo": [
+        64.4824,
+        -6.1876,
+        538.5593
+      ],
+      "LeftEndo": [
+        65.7442,
+        16.8007,
+        539.2364
+      ],
+      "LeftExo": [
+        60.5209,
+        34.5753,
+        539.1309
+      ]
+    },
+    "ground_truth_indices": {
+      "CI": 79.56,
+      "CI_unrounded": 79.56406056032941,
+      "CVA_mm": 0.33,
+      "CVA_unrounded": 0.3339728915264857,
+      "CVAI": 0.29,
+      "CVAI_unrounded": 0.28554381477303875,
+      "CVAI_min_ref": 0.29
+    },
+    "ground_truth_linear_mm": {
+      "L_length_ap": 119.66,
+      "W_width_ml": 95.2,
+      "D1_diagonal_plus30": 116.63,
+      "D2_diagonal_minus30": 116.96,
+      "perimeter_slice": 350.74,
+      "perimeter_label": "Периметр измерительного сечения (Level 3)",
+      "vault_height": 82.26,
+      "slice_height_z": 24.68,
+      "slice_level_ratio": 0.3,
+      "diagonal_angle_deg": 30.0
+    }
+  }
+}
